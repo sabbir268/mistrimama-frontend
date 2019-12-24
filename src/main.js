@@ -6,6 +6,24 @@ import router from "./router";
 import store from "./store/store.js";
 import Vuelidate from "vuelidate";
 
+import Echo from 'laravel-echo'
+
+window.Pusher = require('pusher-js');
+window.Echo = new Echo({
+  broadcaster: 'pusher',
+  key: "aslkdlk89a7sd9asdlkasjd8uasd",
+  cluster: "ap2",
+  //encrypted: true,
+  wsHost: 'dev.mm',
+  wsPort: 6001,
+  disableStats: true,
+  auth: {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.d_token
+    }
+  }
+});
+
 Vue.config.productionTip = false;
 
 // Vue.use(Vuelidate);

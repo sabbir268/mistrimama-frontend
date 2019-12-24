@@ -230,6 +230,10 @@ export default {
   }),
   created() {
     this.storeCategorys();
+    Echo.channel("orderChannel").listen('App\Events\OrderEvent', (res) => {
+      console.log(res);
+    });
+   
   },
   methods: {
     logout() {

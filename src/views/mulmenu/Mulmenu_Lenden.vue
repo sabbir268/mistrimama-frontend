@@ -1,17 +1,18 @@
 <template>
-  <v-card class="v-card-padding" flat>
+  <!-- <v-card class="v-card-padding" flat> -->
+  <v-card flat>
     <h3 class="custom-title">
       <v-icon class="custom-icon">swap_horizontal_circle</v-icon>লেনদেন
     </h3>
-    <v-layout>
-      <v-flex md8 sm7 xs6>
+    <v-layout >
+      <v-flex>
         <v-text-field class="custom-searchbox" label="Search ..." solo v-model="ownerSearch">
           <template v-slot:append>
             <v-icon class="icon-hover" @click="searchItem()">search</v-icon>
           </template>
         </v-text-field>
       </v-flex>
-      <v-flex md4 sm5 xs6 style="text-align: right;">
+      <v-flex md4 sm5 xs6>
         <v-btn small @click="previous()" color="primaryButton" class="pagination-button">
           <v-icon>keyboard_arrow_left</v-icon>
         </v-btn>
@@ -24,9 +25,9 @@
         >
           <span style="color: var(--error)">1</span>
         </v-btn>
-        <v-btn small @click="previous()" color="primaryButton" class="pagination-button">
+        <!-- <v-btn small @click="previous()" color="primaryButton" class="pagination-button">
           <v-icon>keyboard_arrow_right</v-icon>
-        </v-btn>
+        </v-btn> -->
       </v-flex>
     </v-layout>
     <template>
@@ -109,9 +110,9 @@
               class="rect-image"
               src="https://image.flaticon.com/icons/png/512/236/236832.png"
               alt="user_image"
-            >
+            />
           </v-avatar>
-          <br>
+          <br />
         </div>
         <div style="margin-top: 20px; padding: 20px;">
           <v-list-tile class="list-tile-margin">

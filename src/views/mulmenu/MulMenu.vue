@@ -18,9 +18,9 @@
                       <div class="empty-box">
                         <h3>
                           ব্যালান্স
-                          <br>
+                          <br />
                           <span class="a">৳ 3487/-</span>
-                          <br>
+                          <br />
                           <span class="b">উত্তোলনযোগ্য ৳ 2944/-</span>
                         </h3>
                       </div>
@@ -45,7 +45,7 @@
                       <div class="empty-box">
                         <h3>
                           মিস্ট্রি মামার কাজ
-                          <br>
+                          <br />
                           <!-- <span class="a">25</span>
                           <br>-->
                           <!-- <span class="b" style="font-size: 13px; font-weight: bold">
@@ -53,16 +53,16 @@
                           </span>
                           <br>-->
                           <span class="b">কাজের সংখ্যা (সি.এম): 18</span>
-                          <br>
+                          <br />
                           <span class="b">আয় (সি.এম): ৳ 2400/-</span>
                           <!-- <span class="b" style="font-size: 13px; font-weight: bold">
                             <u>সকল</u>
                           </span>-->
-                          <br>
+                          <br />
                           <span class="b">কাজের সংখ্যা (সকল): 25</span>
-                          <br>
+                          <br />
                           <span class="b">আয় (সকল): ৳ 3470/-</span>
-                          <br>
+                          <br />
                         </h3>
                       </div>
                     </v-flex>
@@ -86,12 +86,12 @@
                       <div class="empty-box">
                         <h3>
                           সহকারীর সংখ্যা
-                          <br>
+                          <br />
                           <span class="a">13</span>
-                          <br>
+                          <br />
                           <span class="b">
                             একটিভ - 6
-                            <br>একটিভ নয় - 2
+                            <br />একটিভ নয় - 2
                           </span>
                         </h3>
                       </div>
@@ -116,13 +116,13 @@
                       <div class="empty-box">
                         <h3 style="font-size: 30px !important">
                           রেটিং
-                          <br>
+                          <br />
                           <!-- <v-rating size="25" dense color="secondary" readonly v-model="rating"></v-rating> -->
                         </h3>
                       </div>
                     </v-flex>
                     <v-flex style="margin-top: -10px;">
-                      <img class="rating-image" src="../../assets/4star.png" alt="tar_rating">
+                      <img class="rating-image" src="../../assets/4star.png" alt="tar_rating" />
                     </v-flex>
 
                     <!-- <v-flex md12 sm12 xs12>
@@ -137,17 +137,14 @@
                 </v-card>
               </v-flex>
             </v-layout>
-            <v-layout
-              wrap
-              align-center
-              class="elevation-2 side-gapper border_radius"
-              style="background-color: white;"
-            >
-              <v-flex md6 sm6 xs12>
-                <Mulmenu_Lenden/>
+            <v-layout wrap align-center class="side-gapper" style="background-color: white;">
+              <v-flex md6 sm6 xs12 class="elevation-2">
+                <Mulmenu_Lenden />
+                <v-devider vertical></v-devider>
               </v-flex>
-              <v-flex md6 sm6 xs12>
-                <Mulmenu_NotunKaaj/>
+
+              <v-flex md6 sm6 xs12 class="elevation-2">
+                <Newjob />
               </v-flex>
             </v-layout>
             <v-layout
@@ -168,7 +165,7 @@
                           src="http://mistrimama.com/dashboard/img/icons/electricity_g.png"
                           alt="electrical_service"
                           class="electrical_service"
-                        >
+                        />
                         <h4>Electrical Service</h4>
                       </div>
                     </v-flex>
@@ -178,7 +175,7 @@
                           src="http://mistrimama.com/dashboard/img/icons/plumbing_g.png"
                           alt="plumbing_service"
                           class="plumbing_service"
-                        >
+                        />
                         <h4>Plumbing Service</h4>
                       </div>
                     </v-flex>
@@ -188,7 +185,7 @@
                           src="http://mistrimama.com/dashboard/img/icons/ac_g.png"
                           alt="ac_service"
                           class="ac_service"
-                        >
+                        />
                         <h4>AC Service</h4>
                       </div>
                     </v-flex>
@@ -198,7 +195,7 @@
                           src="http://mistrimama.com/dashboard/img/icons/genarator_g.png"
                           alt="generator_service"
                           class="generator_service"
-                        >
+                        />
                         <h4>Generator Service</h4>
                       </div>
                     </v-flex>
@@ -208,7 +205,7 @@
                           src="http://mistrimama.com/dashboard/img/icons/it_g.png"
                           alt="it_service"
                           class="it_service"
-                        >
+                        />
                         <h4>IT Service</h4>
                       </div>
                     </v-flex>
@@ -218,44 +215,19 @@
                           src="http://mistrimama.com/dashboard/img/icons/cctv_g.png"
                           alt="cctv_service"
                           class="cctv_service"
-                        >
+                        />
                         <h4>CCTV Service</h4>
                       </div>
                     </v-flex>
                   </v-layout>
                 </v-card>
-                <!-- <v-card class="v-card-padding" flat>
-                  <h3 class="custom-title">
-                    <v-icon class="custom-icon">room_service</v-icon>আপনার সার্ভিস সমূহ
-                  </h3>
-                  <v-layout wrap style="text-align: center !important">
-                    <v-flex md4 sm4 xs6>
-                      <h3 class="services">ইলেকট্রিকাল</h3>
-                    </v-flex>
-                    <v-flex md4 sm4 xs6>
-                      <h3 class="services">প্লাম্বিং</h3>
-                    </v-flex>
-                    <v-flex md4 sm4 xs6>
-                      <h3 class="services">এসি</h3>
-                    </v-flex>
-                    <v-flex md4 sm4 xs6>
-                      <h3 class="services">জেনারেটার</h3>
-                    </v-flex>
-                    <v-flex md4 sm4 xs6>
-                      <h3 class="services">আই টি</h3>
-                    </v-flex>
-                    <v-flex md4 sm4 xs6>
-                      <h3 class="services">সিসিটিভি</h3>
-                    </v-flex>
-                  </v-layout>
-                </v-card>-->
               </v-flex>
             </v-layout>
           </div>
         </v-flex>
         <!-- <v-flex lg1 md1 hidden-sm-and-down></v-flex> -->
       </v-layout>
-      <DrawerBalance :drawer="drawerBalance" @clicked="closeDrawer"/>
+      <DrawerBalance :drawer="drawerBalance" @clicked="closeDrawer" />
       <v-snackbar
         v-model="snackbar"
         :bottom="'bottom'"
@@ -277,13 +249,14 @@ import BarChart from "../../chart.js";
 import Mulmenu_Lenden from "../mulmenu/Mulmenu_Lenden";
 import Mulmenu_NotunKaaj from "../mulmenu/Mulmenu_NotunKaaj";
 import DrawerBalance from "../mulmenu/DrawerBalance";
+import Newjob from "../mulmenu/Newjob";
 
 export default {
   components: {
     Mulmenu_Lenden,
     Mulmenu_NotunKaaj,
     DrawerBalance,
-    BarChart
+    Newjob
   },
   data() {
     return {
@@ -312,184 +285,20 @@ export default {
       items: [
         { title: "Home", icon: "dashboard" },
         { title: "About", icon: "question_answer" }
-      ],
-      dailyOrMonthly: "daily",
-      dataday: {
-        labels: [
-          "Saturday",
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday"
-        ],
-        datasets: [
-          {
-            label: "Number of Transection",
-            backgroundColor: "#febe00",
-            data: [6, 44, 82, 13, 23, 57, 59]
-          },
-          {
-            label: "Volume of Transected Money",
-            backgroundColor: "#222222",
-            data: [54, 6, 82, 85, 25, 56, 79]
-          },
-          {
-            label: "Number of Users",
-            backgroundColor: "#ed1c24",
-            data: [15, 32, 39, 37, 35, 18, 7]
-          }
-        ]
-      },
-      datamonth: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sept",
-          "Oct",
-          "Nov",
-          "Dec"
-        ],
-        datasets: [
-          {
-            label: "Number of Transection",
-            backgroundColor: "#f87979",
-            data: [28, 78, 1, 17, 96, 75, 47, 42, 2, 7, 44, 13]
-          },
-          {
-            label: "Volume of Transected Money",
-            backgroundColor: "#41B883",
-            data: [42, 27, 63, 61, 56, 57, 50, 87, 35, 53, 32, 90]
-          },
-          {
-            label: "Number of Users",
-            backgroundColor: "#35495E",
-            data: [37, 99, 13, 15, 83, 86, 56, 14, 50, 64, 35, 52]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontFamily: "'Montserrat', sans-serif"
-              }
-            }
-          ],
-          xAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontFamily: "'Montserrat', sans-serif"
-              }
-            }
-          ]
-        },
-        legend: {
-          labels: {
-            fontFamily: "'Montserrat', sans-serif"
-          }
-        }
-      }
+      ]
     };
   },
   methods: {
     closeDrawer: function(value) {
       this.drawerBalance = false;
     }
-    // tableAction: function(data, option, isButton) {
-    //   this.selectedImage = data.photo;
-    //   this.rowData = data;
-    //   // this.displayImage = process.env.VUE_APP_IMAGE_API_URL + data.distributor.image;
-    //   this.actionButtonVisibleInSidePanel = isButton;
-    //   if (option == "ownerDetails") {
-    //     this.sidePanelTitle = "TENANT DETAILS";
-    //     this.sideData = [
-    //       { label: "Name", value: data.fullName },
-    //       { label: "Address", value: data.homeAddress },
-    //       { label: "Contact", value: data.phoneNumber }
-    //     ];
-    //   } else {
-    //     this.sidePanelTitle = "OWNER DETAILS";
-    //     this.sideData = [
-    //       { label: "ID", value: data.id },
-    //       { label: "Name", value: data.name },
-    //       { label: "Address", value: data.address },
-    //       { label: "Contact", value: data.contact },
-    //       { label: "Region", value: data.region },
-    //       { label: "City", value: data.city }
-    //     ];
-    //   }
-    // },
-    // async previous() {
-    //   this.dataLoaded = false;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   let respo = await this.$store.dispatch(api, {
-    //     currentPage: this.pageCount - 1
-    //   });
-    //   if (respo.status == "failure") this.errorAlerts(respo.data);
-    //   this.pageCount = this.pageCount - 1;
-    //   this.$router.push({ path: "/tenants", query: { page: this.pageCount } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // },
-    // async next() {
-    //   this.dataLoaded = false;
-    //   let numPage = parseInt(this.pageCount) + 1;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   let respo = await this.$store.dispatch(api, {
-    //     currentPage: parseInt(numPage)
-    //   });
-    //   if (respo.status == "failure") this.errorAlerts(respo.data);
-    //   this.pageCount = numPage;
-    //   this.$router.push({ path: "/tenants", query: { page: numPage } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // },
-    // arrangeData(response) {
-    //   this.tableData.data = response;
-    //   this.dataLoaded = true;
-    // }
+    
   },
   watch: {
-    // ownerListSelected: async function() {
-    //   this.dataLoaded = false;
-    //   let response;
-    //   this.pageCount = 1;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   await this.$store.dispatch("emptyListHouseowner");
-    //   response = await this.$store.dispatch(api, {
-    //     currentPage: this.pageCount
-    //   });
-    //   if (response.status == "failure") this.errorAlerts(response.data);
-    //   this.$router.push({ path: "/tenants", query: { page: this.pageCount } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // }
+    
   },
   computed: {
-    // ...mapState({
-    //   dataList: state => state.houseownerModule.houseownerInformation,
-    //   currentPageState: state => state.houseownerModule.currentPageHouseowner,
-    //   totalPage: state => state.houseownerModule.totalPageHouseowner
-    // })
+   
   },
   async mounted() {
     this.desserts = [

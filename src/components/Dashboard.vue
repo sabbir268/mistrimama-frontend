@@ -24,14 +24,14 @@
               style="height: 80%; margin-top: 2%;"
               src="http://mistrimama.com/photos/1/a.png"
               alt="mistrimama_logo"
-            >
+            />
           </div>
           <v-list dark style="background-color: var(--secondary) !important; margin-top: 8px;">
             <v-list-tile
               v-for="item in menuItems"
               :key="item.title"
               avatar
-               @click.stop=""
+              @click.stop
               style="background-color: var(--secondary);"
               :to="item.link"
             >
@@ -144,7 +144,7 @@
               </v-toolbar-items>
             </template>
             <v-list style="background-color: white !important">
-              <v-list-tile style="cursor: pointer" to="/profile">
+              <v-list-tile style="cursor: pointer" to="/spprofile">
                 <v-list-tile-title>
                   <v-icon class="font-sizes">person</v-icon>Profile
                 </v-list-tile-title>
@@ -167,9 +167,9 @@
             </v-list>
           </v-menu>
         </v-toolbar>
-        <router-view/>
+        <router-view />
         <v-flex hidden-md-and-up>
-          <Footer/>
+          <Footer />
         </v-flex>
       </v-flex>
     </v-layout>
@@ -189,7 +189,7 @@
             style="height: 80%; margin-top: 2%;"
             src="http://mistrimama.com/photos/1/a.png"
             alt="mistrimama_logo"
-          >
+          />
         </div>
       </v-list>
       <v-list>
@@ -240,6 +240,12 @@ export default {
       localStorage.clear();
       this.$router.push("/login");
     }
+  },
+  created() {
+    // Echo.channel("orderChannel").listen("OrderEvent", res => {
+    //   console.log(res.order);
+    //   Newjob.order = res.order;
+    // });
   },
   computed: {
     mobileNumberComputed: function() {

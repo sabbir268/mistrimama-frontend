@@ -351,88 +351,12 @@ export default {
     closeDrawer: function(value) {
       this.drawerBalance = false;
     }
-    // tableAction: function(data, option, isButton) {
-    //   this.selectedImage = data.photo;
-    //   this.rowData = data;
-    //   // this.displayImage = process.env.VUE_APP_IMAGE_API_URL + data.distributor.image;
-    //   this.actionButtonVisibleInSidePanel = isButton;
-    //   if (option == "ownerDetails") {
-    //     this.sidePanelTitle = "TENANT DETAILS";
-    //     this.sideData = [
-    //       { label: "Name", value: data.fullName },
-    //       { label: "Address", value: data.homeAddress },
-    //       { label: "Contact", value: data.phoneNumber }
-    //     ];
-    //   } else {
-    //     this.sidePanelTitle = "OWNER DETAILS";
-    //     this.sideData = [
-    //       { label: "ID", value: data.id },
-    //       { label: "Name", value: data.name },
-    //       { label: "Address", value: data.address },
-    //       { label: "Contact", value: data.contact },
-    //       { label: "Region", value: data.region },
-    //       { label: "City", value: data.city }
-    //     ];
-    //   }
-    // },
-    // async previous() {
-    //   this.dataLoaded = false;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   let respo = await this.$store.dispatch(api, {
-    //     currentPage: this.pageCount - 1
-    //   });
-    //   if (respo.status == "failure") this.errorAlerts(respo.data);
-    //   this.pageCount = this.pageCount - 1;
-    //   this.$router.push({ path: "/tenants", query: { page: this.pageCount } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // },
-    // async next() {
-    //   this.dataLoaded = false;
-    //   let numPage = parseInt(this.pageCount) + 1;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   let respo = await this.$store.dispatch(api, {
-    //     currentPage: parseInt(numPage)
-    //   });
-    //   if (respo.status == "failure") this.errorAlerts(respo.data);
-    //   this.pageCount = numPage;
-    //   this.$router.push({ path: "/tenants", query: { page: numPage } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // },
-    // arrangeData(response) {
-    //   this.tableData.data = response;
-    //   this.dataLoaded = true;
-    // }
+    
   },
   watch: {
-    // ownerListSelected: async function() {
-    //   this.dataLoaded = false;
-    //   let response;
-    //   this.pageCount = 1;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   await this.$store.dispatch("emptyListHouseowner");
-    //   response = await this.$store.dispatch(api, {
-    //     currentPage: this.pageCount
-    //   });
-    //   if (response.status == "failure") this.errorAlerts(response.data);
-    //   this.$router.push({ path: "/tenants", query: { page: this.pageCount } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // }
+    
   },
   computed: {
-    // ...mapState({
-    //   dataList: state => state.houseownerModule.houseownerInformation,
-    //   currentPageState: state => state.houseownerModule.currentPageHouseowner,
-    //   totalPage: state => state.houseownerModule.totalPageHouseowner
-    // })
   },
   async mounted() {
     this.desserts = [

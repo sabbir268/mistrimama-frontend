@@ -1,5 +1,6 @@
 <template>
-  <v-card class="v-card-padding" flat>
+  <!-- <v-card class="v-card-padding" flat> -->
+  <v-card flat>
     <h3 class="custom-title">
       <v-icon class="custom-icon">work</v-icon>নতুন কাজ
     </h3>

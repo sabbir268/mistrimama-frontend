@@ -8,14 +8,14 @@
         style="position: fixed; width: 100%; height: 100vh;  background-position:center; background-repeat:no-repeat; background-size:cover"
       >
         <!-- <v-skeleton-loader class="mx-auto" max-width="300" type="card"></v-skeleton-loader> -->
-       
+
         <img
           v-if="pageBanner"
           style="width:100%;height:100%"
           v-bind:src="pageBanner"
           alt="mistrimama_logo"
         />
-        
+
         <img
           v-if="!pageBanner"
           style="width:100%;height:100%"
@@ -28,18 +28,21 @@
         <div
           style="text-align: center; padding-top: 25px; padding-bottom: 12px; background-color: var(--background)"
         >
-          <img
-            style="width: 125px;"
-            src="http://mistrimama.com/photos/1/a.png"
-            alt="mistrimama_logo"
-          />
+          <router-link to="/">
+            <img
+              style="width: 125px;"
+              src="http://mistrimama.com/photos/1/a.png"
+              alt="mistrimama_logo"
+            />
+          </router-link>
         </div>
         <v-tabs icons-and-text v-model="tabs" fixed-tabs>
           <v-tab>
             Login
             <v-icon>person</v-icon>
           </v-tab>
-          <v-tab>
+          <!-- {{$route.params.mood}} -->
+          <v-tab v-if="$route.params.mood == 'user'">
             Register
             <v-icon>person_add</v-icon>
           </v-tab>
@@ -53,6 +56,7 @@
                 alt="mistrimama_logo"
               >
             </div>-->
+
             <v-tabs-items v-model="tabs">
               <!-- ---------- -->
               <!-- LOGIN USER -->
@@ -60,6 +64,7 @@
               <v-tab-item>
                 <v-card flat color="background">
                   <v-card-text>
+                    <!-- {{$route.params.mood}} -->
                     <v-form
                       ref="form"
                       @submit.prevent="login"
@@ -82,19 +87,38 @@
                         @click:append="passShow = !passShow"
                         outlined
                       ></v-text-field>
-                      <!-- <v-select
-                        color="accent"
-                        :items="userTypes"
-                        v-model="formData.userType"
-                        label="Select User Type ..."
-                      ></v-select>-->
-                      <!-- <v-select :items="['User']" label="User"></v-select> -->
-                      <v-checkbox v-model="rememberMe" label="Remember Me"></v-checkbox>
+
+                      <v-checkbox
+                        v-if="$route.params.mood == 'user'"
+                        flex-4
+                        v-model="rememberMe"
+                        label="Remember Me"
+                      ></v-checkbox>
+                      <!-- {{spmood}} -->
+                      <v-container text-xs-center class="py-0">
+                        <!-- <v-layout row wrap p0>
+                        <v-flex xs12>-->
+                        <v-radio-group
+                          text-md-center
+                          v-if="$route.params.mood == 'sp'"
+                          v-model="mood"
+                          row
+                          class="p-0 mt-0"
+                        >
+                          <v-radio label="ESP" value="esp"></v-radio>
+                          <v-radio label="FSP" value="fsp"></v-radio>
+                          <v-radio label="Comrade" value="comrade"></v-radio>
+                        </v-radio-group>
+                        <!-- </v-flex>
+                        </v-layout>-->
+                      </v-container>
+
                       <v-btn
                         style="width: 100% !important;"
-                        :disabled="!password || !phone"
+                        :disabled="!password || !phone || !mood"
                         type="submit"
                         color="primary"
+                        class="mx-0"
                       >LOGIN</v-btn>
                       <br />
                       <br />
@@ -106,7 +130,7 @@
               <!-- ------------- -->
               <!-- REGISTER USER -->
               <!-- ------------- -->
-              <v-tab-item>
+              <v-tab-item v-if="$route.params.mood == 'user'">
                 <v-card flat color="background">
                   <v-card-text>
                     <v-form
@@ -254,6 +278,7 @@
 <script>
 import { required, numeric } from "vuelidate/lib/validators";
 import axios from "../axios_instance.js";
+import { localStorageService } from "../helper.js";
 
 export default {
   inject: ["theme"],
@@ -291,7 +316,8 @@ export default {
       passShow: null,
       alertMessage: null,
       snackbar: false,
-      tabs: 0
+      tabs: 0,
+      mood: this.$route.params.mood == "user" ? "user" : null
     };
   },
   created() {
@@ -308,13 +334,13 @@ export default {
         if (response.status == "success") {
           this.alertMessage = "User registered successfully!";
           this.snackbar = true;
+          this.otp = true;
+          this.formData = {};
+          this.confirmPassword = null;
         } else {
-          this.alertMessage = "Error: " + response.err;
+          this.alertMessage = response.data.message;
           this.snackbar = true;
         }
-        this.otp = true;
-        this.formData = {};
-        this.confirmPassword = null;
       }
     },
     async login() {
@@ -332,8 +358,16 @@ export default {
             afterLoginUserData: response.data.user,
             d_token: response.data.access_token
           });
-          console.log(response.data.access_token);
-          this.$router.replace(this.$route.query.redirect || "/user");
+          // console.log(response.data.access_token);
+          let usertype = localStorageService.getItem("currentUserData").type;
+          if (this.mood == "user") {
+            this.$router.replace(this.$route.query.redirect || "/user");
+          } else if (this.mood && this.mood == usertype) {
+            this.$router.replace(this.$route.query.redirect || "/mulmenu");
+          } else {
+            localStorage.clear();
+            this.alertMessage = "User not match";
+          }
         } else {
           this.alertMessage = response.data.message;
           this.snackbar = true;
@@ -346,7 +380,7 @@ export default {
     async pageData() {
       var page = await axios.get("/page/login");
       this.page = page;
-       this.pageBanner = JSON.parse(this.page.data.media).banner;
+      this.pageBanner = JSON.parse(this.page.data.media).banner;
       //console.log(JSON.parse(this.page.data.media).banner);
     }
   }

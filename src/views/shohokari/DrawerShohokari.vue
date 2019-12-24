@@ -11,9 +11,9 @@
             class="rect-image"
             src="https://image.flaticon.com/icons/png/512/236/236832.png"
             alt="user_image"
-          >
+          />
         </v-avatar>
-        <br>
+        <br />
       </div>
       <div style="margin-top: 20px; padding: 20px;">
         <v-list-tile class="list-tile-margin">
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+
 export default {
   name: "ItemTable",
   props: {
@@ -76,13 +77,12 @@ export default {
       this.$emit("clicked", false);
     }
   },
-  data() {
-    return {
-      itemsService: ["Bkash", "SureCash", "Rocket"]
-    };
-  },
+  created(){
+    // sp/comrades
 
-  methods: {},
+  },
+  methods: {
+  },
   mounted() {}
 };
 </script>

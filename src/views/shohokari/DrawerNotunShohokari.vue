@@ -52,7 +52,17 @@
             </v-layout>
             <v-layout>
               <v-flex md6>
-                <v-select color="accent" :items="itemsService" v-model="category" label="ক্যাটাগরি"></v-select>
+                <v-select
+                  color="accent"
+                  item-text="name"
+                  item-value="id"
+                  :items="itemsService"
+                  v-model="category"
+                  label="ক্যাটাগরি"
+                  :menu-props="{ maxHeight: '400' }"
+                  multiple
+                  persistent-hint
+                ></v-select>
               </v-flex>
               <v-flex md6>
                 <v-text-field
@@ -68,13 +78,13 @@
               <v-flex md12>
                 <div style="text-align: left !important;">
                   <label class="picture-label">ছবি</label>
-                  <br>
+                  <br />
                   <input
                     @change="onFileChange('personalImage', $event)"
                     type="file"
                     label="File input"
-                  >
-                  <img class="img-display" :src="personalImage">
+                  />
+                  <img class="img-display" :src="personalImage" />
                 </div>
               </v-flex>
             </v-layout>
@@ -82,13 +92,13 @@
               <v-flex md12>
                 <div>
                   <label class="picture-label">এন.আই.ডি সামনের ছবি</label>
-                  <br>
+                  <br />
                   <input
                     type="file"
                     label="File input"
                     @change="onFileChange('nidImageFront', $event)"
-                  >
-                  <img class="img-display" :src="nidImageFront">
+                  />
+                  <img class="img-display" :src="nidImageFront" />
                 </div>
               </v-flex>
             </v-layout>
@@ -96,28 +106,29 @@
               <v-flex md12>
                 <div>
                   <label class="picture-label">এন.আই.ডি পিছনের ছবি</label>
-                  <br>
+                  <br />
                   <input
                     type="file"
                     label="File input"
                     @change="onFileChange('nidImageBack', $event)"
-                  >
-                  <img class="img-display" :src="nidImageBack">
+                  />
+                  <img class="img-display" :src="nidImageBack" />
                 </div>
               </v-flex>
             </v-layout>
             <div style="text-align: center; margin-top: 20px;">
               <v-btn
-                @click.stop="drawer = false; $emit('clicked', false)"
+                @click="addComrade"
                 type="submit"
                 color="success"
                 style="min-width: 100px !important; margin: 5px;"
               >
-                <v-icon class="button-icon-positive">check</v-icon>
+                <v-progress-circular v-if="process" indeterminate color="primary"></v-progress-circular>
+                <v-icon v-if="!process" class="button-icon-positive">check</v-icon>
               </v-btn>
               <v-btn
                 color="accent"
-                @click.stop="drawer = false; $emit('clicked', false)"
+                @click="reset"
                 style="min-width: 100px !important; margin: 5px;"
               >
                 <v-icon class="button-icon-cancel">close</v-icon>
@@ -127,10 +138,23 @@
         </v-form>
       </div>
     </v-list>
+    <v-snackbar
+      v-model="snackbar"
+      :top="'top'"
+      :right="'right'"
+      :timeout="5000"
+      style="text-align: center !important;color:#fff !important;"
+    >
+      {{ alertMessage }}
+      <v-btn class="snackButton" color="primary" flat @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-navigation-drawer>
 </template>
 
 <script>
+import { localStorageService } from "../../helper.js";
+import axios from "../../axios_instance.js";
+
 export default {
   name: "ItemTable",
   props: {
@@ -142,6 +166,7 @@ export default {
   },
   data() {
     return {
+      process: "",
       personalImage: null,
       nidImageFront: null,
       nidImageBack: null,
@@ -150,7 +175,9 @@ export default {
       email: null,
       nidNumber: null,
       category: null,
-      itemsService: ["Bkash", "SureCash", "Rocket"]
+      itemsService: localStorageService.getItem("categorys"),
+      alertMessage: null,
+      snackbar: false,
     };
   },
   watch: {
@@ -185,6 +212,32 @@ export default {
         }
       };
       reader.readAsDataURL(file);
+    },
+    addComrade() {
+      this.process = true;
+
+      let res = axios.post(`/comrade`, {
+        service_provider_id: 1,
+        name: this.fullName,
+        phone: this.phoneNumber,
+        email: this.email,
+        address: "Nai",
+        nid_no: this.nidNumber,
+        photo: this.personalImage,
+        nid_front: this.nidImageFront,
+        nid_back: this.nidImageBack,
+        services: this.category
+      });
+
+      console.log(res)
+
+      this.alertMessage = res;
+      this.snackbar = true;
+      this.process = false;
+    },
+    reset() {
+      this.$refs.form.reset();
+      drawer = false;
     }
   },
   mounted() {}

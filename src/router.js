@@ -3,8 +3,10 @@ import Router from "vue-router";
 
 import Login from "./views/Login.vue";
 import UserProfile from "./views/UserProfile.vue";
+import SpProfile from "./views/SpProfile.vue";
 import Dashboard from "./components/Dashboard.vue";
 import DashboardUser from "./components/DashboardUser.vue";
+import Landing from "./components/Landing.vue";
 import DashboardLandingPage from "./components/DashboardLandingPage.vue";
 
 // MENUS: SERVICE PROVIDER
@@ -31,88 +33,91 @@ import Services from "./views/services/Service.vue";
 // Landing Page
 import Home from "./views/landingpage/home/Home.vue";
 
+import {
+  localStorageService
+} from "./helper.js";
+
 Vue.use(Router);
 
 export default new Router({
   mode: "history",
-  routes: [
-    {
+  routes: [{
       path: "/admin",
       name: "Dashboard",
       component: Dashboard,
-      beforeEnter: requireAuth,
-      children: [
-        {
+      beforeEnter: requireAuthSP,
+      children: [{
           path: "/mulmenu",
           name: "মূল মেনু",
           component: MulMenu,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
         {
           path: "/shohokari",
           name: "সহকারী",
           component: Shohokari,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
         {
           path: "/shokolkaaj",
           name: "সকল কাজ",
           component: ShokolKaaj,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
         {
           path: "/shebashomuho",
           name: "সেবা সমূহ",
           component: ShebaShomuho,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
         {
           path: "/ayerbiboroni",
           name: "আয়ের বিবরণী",
           component: AyerBiboroni,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
         {
           path: "/purberkaaj",
           name: "পূর্বের কাজ",
           component: PurberKaaj,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
         {
           path: "/offerdekhun",
           name: "অফার দেখুন",
           component: OfferDekhun,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
         {
           path: "/jiggasha",
           name: "জিজ্ঞাসা",
           component: Jiggasha,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
         {
           path: "/rechargekorun",
           name: "রিচার্জ করুন",
           component: RechargeKorun,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
         {
           path: "/serviceorder",
           name: "সার্ভিস অর্ডার",
           component: ServiceOrder,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
         {
           path: "/baboharbidhi",
           name: "ব্যবহারবিধি",
           component: Baboharbidhi,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         },
-        // {
-        //   path: "/test",
-        //   name: "Test",
-        //   component: Test
-        // }
+        {
+          path: "/spprofile",
+          name: "SPPROFILE",
+          component: SpProfile,
+          beforeEnter: requireAuthSP
+        }
       ]
     },
     {
@@ -120,10 +125,9 @@ export default new Router({
       name: "Dashboard",
       component: DashboardUser,
       beforeEnter: requireAuth,
-      children: [
-        {
+      children: [{
           path: "/",
-          name: "DASHBOARD",
+          name: "USERHOME",
           component: UserHome,
           beforeEnter: requireAuth
         },
@@ -164,16 +168,15 @@ export default new Router({
       ]
     },
     {
-      path: "/login",
+      path: "/login/:mood",
       name: "Login",
       component: Login
     },
     {
       path: "/*",
-      name: "DashboardLandingPage",
-      component: DashboardLandingPage,
-      children: [
-        {
+      name: "LANDING",
+      component: Landing,
+      children: [{
           path: "/",
           name: "HOME",
           component: Home
@@ -182,7 +185,7 @@ export default new Router({
           path: "/shohokari",
           name: "সহকারী",
           component: Shohokari,
-          beforeEnter: requireAuth
+          beforeEnter: requireAuthSP
         }
       ]
     }
@@ -192,6 +195,19 @@ export default new Router({
 function requireAuth(to, from, next) {
   if (localStorage.d_token) {
     next();
+  } else {
+    window.location.href = "/login";
+  }
+}
+
+function requireAuthSP(to, from, next) {
+  if (localStorage.d_token) {
+    let usertype = localStorageService.getItem('currentUserData').type;
+    if (usertype == 'esp' || usertype == 'fsp') {
+      next();
+    } else {
+      window.location.href = "/login";
+    }
   } else {
     window.location.href = "/login";
   }
