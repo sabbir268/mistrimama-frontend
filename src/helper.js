@@ -13,6 +13,19 @@ const Helper = {
     return this.array.find(
       array => array.key == search
     )
+  },
+  groupBy(list, keyGetter) {
+    const map = new Map();
+    list.forEach((item) => {
+      const key = keyGetter(item);
+      const collection = map.get(key);
+      if (!collection) {
+        map.set(key, [item]);
+      } else {
+        collection.push(item);
+      }
+    });
+    return map;
   }
 };
 
@@ -68,4 +81,8 @@ const customDate = {
 
 //console.log(aryDates);
 
-export { localStorageService, Helper , customDate };
+export {
+  localStorageService,
+  Helper,
+  customDate
+};

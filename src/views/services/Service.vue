@@ -156,10 +156,10 @@
             </v-layout>
           </v-card-body>
           <v-divider></v-divider>
-          <v-card-actions text-xs-right v-if="selectedServiceBit.length != 0">
+          <v-card-actions text-xs-right>
             <v-spacer></v-spacer>
             <v-btn flat color="orange" @click="prevView">PREV</v-btn>
-            <v-btn flat color="orange" @click="nextView">NEXT</v-btn>
+            <v-btn v-if="order.date && order.time" flat color="orange" @click="nextView">NEXT</v-btn>
           </v-card-actions>
         </v-card>
       </div>
@@ -173,97 +173,145 @@
           </v-card-title>
           <v-divider></v-divider>
           <v-card-body>
-            <v-layout>
-              <v-flex mx-2 my-2>
-                <v-card>
-                  <v-card-title class="d-flex" cols="12">
-                    <v-text>Order Informations</v-text>
-                    <v-switch
-                      label="Order For Other"
-                      color="warning"
-                      v-model="order.orderFor"
-                      
-                      hide-details
-                      value="others"
-                      style="margin-top:0px"
-                    ></v-switch>
-                  </v-card-title>
-                  <!-- <v-btn small color="primary">Slef</v-btn>
-                  <v-btn>Others</v-btn>-->
+            <v-layout wrap align-center>
+              <v-flex md6 sm6 xs12 class="elevation-2" style="height: 450px;overflow: auto;">
+                <v-card-title class="d-flex" cols="12">
+                  <v-text>
+                    <h3>Order Informations</h3>
+                  </v-text>
+                  <v-switch
+                    label="Order For Other"
+                    color="warning"
+                    v-model="order.orderFor"
+                    hide-details
+                    value="others"
+                    style="margin-top:0px"
+                  ></v-switch>
+                </v-card-title>
+                <!-- <v-btn small color="primary">Slef</v-btn>
+                <v-btn>Others</v-btn>-->
 
-                  <v-divider></v-divider>
-                  <v-card-body>
-                    <v-form @submit.prevent class="px-2 py-2">
-                      <v-row>
-                        <v-col class="d-flex" cols="12">
-                          <v-text-field
-                            v-if="order.orderFor == 'others'"
-                            color="accent"
-                            v-model="order.orderarName"
-                            label="Name"
-                            class="px-3 py-2"
-                          ></v-text-field>
-                          <v-text v-else class="px-3 py-2">
-                            <b>Name:</b>
-                            {{order.orderarName}}
-                          </v-text>
-                        </v-col>
-                        <v-col class="d-flex" cols="12">
-                          <v-text-field
-                            v-if="order.orderFor == 'others'"
-                            color="accent"
-                            v-model="order.orderarPhone"
-                            label="Phone Number"
-                            class="px-3 py-2"
-                          ></v-text-field>
-                          <v-text v-else class="px-3 py-2">
-                            <b>Phone:</b>
-                            {{order.orderarPhone}}
-                          </v-text>
-                        </v-col>
-                        <v-col class="d-flex" cols="12">
-                          <v-text-field
-                            v-if="order.orderFor == 'others'"
-                            color="accent"
-                            v-model="order.orderarArea"
-                            label="Area"
-                            class="px-3 py-2"
-                          ></v-text-field>
-                          <v-text v-else class="px-3 py-2">
-                            <b>Area:</b>
-                            {{order.orderarArea}}
-                          </v-text>
-                        </v-col>
-                        <v-col class="d-flex" cols="12">
-                          <v-text-field
-                            v-if="order.orderFor == 'others'"
-                            color="accent"
-                            v-model="order.orderarAddress"
-                            label="Address"
-                            class="px-3 py-2"
-                          ></v-text-field>
-                          <v-text v-else class="px-3 py-2">
-                            <b>Address:</b>
-                            {{order.orderarAddress}}
-                          </v-text>
-                        </v-col>
-                        <div style="text-align: center;">
-                          <!-- <v-btn
+                <v-divider></v-divider>
+                <v-card-body>
+                  <v-form @submit.prevent class="px-2 py-2">
+                    <v-row>
+                      <v-col class="d-flex" cols="12">
+                        <v-text-field
+                          v-if="order.orderFor == 'others'"
+                          color="accent"
+                          v-model="order.orderarName"
+                          label="Name"
+                          class="px-3 py-2"
+                        ></v-text-field>
+                        <v-text v-else class="px-3 py-2">
+                          <b>Name:</b>
+                          {{order.orderarName}}
+                        </v-text>
+                      </v-col>
+                      <v-col class="d-flex" cols="12">
+                        <v-text-field
+                          v-if="order.orderFor == 'others'"
+                          color="accent"
+                          v-model="order.orderarPhone"
+                          label="Phone Number"
+                          class="px-3 py-2"
+                        ></v-text-field>
+                        <v-text v-else class="px-3 py-2">
+                          <b>Phone:</b>
+                          {{order.orderarPhone}}
+                        </v-text>
+                      </v-col>
+                      <v-col class="d-flex" cols="12">
+                        <v-text-field
+                          v-if="order.orderFor == 'others'"
+                          color="accent"
+                          v-model="order.orderarArea"
+                          label="Area"
+                          class="px-3 py-2"
+                        ></v-text-field>
+                        <v-text v-else class="px-3 py-2">
+                          <b>Area:</b>
+                          {{order.orderarArea}}
+                        </v-text>
+                      </v-col>
+                      <v-col class="d-flex" cols="12">
+                        <v-text-field
+                          v-if="order.orderFor == 'others'"
+                          color="accent"
+                          v-model="order.orderarAddress"
+                          label="Address"
+                          class="px-3 py-2"
+                        ></v-text-field>
+                        <v-text v-else class="px-3 py-2">
+                          <b>Address:</b>
+                          {{order.orderarAddress}}
+                        </v-text>
+                      </v-col>
+                      <v-col class="d-flex" cols="12">
+                        <v-text-field
+                          color="accent"
+                          v-model="order.remarks"
+                          label="Remarks"
+                          class="px-3 py-2"
+                        ></v-text-field>
+                      </v-col>
+                      <div style="text-align: center;">
+                        <!-- <v-btn
                             @click.stop="drawer = false; $emit('clicked', false)"
                             type="submit"
                             color="primary"
                             style="min-width: 250px !important; margin: 5px;"
-                          >Ok</v-btn>-->
-                        </div>
-                      </v-row>
-                    </v-form>
-                  </v-card-body>
-                </v-card>
+                        >Ok</v-btn>-->
+                      </div>
+                    </v-row>
+                  </v-form>
+                </v-card-body>
               </v-flex>
-              <v-flex>
-                <v-card>
-                  <v-card-title>Order Summury</v-card-title>
-                </v-card>
+
+              <v-flex md6 sm6 xs12 class="elevation-2" style="height: 450px;">
+                <v-card-title class="d-flex" cols="12">
+                  <v-text class="py-2">
+                    <h3>Order Summary</h3>
+                  </v-text>
+                </v-card-title>
+                <v-divider></v-divider>
+                <div class="mt-3" style="overflow:auto;height:100%">
+                  <ul>
+                    <li v-for="(service,i) in order.services" :key="i">
+                      <v-text class="d-flex">
+                        <b>{{service[0]}}</b>
+                      </v-text>
+                      <ul>
+                        <li v-for="(bit,i) in service[1]" :key="i">
+                          <tr class="d-flex">
+                            <td style="width: 65%;">
+                              <v-text style="float:left">{{bit.name}}</v-text>
+                            </td>
+                            <td style="width: 5%;text-align: right;">
+                              <v-text>{{bit.qty}}</v-text>
+                            </td>
+                            <td style="width: 30%;">
+                              <v-text style="float:right" class="pr-3">
+                                {{bit.qty > 1
+                                ? (bit.qty - 1) * bit.additional_price + bit.price
+                                : bit.price}}
+                              </v-text>
+                            </td>
+                          </tr>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <v-text
+                  class="elevation-2 px-3 py-3 d-flex"
+                  style="position: absolute;bottom: 53px;width: 50%;float:right;"
+                >
+                  <h3>Total Price</h3>
+                  <span style="text-align: right;">
+                    <h3>{{ this.totalPrice(order.serviceBit)}}</h3>
+                  </span>
+                </v-text>
               </v-flex>
             </v-layout>
           </v-card-body>
@@ -309,6 +357,7 @@ export default {
       order: {
         category: "",
         categoryId: "",
+        services: [],
         serviceBit: [],
         date: "",
         time: "",
@@ -449,6 +498,12 @@ export default {
     },
     selectedServiceBitAddToOrder: function() {
       this.order.serviceBit = this.selectedServiceBit;
+      var arr = this.selectedServiceBit;
+      var services = Helper.groupBy(
+        this.selectedServiceBit,
+        arr => arr.service_name
+      );
+      this.order.services = [...services];
     },
     handleResize: function() {
       this.window.width = window.innerWidth;
@@ -507,6 +562,19 @@ export default {
       var order = axios.post("/order", {
         data: this.order
       });
+    },
+    totalPrice(servicesBits) {
+      function indvidualTotal(item) {
+        var total =
+          item.qty > 1
+            ? (item.qty - 1) * item.additional_price + item.price
+            : item.price;
+        return total;
+      }
+
+      var tp = servicesBits.map(indvidualTotal).reduce((f, n) => n + f, 0);
+      console.log(tp);
+      return tp;
     }
   }
 };
@@ -519,5 +587,9 @@ export default {
 
 .v-input--switch {
   margin-top: 0px;
+}
+
+ul {
+  list-style: none;
 }
 </style>
