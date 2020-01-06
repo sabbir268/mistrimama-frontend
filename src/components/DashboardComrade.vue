@@ -16,7 +16,7 @@
               src="http://mistrimama.com/photos/1/a.png"
               alt="mistrimama_logo"
             >
-          </div>-->
+          </div> -->
           <div
             style="height: 64px; background: url('https://img.freepik.com/free-vector/abstract-modern-yellow-background_42581-368.jpg?size=626&ext=jpg'); background-position:center; background-repeat:no-repeat; background-size:cover"
           >
@@ -54,21 +54,11 @@
             class="hidden-md-and-up"
             style="color: var(--secondary); cursor: pointer"
           >menu</v-icon>
-          <v-flex hidden-md-and-up>
-            <h1 class="headings">{{ this.$route.name }}</h1>
-          </v-flex>
-          <v-flex hidden-sm-and-down>
-            <v-menu>
-              <template v-slot:activator="{ on }">
-                <v-tabs right color="third">
-                  <v-tab class="chips" to="/mulmenu">মূল মেনু</v-tab>
-                  <v-tab class="chips" to="/shokolkaaj">সকল কাজ</v-tab>
-                  <v-tab class="chips" to="/shohokari">সহকারী</v-tab>
-                  <v-tab class="chips" to="/shebashomuho">সেবা সমূহ</v-tab>
-                  <v-tab class="chips" to="/ayerbiboroni">আয়ের বিবরণী</v-tab>
-                </v-tabs>
-              </template>
-            </v-menu>
+          <v-flex>
+            <h1 class="headings">
+              <!-- <v-icon color="secondary">apps</v-icon> -->
+              {{ this.$route.name }}
+            </h1>
           </v-flex>
 
           <!-- <v-toolbar-title
@@ -81,7 +71,7 @@
               <b>IERS</b>
             </span>
           </v-toolbar-title>-->
-          <!-- <v-spacer></v-spacer> -->
+          <v-spacer></v-spacer>
           <v-menu transition="slide-y-transition" offset-y left>
             <template v-slot:activator="{ on }">
               <v-toolbar-items>
@@ -93,7 +83,7 @@
                 >notifications_none</v-icon>
               </v-toolbar-items>
             </template>
-            <v-list style="background-color: white !important;">
+            <v-list style="background-color: white !important">
               <v-list-tile style="cursor: pointer" to="/mulmenu">
                 <v-list-tile-title>
                   <v-icon class="font-sizes">notifications_none</v-icon>
@@ -144,16 +134,16 @@
               </v-toolbar-items>
             </template>
             <v-list style="background-color: white !important">
-              <v-list-tile style="cursor: pointer" to="/spprofile">
+              <v-list-tile style="cursor: pointer" to="/profile">
                 <v-list-tile-title>
                   <v-icon class="font-sizes">person</v-icon>Profile
                 </v-list-tile-title>
               </v-list-tile>
-              <v-list-tile style="cursor: pointer" to="/settings">
+              <!-- <v-list-tile style="cursor: pointer" to="/settings">
                 <v-list-tile-title>
                   <v-icon class="font-sizes">settings</v-icon>Settings
                 </v-list-tile-title>
-              </v-list-tile>
+              </v-list-tile>-->
               <v-list-tile style="cursor: pointer" to="/help">
                 <v-list-tile-title>
                   <v-icon class="font-sizes">help</v-icon>Help
@@ -167,85 +157,94 @@
             </v-list>
           </v-menu>
         </v-toolbar>
+        <v-navigation-drawer
+          v-model="drawer"
+          style="background-color: var(--secondary);"
+          absolute
+          temporary
+        >
+          <v-list
+            style="padding: 0px !important; text-align: center; background-color: var(--primary) !important"
+          >
+            <div
+              style="height: 64px; background: url('https://img.freepik.com/free-vector/abstract-modern-yellow-background_42581-368.jpg?size=626&ext=jpg'); background-position:center; background-repeat:no-repeat; background-size:cover"
+            >
+              <img
+                style="height: 80%; margin-top: 2%;"
+                src="http://mistrimama.com/photos/1/a.png"
+                alt="mistrimama_logo"
+              />
+            </div>
+          </v-list>
+          <div
+            class="custon-menu-textcolor"
+            style="margin-top: 10px; color: var(--third) !important;"
+          >
+            <v-btn
+              v-for="item in menuItems"
+              :key="item.title"
+              flat
+              :to="item.link"
+              style="color: var(--third) !important;"
+            >
+              <!-- <v-icon class="font-sizes">{{item.avatar}}</v-icon> -->
+              {{item.title}}
+            </v-btn>
+          </div>
+        </v-navigation-drawer>
         <router-view />
-        <v-flex hidden-md-and-up>
-          <Footer />
-        </v-flex>
+        <!-- <v-flex hidden-md-and-up>
+          <Footer/>
+        </v-flex>-->
       </v-flex>
     </v-layout>
-    <v-navigation-drawer
-      v-model="drawer"
-      style="background-color: var(--secondary);"
-      absolute
-      temporary
-    >
-      <v-list
-        style="padding: 0px !important; text-align: center; background-color: var(--primary) !important"
-      >
-        <div
-          style="height: 64px; background: url('https://img.freepik.com/free-vector/abstract-modern-yellow-background_42581-368.jpg?size=626&ext=jpg'); background-position:center; background-repeat:no-repeat; background-size:cover"
-        >
-          <img
-            style="height: 80%; margin-top: 2%;"
-            src="http://mistrimama.com/photos/1/a.png"
-            alt="mistrimama_logo"
-          />
-        </div>
-      </v-list>
-      <v-list>
-        <div
-          class="custon-menu-textcolor"
-          style="margin-top: 10px; color: var(--third) !important;"
-        >
-          <v-btn
-            v-for="item in menuItems"
-            :key="item.title"
-            flat
-            :to="item.link"
-            style="color: var(--third) !important;"
-          >
-            <!-- <v-icon class="font-sizes">{{item.avatar}}</v-icon> -->
-            {{item.title}}
-          </v-btn>
-        </div>
-      </v-list>
-    </v-navigation-drawer>
   </div>
 </template>
 
 <script>
+import axios from "../axios_instance.js";
 import { localStorageService } from "../helper.js";
-import Footer from "../components/Footer";
+// import Footer from "../components/Footer";
 
 export default {
-  name: "Dashboard",
+  name: "DashboardUser",
   components: {
-    Footer
+    // Footer
   },
   data: () => ({
     drawer: null,
     userInfo: [],
     menuItems: [
-      { title: "পূর্বের কাজ", link: "purberkaaj", avatar: "work" },
-      { title: "সার্ভিস অর্ডার", link: "serviceorder", avatar: "room_service" },
-      { title: "অফার দেখুন", link: "offerdekhun", avatar: "local_offer" },
-      { title: "রিচার্জ করুন", link: "rechargekorun", avatar: "flash_on" },
-      { title: "জিজ্ঞাসা", link: "jiggasha", avatar: "question_answer" },
-      { title: "ব্যবহারবিধি", link: "baboharbidhi", avatar: "build" },
-      { title: "কাস্টমার কেয়ার", link: "tenants", avatar: "group" }
+      { title: "DASHBOARD", link: "/user", avatar: "dashboard" },
+      { title: "ORDER", link: "/userorder", avatar: "room_service" },
+      {
+        title: "ORDER HISTORY",
+        link: "order-history",
+        avatar: "history"
+      },
+      { title: "PROMO CODE", link: "/promo", avatar: "code" },
+      { title: "REFER", link: "/refer", avatar: "group" },
+      { title: "OFFERS", link: "/offers", avatar: "local_offer" },
+      { title: "CONTACT US", link: "/usercontact", avatar: "phone_in_talk" }
     ]
   }),
+  created() {
+    this.storeCategorys();
+    Echo.channel("orderChannel").listen('App\Events\OrderEvent', (res) => {
+      console.log(res);
+    });
+   
+  },
   methods: {
     logout() {
       localStorage.clear();
       this.$router.push("/login");
+    },
+
+    async storeCategorys() {
+      var allCategory = await axios.get("/category"); // http://dev.mm/api/category
+      localStorageService.setItem("categorys", allCategory.data.data);
     }
-  },
-  created() {
-    // Echo.channel("orderChannel").listen("OrderEvent", res => {
-    //   console.log(res.order);
-    //   Newjob.order = res.order;
-    // });
   },
   computed: {
     mobileNumberComputed: function() {
@@ -271,13 +270,6 @@ export default {
   background-color: var(--third) !important;
   border-bottom: 1px solid rgba(216, 216, 216, 0.801) !important;
 }
-.custon-menu-textcolor > .v-btn--flat > .v-btn__content,
-.custon-menu-textcolor,
-.custon-menu-textcolor > .v-btn__content,
-.v-btn__content {
-  text-align: left !important;
-  justify-content: flex-start !important;
-}
 .v-btn {
   color: var(--primary) !important;
   width: 100%;
@@ -285,15 +277,15 @@ export default {
   padding-left: 0px;
   margin-left: 0px;
 }
-// .v-btn__content {
-//   color: var(--primary) !important;
-//   width: 100%;
-//   min-width: 0px;
-//   padding-left: 0px;
-//   margin-left: 0px;
-//   // justify-content: initial !important;
-//   display: flex !important;
-// }
+.v-btn__content {
+  color: var(--primary) !important;
+  width: 100%;
+  min-width: 0px;
+  padding-left: 0px;
+  margin-left: 0px;
+  justify-content: initial !important;
+  display: flex !important;
+}
 
 .v-avatar {
   background-color: var(--primary);
@@ -306,8 +298,7 @@ export default {
   color: var(--secondary) !important;
 }
 .headings {
-  margin-left: 20px;
-  color: var(--accent);
+  color: var(--secondary);
 }
 .icon-hover-scoped:hover {
   background-color: var(--primary) !important;
@@ -331,21 +322,17 @@ export default {
   font-size: 19px;
   margin-right: 5px;
 }
-// .custon-menu-textcolor > .v-btn--flat > .v-btn__content,
-// .custon-menu-textcolor,
-// .v-btn__content {
-//   justify-content: flex-start !important;
-//   color: red !important;
-//   text-align: left !important;
-// }
+.custon-menu-textcolor > .v-btn--flat > .v-btn__content,
+.custon-menu-textcolor,
+.v-btn__content {
+  justify-content: flex-start !important;
+  color: red !important;
+  text-align: left !important;
+}
 .chips {
   padding: 5px;
 }
 .v-menu__content {
   border-radius: 5px;
-}
-.row{
-  margin-right: 0px;
-  margin-left: 0px;
 }
 </style>

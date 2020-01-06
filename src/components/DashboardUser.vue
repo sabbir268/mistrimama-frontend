@@ -335,4 +335,8 @@ export default {
 .v-menu__content {
   border-radius: 5px;
 }
+.row{
+  margin-right: 0px;
+  margin-left: 0px;
+}
 </style>

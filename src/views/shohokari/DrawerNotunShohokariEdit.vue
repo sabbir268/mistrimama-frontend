@@ -52,7 +52,14 @@
             </v-layout>
             <v-layout>
               <v-flex md6>
-                <v-select color="accent" :items="itemsService" v-model="category" label="ক্যাটাগরি"></v-select>
+                <v-select
+                  color="accent"
+                  item-text="name"
+                  item-value="id"
+                  :items="itemsService"
+                  v-model="category"
+                  label="ক্যাটাগরি"
+                ></v-select>
               </v-flex>
               <v-flex md6>
                 <v-text-field
@@ -68,8 +75,8 @@
               <v-flex md12>
                 <div>
                   <label class="picture-label">ছবি</label>
-                  <br>
-                  <input type="file" label="File input">
+                  <br />
+                  <input type="file" label="File input" />
                 </div>
               </v-flex>
             </v-layout>
@@ -77,8 +84,8 @@
               <v-flex md12>
                 <div>
                   <label class="picture-label">এন.আই.ডি সামনের ছবি</label>
-                  <br>
-                  <input type="file" label="File input">
+                  <br />
+                  <input type="file" label="File input" />
                 </div>
               </v-flex>
             </v-layout>
@@ -86,8 +93,8 @@
               <v-flex md12>
                 <div>
                   <label class="picture-label">এন.আই.ডি পিছনের ছবি</label>
-                  <br>
-                  <input type="file" label="File input">
+                  <br />
+                  <input type="file" label="File input" />
                 </div>
               </v-flex>
             </v-layout>
@@ -116,6 +123,7 @@
 </template>
 
 <script>
+import { localStorageService } from '../../helper';
 export default {
   name: "ItemTable",
   props: {
@@ -133,7 +141,8 @@ export default {
       email: null,
       nidNumber: null,
       category: null,
-      personalImage: null
+      personalImage: null,
+      itemsService: localStorageService.getItem('categorys')
     };
   },
   watch: {
@@ -141,11 +150,6 @@ export default {
       if (this.drawer == true) return;
       this.$emit("clicked", false);
     }
-  },
-  data() {
-    return {
-      itemsService: ["Bkash", "SureCash", "Rocket"]
-    };
   },
 
   methods: {},

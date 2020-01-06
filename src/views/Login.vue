@@ -362,8 +362,10 @@ export default {
           let usertype = localStorageService.getItem("currentUserData").type;
           if (this.mood == "user") {
             this.$router.replace(this.$route.query.redirect || "/user");
-          } else if (this.mood && this.mood == usertype) {
+          } else if ((this.mood && this.mood == "esp") || this.mood == "fsp") {
             this.$router.replace(this.$route.query.redirect || "/mulmenu");
+          } else if (this.mood && this.mood == "comrade") {
+            this.$router.replace(this.$route.query.redirect || "/comrade-home");
           } else {
             localStorage.clear();
             this.alertMessage = "User not match";

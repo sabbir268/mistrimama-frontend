@@ -3,7 +3,7 @@ import { localStorageService } from "./helper.js";
 const axios = require("axios");
 const defaultOptions = {
   //baseURL: process.env.VUE_APP_API_URL
-  baseURL: 'http://dev.mm/api/',
+  baseURL: 'https://staging.mistrimama.com/backend/api/',
   headers: {
     "Content-Type": "application/json"
   }

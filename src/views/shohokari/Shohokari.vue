@@ -266,4 +266,8 @@ a:hover {
   font-size: 16px !important;
   padding: 10px;
 }
+.row{
+  margin-right: 0px;
+  margin-left: 0px;
+}
 </style>

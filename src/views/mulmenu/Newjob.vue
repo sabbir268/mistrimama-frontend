@@ -92,6 +92,7 @@
               <v-row>
                 <v-col class="d-flex" cols="12">
                   <v-select
+                    v-model="drawerComradeData.selectedComrade"
                     color="accent"
                     item-text="name"
                     item-value="id"
@@ -101,7 +102,7 @@
                 </v-col>
                 <div style="text-align: center;">
                   <v-btn
-                    @click.stop="drawerComrade = !drawerComrade; $emit('clicked', false)"
+                    @click="allowcateComrade()"
                     type="submit"
                     color="success"
                     style="min-width: 100px !important; margin: 5px;"
@@ -126,66 +127,18 @@
 </template>
 
 <script>
+import axios from "../../axios_instance";
 export default {
   data() {
     return {
       drawerComrade: null,
       drawerComradeData: {
         order: "",
-        comrades: [{ id: 1, name: "Sazzad" }, { id: 2, name: "Mukul" }]
+        comrades: "",
+        selectedComrade: ""
       },
-      // comrades: {name : 'Comrade Name' , id: 0},
-      orders: [
-        {
-          id: 1,
-          order_no: "63021",
-          category_id: 1,
-          category_name: "AC",
-          user_id: 1,
-          name: "Sabbir Hossain",
-          phone: "01775280411",
-          area: "Gulshan",
-          address: "Location",
-          location: null,
-          date: "2019-12-11",
-          time: "12am - 1pm",
-          extra_charge: 0,
-          discount: 0,
-          status: 0,
-          comments: null,
-          items: [
-            {
-              id: 1,
-              order_id: 1,
-              service_id: 3,
-              service_name: "AC Basic Servicing",
-              service_bit_id: 7,
-              service_bit_name: "AC Install",
-              price: 2000,
-              additional_price: 1800,
-              quantity: 1,
-              total_price: 2000,
-              status: 0
-            },
-            {
-              id: 2,
-              order_id: 1,
-              service_id: 3,
-              service_name: "AC Basic Servicing",
-              service_bit_id: 8,
-              service_bit_name: "Install Ac",
-              price: 100,
-              additional_price: 80,
-              quantity: 1,
-              total_price: 100,
-              status: 0
-            }
-          ],
-          user_image: null,
-          service_image:
-            "http://dev.mm//storage/app/R5liB8uPtnGgoKpauo12UPgKTT5fMQzyLyFjzIqi.png"
-        }
-      ],
+
+      orders: [],
       headers: [
         { text: "Service" },
         { text: "Service Bit" },
@@ -195,6 +148,7 @@ export default {
     };
   },
   created() {
+    this.getNewAvaibaleOrder();
     Echo.channel("orderChannel").listen("OrderEvent", res => {
       this.orders.push(res.order);
       this.getServices();
@@ -214,6 +168,30 @@ export default {
     openDrawerComrade(itemObject) {
       this.drawerComrade = !this.drawerComrade;
       this.drawerComradeData.order = itemObject;
+
+      this.getComrades(itemObject.category_id);
+    },
+
+    async getNewAvaibaleOrder() {
+      var orders = await axios.get("/avaiable-order");
+      // console.log(orders.data);
+      this.orders = orders.data.data;
+    },
+
+    async getComrades(category) {
+      this.drawerComradeData.comrades = "";
+      var comrade = await axios.get(`/sp/comrades/${category}`);
+      this.drawerComradeData.comrades = comrade.data;
+    },
+
+    async allowcateComrade() {
+      var res = await axios.post("/allowcate-comrade", {
+        comrade_id: this.drawerComradeData.selectedComrade,
+        order_id: this.drawerComradeData.order.id
+      });
+      this.drawerComrade = false;
+      this.getNewAvaibaleOrder();
+      alert(res.data.message);
     }
   },
   mounted() {}

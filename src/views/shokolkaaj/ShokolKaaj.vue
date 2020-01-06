@@ -103,10 +103,10 @@
                     <v-tabs-items v-model="tab">
                       <v-tab-item v-for="item in tabValue" :key="item">
                         <div v-if="item == 1">
-                          <ShokolKaaj_PhoneOrder/>
+                          <ShokolKaaj_PhoneOrder />
                         </div>
                         <div v-if="item == 2">
-                          <ShokolKaaj_CholtiKaaj/>
+                          <ShokolKaaj_CholtiKaaj />
                         </div>
                       </v-tab-item>
                     </v-tabs-items>
@@ -387,5 +387,10 @@ a:hover {
   font-size: 30px;
   color: var(--third) !important;
   line-height: 160%;
+}
+
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
 }
 </style>

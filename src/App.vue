@@ -372,5 +372,10 @@ table.v-table thead th {
   text-align: center;
   color: #909090;
 }
+
+a:hover {
+    color: var(--primary)
+    // --primary: #febe00; 
+}
 </style>
 

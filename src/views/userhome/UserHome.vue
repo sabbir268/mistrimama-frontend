@@ -4,7 +4,7 @@
       <v-layout row wrap style="margin-bottom: 55px;">
         <!-- <v-flex lg1 md1 hidden-sm-and-down></v-flex> -->
         <v-flex lg12 md12 sm12 xs12>
-          <div v-if="dataLoaded" style="text-align: left; margin-bottom: 20px; font-size: 40px">
+          <div style="text-align: left; margin-bottom: 20px; font-size: 40px">
             <v-layout wrap align-center class="top-gapper">
               <v-flex md3 sm12 xs12 class="total-box">
                 <v-card class="card-height border_radius">
@@ -17,25 +17,24 @@
                     <v-flex md9 sm9 xs9>
                       <div class="empty-box">
                         <h3>
-                          ORDER STATUS
+                          CURRENT ORDER
                           <br />
-                          <span class="b">No service is taken</span>
+                          <span class="b">
+                            <span>{{currentOrderCount}}</span> Service is runnig
+                          </span>
                         </h3>
                       </div>
                     </v-flex>
                   </v-layout>
                   <v-layout wrap class="lower-box">
-                    <!-- <div class="box-button">
-                      <v-btn style="min-width: 10px; width: 100%" @click="drawerBalance = !drawerBalance;">VIEW DETAILS</v-btn>
-                    </div>-->
                     <v-layout wrap class="lower-box">
                       <v-flex
                         md12
                         style="height: 100%; padding-left: 10px; padding-right: 10px; padding-top: 6px;"
                       >
                         <v-btn
-                          style="font-size: 12px !important; min-width: 10px; width: 100%"
-                          @click="drawerBalance = !drawerBalance;"
+                          style="font-size: 12px !important; min-width: 10px; width: 92%;"
+                          to="/view-order"
                         >VIEW DETAILS</v-btn>
                       </v-flex>
                     </v-layout>
@@ -91,8 +90,7 @@
                     </p>
                   </v-layout>
                   <v-layout wrap style="text-align: center !important;">
-                   
-                    <v-btn style="none" :to="{path: '/service/air-conditionar'}">
+                    <router-link :to="{path: '/service/air-conditionar'}">
                       <v-flex md4 sm4 xs4>
                         <div class="electrical_service">
                           <img
@@ -103,7 +101,8 @@
                           <h4>Electrical Service</h4>
                         </div>
                       </v-flex>
-                    </v-btn>
+                    </router-link>
+
                     <v-flex md4 sm4 xs4>
                       <div class="plumbing_service">
                         <img
@@ -196,7 +195,6 @@
         </v-flex>
         <!-- <v-flex lg1 md1 hidden-sm-and-down></v-flex> -->
       </v-layout>
-      <DrawerBalance :drawer="drawerBalance" @clicked="closeDrawer" />
       <v-snackbar
         v-model="snackbar"
         :bottom="'bottom'"
@@ -215,25 +213,23 @@
 
 <script>
 import { mapState } from "vuex";
-import BarChart from "../../chart.js";
+// import BarChart from "../../chart.js";
 import Mulmenu_Lenden from "../mulmenu/Mulmenu_Lenden";
 import Mulmenu_NotunKaaj from "../mulmenu/Mulmenu_NotunKaaj";
-import DrawerBalance from "../mulmenu/DrawerBalance";
+import axios from "../../axios_instance.js";
 
 export default {
   components: {
     Mulmenu_Lenden,
-    Mulmenu_NotunKaaj,
-    DrawerBalance,
-    BarChart
+    Mulmenu_NotunKaaj
+    // BarChart
   },
   data() {
     return {
+      currentOrderCount: 0,
       rating: 4,
       dataLoaded: true,
       pageCount: 1,
-      dataLoaded: false,
-      drawerBalance: null,
       pagination: null,
       snackbar: null,
       alertMessage: null,
@@ -255,169 +251,19 @@ export default {
       items: [
         { title: "Home", icon: "dashboard" },
         { title: "About", icon: "question_answer" }
-      ],
-      dailyOrMonthly: "daily",
-      dataday: {
-        labels: [
-          "Saturday",
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday"
-        ],
-        datasets: [
-          {
-            label: "Number of Transection",
-            backgroundColor: "#febe00",
-            data: [6, 44, 82, 13, 23, 57, 59]
-          },
-          {
-            label: "Volume of Transected Money",
-            backgroundColor: "#222222",
-            data: [54, 6, 82, 85, 25, 56, 79]
-          },
-          {
-            label: "Number of Users",
-            backgroundColor: "#ed1c24",
-            data: [15, 32, 39, 37, 35, 18, 7]
-          }
-        ]
-      },
-      datamonth: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sept",
-          "Oct",
-          "Nov",
-          "Dec"
-        ],
-        datasets: [
-          {
-            label: "Number of Transection",
-            backgroundColor: "#f87979",
-            data: [28, 78, 1, 17, 96, 75, 47, 42, 2, 7, 44, 13]
-          },
-          {
-            label: "Volume of Transected Money",
-            backgroundColor: "#41B883",
-            data: [42, 27, 63, 61, 56, 57, 50, 87, 35, 53, 32, 90]
-          },
-          {
-            label: "Number of Users",
-            backgroundColor: "#35495E",
-            data: [37, 99, 13, 15, 83, 86, 56, 14, 50, 64, 35, 52]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontFamily: "'Montserrat', sans-serif"
-              }
-            }
-          ],
-          xAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontFamily: "'Montserrat', sans-serif"
-              }
-            }
-          ]
-        },
-        legend: {
-          labels: {
-            fontFamily: "'Montserrat', sans-serif"
-          }
-        }
-      }
+      ]
     };
   },
   methods: {
-    closeDrawer: function(value) {
-      this.drawerBalance = false;
+    async getCurrentOrderCount() {
+      var countOrder = await axios.get("/user-order-count");
+      this.currentOrderCount = countOrder.data;
     }
-    
   },
-  watch: {
-    
-  },
-  computed: {
-  },
-  async mounted() {
-    this.desserts = [
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: "1%"
-      },
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: "1%"
-      },
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: "1%"
-      },
-      {
-        name: "Ice cream sandwich",
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        iron: "1%"
-      },
-      {
-        name: "Eclair",
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        iron: "7%"
-      },
-      {
-        name: "Cupcake",
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        iron: "8%"
-      },
-      {
-        name: "Gingerbread",
-        calories: 356,
-        fat: 16.0,
-        carbs: 49,
-        protein: 3.9,
-        iron: "16%"
-      }
-    ];
-    this.dataLoaded = true;
+  watch: {},
+  computed: {},
+  created() {
+    this.getCurrentOrderCount();
   }
 };
 </script>
@@ -497,5 +343,10 @@ export default {
     width: 45px;
     transition: 0.2s;
   }
+}
+
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
 }
 </style>

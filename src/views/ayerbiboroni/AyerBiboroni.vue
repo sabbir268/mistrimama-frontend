@@ -18,8 +18,8 @@
                       <div class="empty-box">
                         <h3>
                           বর্তমান
-                          <br>একাউন্ট ব্যালান্স
-                          <br>
+                          <br />একাউন্ট ব্যালান্স
+                          <br />
                           <span class="a">৳ 3487/-</span>
                         </h3>
                       </div>
@@ -46,8 +46,8 @@
                       <div class="empty-box">
                         <h3>
                           সর্বশেষ
-                          <br>সার্ভিস সমূহ
-                          <br>
+                          <br />সার্ভিস সমূহ
+                          <br />
                           <span class="a">470</span>
                         </h3>
                       </div>
@@ -72,9 +72,9 @@
                       <div class="empty-box">
                         <h3>
                           শেষ ক্যাশ
-                          <br>আউট-এর
-                          <br>পরিমান
-                          <br>
+                          <br />আউট-এর
+                          <br />পরিমান
+                          <br />
                           <span class="a">৳ 1500/-</span>
                         </h3>
                       </div>
@@ -99,8 +99,8 @@
                       <div class="empty-box">
                         <h3>
                           শেষ রিচার্জ-এর
-                          <br>পরিমান
-                          <br>
+                          <br />পরিমান
+                          <br />
                           <span class="a">৳ 200/-</span>
                         </h3>
                       </div>
@@ -233,9 +233,9 @@
         </v-flex>
         <!-- <v-flex lg1 md1 hidden-sm-and-down></v-flex> -->
       </v-layout>
-      <DrawerShorboShesh :drawer="drawerShorboShesh" @clicked="closeDrawer"/>
-      <DrawerSheshCashOut :drawer="drawerSheshCashOut" @clicked="closeDrawer"/>
-      <DrawerSheshRecharge :drawer="drawerSheshRecharge" @clicked="closeDrawer"/>
+      <DrawerShorboShesh :drawer="drawerShorboShesh" @clicked="closeDrawer" />
+      <DrawerSheshCashOut :drawer="drawerSheshCashOut" @clicked="closeDrawer" />
+      <DrawerSheshRecharge :drawer="drawerSheshRecharge" @clicked="closeDrawer" />
       <v-navigation-drawer
         width="500"
         v-model="drawer"
@@ -255,9 +255,9 @@
                 class="rect-image"
                 src="https://image.flaticon.com/icons/png/512/236/236832.png"
                 alt="user_image"
-              >
+              />
             </v-avatar>
-            <br>
+            <br />
           </div>
           <div style="margin-top: 20px; padding: 20px;">
             <v-list-tile style="margin-bottom: 15px;">
@@ -528,5 +528,10 @@ a:hover {
 .box-buttons {
   width: 100%;
   margin: 0px;
+}
+
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
 }
 </style>

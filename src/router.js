@@ -5,6 +5,7 @@ import Login from "./views/Login.vue";
 import UserProfile from "./views/UserProfile.vue";
 import SpProfile from "./views/SpProfile.vue";
 import Dashboard from "./components/Dashboard.vue";
+import DashboardComrade from "./components/DashboardComrade.vue";
 import DashboardUser from "./components/DashboardUser.vue";
 import Landing from "./components/Landing.vue";
 import DashboardLandingPage from "./components/DashboardLandingPage.vue";
@@ -28,7 +29,9 @@ import UserOffers from "./views/useroffers/UserOffers.vue";
 import UserPromo from "./views/userpromo/UserPromo.vue";
 import UserRefer from "./views/userrefer/UserRefer.vue";
 import UserOrderHistory from "./views/userorderhistory/UserOrderHistory.vue";
+import ViewOrder from "./views/userorderhistory/ViewOrder.vue";
 import Services from "./views/services/Service.vue";
+import ComradeHome from "./views/comrade/Home.vue";
 
 // Landing Page
 import Home from "./views/landingpage/home/Home.vue";
@@ -121,6 +124,18 @@ export default new Router({
       ]
     },
     {
+      path: "/comrade",
+      name: "DashboardComrade",
+      component: DashboardComrade,
+      beforeEnter: requireAuth,
+      children: [{
+        path: "/comrade-home",
+        name: "সহকারী",
+        component: ComradeHome,
+        beforeEnter: requireAuth
+      }]
+    },
+    {
       path: "/user",
       name: "Dashboard",
       component: DashboardUser,
@@ -164,6 +179,11 @@ export default new Router({
           path: "/service/:category",
           name: "Services",
           component: Services
+        },
+        {
+          path: "/view-order",
+          name: "VIEW ORDER",
+          component: ViewOrder
         },
       ]
     },

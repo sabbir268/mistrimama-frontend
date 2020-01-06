@@ -180,26 +180,11 @@
                           class="text-xs-left"
                           style="cursor: pointer"
                         >{{ props.item.category_id }}</td>
-                        <td
-                          class="text-xs-left"
-                          style="cursor: pointer"
-                        >{{ props.item.service_id }}</td>
-                        <td
-                          class="text-xs-left"
-                          style="cursor: pointer"
-                        >{{ props.item.name }}</td>
-                        <td
-                          class="text-xs-left"
-                          style="cursor: pointer"
-                        >{{ props.item.price }}</td>
-                        <td
-                          class="text-xs-left"
-                          style="cursor: pointer"
-                        >{{ props.item.price }}</td>
-                        <td
-                          class="text-xs-left"
-                          style="cursor: pointer"
-                        >{{ props.item.price }}</td>
+                        <td class="text-xs-left" style="cursor: pointer">{{ props.item.service_id }}</td>
+                        <td class="text-xs-left" style="cursor: pointer">{{ props.item.name }}</td>
+                        <td class="text-xs-left" style="cursor: pointer">{{ props.item.price }}</td>
+                        <td class="text-xs-left" style="cursor: pointer">{{ props.item.price }}</td>
+                        <td class="text-xs-left" style="cursor: pointer">{{ props.item.price }}</td>
                         <td
                           class="text-xs-left"
                           style="cursor: pointer"
@@ -249,7 +234,7 @@
         </v-flex>
         <!-- <v-flex lg1 md1 hidden-sm-and-down></v-flex> -->
       </v-layout>
-      
+
       <v-snackbar
         v-model="snackbar"
         :bottom="'bottom'"
@@ -309,19 +294,16 @@ export default {
       this.drawer = !this.drawer;
       this.sideData = itemObject;
     },
-   async getServices(){
-      var allservices = await axios.get('/sp/services');
+    async getServices() {
+      var allservices = await axios.get("/sp/services");
       this.services = allservices.data;
     }
   },
-  watch: {
-  },
-  computed: {
-   
-  },
-  created(){
+  watch: {},
+  computed: {},
+  created() {
     this.getServices();
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -391,5 +373,9 @@ td {
   font-size: 30px;
   color: var(--third) !important;
   line-height: 160%;
+}
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
 }
 </style>

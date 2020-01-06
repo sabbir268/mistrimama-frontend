@@ -229,7 +229,7 @@
                           label="Area"
                           class="px-3 py-2"
                         ></v-text-field>
-                        <v-text v-else class="px-3 py-2">
+                        <v-text v-else v-model="order.orderarArea" class="px-3 py-2">
                           <b>Area:</b>
                           {{order.orderarArea}}
                         </v-text>
@@ -242,7 +242,7 @@
                           label="Address"
                           class="px-3 py-2"
                         ></v-text-field>
-                        <v-text v-else class="px-3 py-2">
+                        <v-text v-else v-model="order.orderarAddress" class="px-3 py-2">
                           <b>Address:</b>
                           {{order.orderarAddress}}
                         </v-text>
@@ -250,8 +250,8 @@
                       <v-col class="d-flex" cols="12">
                         <v-text-field
                           color="accent"
-                          v-model="order.remarks"
-                          label="Remarks"
+                          v-model="order.comments"
+                          label="Comments"
                           class="px-3 py-2"
                         ></v-text-field>
                       </v-col>
@@ -319,18 +319,40 @@
           <v-card-actions text-xs-right v-if="selectedServiceBit.length != 0">
             <v-spacer></v-spacer>
             <v-btn flat color="orange" @click="prevView">PREV</v-btn>
-            <v-btn flat color="orange" @click="nextView">NEXT</v-btn>
+            <v-btn flat color="orange" @click="nextView">FINISH</v-btn>
           </v-card-actions>
         </v-card>
       </div>
     </v-flex>
+
+    <v-layout row justify-center>
+      <v-dialog v-model="orderDone" max-width="290">
+        <v-card>
+          <v-card-text>
+            <div v-if="!orderPlacingStatus">
+              <v-progress-linear :indeterminate="true"></v-progress-linear>
+              <h4 style="text-align:center">Placing your ordedr!</h4>
+            </div>
+            <div v-else>
+              <sweetalert-icon icon="success" />
+              <h4 style="text-align:center">Order Placed!</h4>
+            </div>
+          </v-card-text>
+          <!-- <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" flat @click="orderDone = false">Disagree</v-btn>
+            <v-btn color="green darken-1" flat @click="orderDone = false">Agree</v-btn>
+          </v-card-actions>-->
+        </v-card>
+      </v-dialog>
+    </v-layout>
   </v-layout>
 </template>
 
 <script>
 import axios from "../../axios_instance.js";
 import { localStorageService, Helper, customDate } from "../../helper.js";
-
+import SweetalertIcon from "vue-sweetalert-icons";
 import {
   Hooper,
   Slide,
@@ -344,7 +366,8 @@ export default {
     Hooper,
     Slide,
     HooperProgress,
-    HooperNavigation
+    HooperNavigation,
+    SweetalertIcon
   },
   data() {
     return {
@@ -361,15 +384,14 @@ export default {
         serviceBit: [],
         date: "",
         time: "",
-        ordedrFor: "self",
+        orderFor: "self",
         userId: "",
         orderarName: "",
         orderarPhone: "",
         orderarAddress: "",
         orderarArea: "",
-        remarks: "",
-        orderFrom: "",
-        orderFor: "self"
+        comments: "",
+        orderFrom: ""
       },
       window: {
         width: 0,
@@ -384,7 +406,8 @@ export default {
         "12am - 1pm",
         "1pm - 2pm"
       ],
-
+      orderDone: false,
+      orderPlacingStatus: false,
       hooperSettings: {
         itemsToShow: 3,
         centerMode: false,
@@ -515,8 +538,10 @@ export default {
         this.viewarea = "schedule";
       } else if (this.viewarea == "schedule") {
         this.viewarea = "confirmation";
+      } else if (this.viewarea == "confirmation") {
+        this.placeOrder();
       } else {
-        alert("fuck");
+        alert("Something went wrong");
       }
       this.selectedServiceBitAddToOrder();
       this.order.category = this.category.name;
@@ -547,6 +572,9 @@ export default {
       this.order.time = time;
     },
     orderarInfo: function() {
+      this.order.orderFrom = localStorageService.getItem(
+        "currentUserData"
+      ).type;
       this.order.userId = localStorageService.getItem("currentUserData").id;
       this.order.orderarName = localStorageService.getItem(
         "currentUserData"
@@ -558,10 +586,16 @@ export default {
         "currentUserData"
       ).address;
     },
-    placeOrder: function() {
+    async placeOrder() {
+      this.orderDone = true;
+      this.orderPlacingStatus = false;
       var order = axios.post("/order", {
         data: this.order
       });
+      await new Promise(r => setTimeout(r, 1000));
+      this.orderPlacingStatus = true;
+      await new Promise(r => setTimeout(r, 1000));
+      this.$router.replace("/user");
     },
     totalPrice(servicesBits) {
       function indvidualTotal(item) {
@@ -573,7 +607,7 @@ export default {
       }
 
       var tp = servicesBits.map(indvidualTotal).reduce((f, n) => n + f, 0);
-      console.log(tp);
+
       return tp;
     }
   }
@@ -591,5 +625,10 @@ export default {
 
 ul {
   list-style: none;
+}
+
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
 }
 </style>

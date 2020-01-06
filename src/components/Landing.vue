@@ -209,12 +209,11 @@
 
         <hooper-navigation slot="hooper-addons"></hooper-navigation>
         <hooper-pagination slot="hooper-addons"></hooper-pagination>
-        <hooper-progress slot="hooper-addons"></hooper-progress>
       </hooper>
 
-      <div class="bottom-box" style="background-color:#fff">
+      <!-- <div class="bottom-box" style="background-color:#fff">
         <div class="auto-container clearfix">
-          <!-- <ul class="contact-info">
+          <ul class="contact-info">
             <li>
               <span>Phone :</span> (+84) 867-557-243
             </li>
@@ -222,16 +221,42 @@
               <span>EMAIL :</span>
               <a href="#">Support@yourdomain.com</a>
             </li>
-          </ul>-->
+          </ul>
           <ServicesLanding></ServicesLanding>
+
+          
         </div>
         <v-divider></v-divider>
-      </div>
+      </div>-->
     </section>
     <!-- End Bnner Section -->
-    <!-- <section >
-     
-    </section>-->
+    <section>
+      <div class="container-fluid p-0 m-0">
+        <div class="sec-title text-center m-0 mt-5 mb-5">
+          <span class="float-text">Service</span>
+          <h2>OUR SERVICES</h2>
+        </div>
+        <div class="row p-0 m-0">
+          <div
+            v-for="category in categorys"
+            :key="category.id"
+            class="hovereffect col-md-4 p-1 m-0"
+          >
+            <router-link to="/">
+              <img
+                :src="category.opt_image"
+                alt="Avatar"
+                class="hovereffect-image"
+                style="width:100%"
+              />
+              <div class="hovereffect-middle">
+                <img :src="category.thumb" style="width: 137px;" alt />
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- About Section -->
     <section
       id="aboutus"
@@ -546,79 +571,6 @@
     </section>
     <!--End Services Section -->
 
-    <!-- Fun Fact Section -->
-    <section class="fun-fact-section">
-      <div class="outer-box" style="background-image: url(../assets/images/background/3.jpg);">
-        <div class="auto-container">
-          <div class="fact-counter">
-            <div class="row">
-              <!--Column-->
-              <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp">
-                <div class="count-box">
-                  <div class="count">
-                    <span class="count-text" data-speed="5000" data-stop="14">0</span>
-                  </div>
-                  <h4 class="counter-title">
-                    Years of
-                    <br />Experience
-                  </h4>
-                </div>
-              </div>
-
-              <!--Column-->
-              <div
-                class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp"
-                data-wow-delay="400ms"
-              >
-                <div class="count-box">
-                  <div class="count">
-                    <span class="count-text" data-speed="5000" data-stop="237">0</span>
-                  </div>
-                  <h4 class="counter-title">
-                    Project
-                    <br />Taken
-                  </h4>
-                </div>
-              </div>
-
-              <!--Column-->
-              <div
-                class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp"
-                data-wow-delay="800ms"
-              >
-                <div class="count-box">
-                  <div class="count">
-                    <span class="count-text" data-speed="5000" data-stop="11">0</span>K
-                  </div>
-                  <h4 class="counter-title">
-                    Twitter
-                    <br />Follower
-                  </h4>
-                </div>
-              </div>
-
-              <!--Column-->
-              <div
-                class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp"
-                data-wow-delay="1200ms"
-              >
-                <div class="count-box">
-                  <div class="count">
-                    <span class="count-text" data-speed="5000" data-stop="12">0</span>
-                  </div>
-                  <h4 class="counter-title">
-                    Awards
-                    <br />won
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!--End Fun Fact Section -->
-
     <!-- Project Section -->
     <section class="projects-section">
       <div class="auto-container">
@@ -815,7 +767,7 @@
     <!--End Project Section -->
 
     <!-- Team Section -->
-    <section class="team-section">
+    <section class="team-section" style="display:none">
       <div class="auto-container">
         <div class="sec-title text-center">
           <span class="title">Our Team</span>
@@ -823,7 +775,7 @@
         </div>
 
         <div class="row clearfix">
-          <!-- Team Block -->
+       
           <div class="team-block col-lg-4 col-md-6 col-sm-12">
             <div class="inner-box">
               <div class="image-box">
@@ -867,7 +819,7 @@
             </div>
           </div>
 
-          <!-- Team Block -->
+      
           <div class="team-block col-lg-4 col-md-6 col-sm-12">
             <div class="inner-box">
               <div class="image-box">
@@ -911,7 +863,7 @@
             </div>
           </div>
 
-          <!-- Team Block -->
+         
           <div class="team-block col-lg-4 col-md-6 col-sm-12">
             <div class="inner-box">
               <div class="image-box">
@@ -960,7 +912,7 @@
     <!--End Team Section -->
 
     <!-- Testimonial Section -->
-    <section class="testimonial-section">
+    <section class="testimonial-section mt-5" style="margin-top:100px">
       <div class="outer-container clearfix">
         <!-- Title Column -->
         <div class="title-column clearfix">
@@ -1388,7 +1340,7 @@
                           <a href="projects.html">Project</a>
                         </li>
                         <li>
-                          <a href="blog-classic.html">News</a>
+                          <router-link to="/login/sp">SP&Comrade Login</router-link>
                         </li>
                         <li>
                           <a href="contact.html">Contact Us</a>
@@ -1507,16 +1459,19 @@
               </ul>
             </div>
 
-            <div class="copyright-text">
+            <div class="copyright-text" style="padding: 12px 0;">
               <p>
                 Copyright © 2019
-                <a href="#">Expert-themes.</a> All right reserved
+                <a href="#">Mistrimama</a> All right reserved
               </p>
             </div>
           </div>
         </div>
       </div>
     </footer>
+    <a href="#" class="scroll-to-top scroll-to-target" data-target="html">
+      <span class="fa fa-arrow-circle-o-up"></span>
+    </a>
     <!-- End Main Footer -->
   </div>
 </template>
@@ -1565,6 +1520,7 @@ export default {
   },
   data() {
     return {
+      categorys: "",
       hooperSettings: {
         // itemsToShow: 1,
         centerMode: true,
@@ -1583,19 +1539,20 @@ export default {
 
   methods: {
     async storeCategorys() {
-      var allCategory = await axios.get("/category"); // http://dev.mm/api/category
+      var allCategory = await axios.get("/category"); 
       localStorageService.setItem("categorys", allCategory.data.data);
+      this.categorys = allCategory.data.data;
     }
   }
 };
 </script>
 
 
-
-
-<style scoped src="../assets/css/bootstrap.css"></style>
-<style scoped src="../assets/css/style.css"></style>
-<style scoped src="../assets/css/responsive.css"></style>
+<style scoped>
+/* @import "../assets/css/style.css";
+@import "../assets/css/responsive.css";  */
+/* @import "../assets/css/bootstrap.css";  */
+</style>
 
 <style scoped>
 .owl-stage {
@@ -1604,7 +1561,68 @@ export default {
 .owl-item .active {
   width: 100% !important;
 }
-.v-chip__content{
+.v-chip__content {
   cursor: pointer;
+}
+
+.hovereffect {
+  position: relative;
+  width: 50%;
+}
+
+.hovereffect-image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+
+.hovereffect-middle {
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: #000000bf;
+  height: 100%;
+  width: 100%;
+  padding: 20%;
+}
+
+.hovereffect:hover .hovereffect-middle {
+  opacity: 1;
+}
+
+.hovereffect-text {
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+}
+
+.header-style-one .header-lower:after {
+    position: absolute;
+    top: 0;
+    right: -30px;
+    height: 0;
+    width: 0;
+    border-right: 30px solid transparent;
+    border-top: 110px solid rgba(0,0,0,0.80);
+    content: "";
+}
+.header-style-one .header-lower:before {
+    position: absolute;
+    top: 0;
+    left: -30px;
+    height: 0;
+    width: 0;
+    border-left: 30px solid transparent;
+    border-top: 110px solid rgba(0,0,0,0.80);
+    content: "";
 }
 </style>

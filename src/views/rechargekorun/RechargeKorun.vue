@@ -42,8 +42,10 @@
                             <v-col class="d-flex" cols="12">
                               <v-select
                                 color="accent"
-                                :items="itemsService"
-                                v-model="service"
+                                item-text="name"
+                                item-value="value"
+                                :items="itemsMedium"
+                                v-model="medium"
                                 label="মাধমে নির্বাচন করুন"
                               ></v-select>
                             </v-col>
@@ -65,7 +67,7 @@
                             </v-col>
                             <div style="text-align: center;">
                               <v-btn
-                                @click.stop="drawer = false; $emit('clicked', false)"
+                                @click="recharge"
                                 type="submit"
                                 color="primary"
                                 style="min-width: 250px !important; margin: 5px;"
@@ -117,38 +119,13 @@
                     </v-card>
                   </div>
                 </v-card>
-                <!-- <v-card
-                  class="v-card-padding"
-                  flat
-                  style="margin-top: 0px !important; padding-top: 0px !important"
-                >
-                  <v-card
-                    class="bordered-div"
-                    flat
-                    style="margin-top: 0px !important; padding-top: 0px !important"
-                  >
-                    <div class="label-divs" style="margin-top: 0px !important;">
-                      <label style="color: var(--secondary);">
-                        <b>বিকাশ-এর মাধ্যমে মিস্ট্রিমামা একাউন্ট-এ রিচার্জ করার জন্য নিচের ধাপগুলো অনুসূরণ করুন</b>
-                      </label>
-                    </div>
-                    <div v-for="step in steps" :key="step" class="label-divs">{{ step }}</div>
-                  </v-card>
-                </v-card>-->
               </v-flex>
             </v-layout>
           </div>
         </v-flex>
         <!-- <v-flex lg1 md1 hidden-sm-and-down></v-flex> -->
       </v-layout>
-      <v-snackbar
-        v-model="snackbar"
-        :bottom="'bottom'"
-        :right="'right'"
-        :timeout="6000"
-        :vertical="'vertical'"
-        style="text-align: left !important"
-      >
+      <v-snackbar v-model="snackbar" top right :timeout="6000">
         {{ alertMessage }}
         <v-btn color="primary" flat @click="snackbar = false">Close</v-btn>
       </v-snackbar>
@@ -158,6 +135,7 @@
 
 <script>
 import { mapState } from "vuex";
+import axios from "../../axios_instance";
 
 export default {
   data() {
@@ -167,8 +145,12 @@ export default {
       alertMessage: null,
       transactionNumber: null,
       amount: null,
-      service: null,
-      itemsService: ["বিকাশ", "ব্যাংক ডিপোজিট", "মিস্ট্রিমামা এজেন্ট ডিপোজিট"],
+      medium: null,
+      itemsMedium: [
+        { name: "বিকাশ", value: "bkash" },
+        { name: "ব্যাংক ডিপোজিট", value: "Bank Deposit" },
+        { name: "মিস্ট্রিমামা এজেন্ট ডিপোজিট", value: "Mistrimama Agent" }
+      ],
       steps: [
         "ধাপ-১: আপনার পার্সোনাল বিকাশ নাম্বার থেকে মিস্ট্রি মামা মার্চেন্ট নাম্বার ০১৭২৭০৬৩৫৯৩ এ প্রয়োজন অনুযায়ী টাকা সেন্ড করুন |",
         "ধাপ-২: টাকা রিচার্জ করার পর আপনার মোবাইল নাম্বার-এ বিকাশ থেকে একটি কনফার্মেশন এস.এম.এস আসবে তা সংরক্ষণ করুন |",
@@ -177,99 +159,24 @@ export default {
     };
   },
   methods: {
-    openDrawer: function(itemObject) {
-      this.drawerPurberkaaj = true;
-      this.sideData = itemObject;
-    },
-    closeDrawer: function(value) {
-      this.drawerPurberkaaj = false;
+    async recharge() {
+      var res = await axios.post("/recharge-request", {
+        trxno: this.transactionNumber,
+        amount: this.amount,
+        medium: this.medium
+      });
+
+      if (res.data.message == "Recharge request placed Successfully") {
+        this.snackbar = true;
+        this.alertMessage = res.data.message;
+      } else {
+        this.snackbar = true;
+        this.alertMessage = "Something went wrong";
+      }
     }
-    // tableAction: function(data, option, isButton) {
-    //   this.selectedImage = data.photo;
-    //   this.rowData = data;
-    //   // this.displayImage = process.env.VUE_APP_IMAGE_API_URL + data.distributor.image;
-    //   this.actionButtonVisibleInSidePanel = isButton;
-    //   if (option == "ownerDetails") {
-    //     this.sidePanelTitle = "TENANT DETAILS";
-    //     this.sideData = [
-    //       { label: "Name", value: data.fullName },
-    //       { label: "Address", value: data.homeAddress },
-    //       { label: "Contact", value: data.phoneNumber }
-    //     ];
-    //   } else {
-    //     this.sidePanelTitle = "OWNER DETAILS";
-    //     this.sideData = [
-    //       { label: "ID", value: data.id },
-    //       { label: "Name", value: data.name },
-    //       { label: "Address", value: data.address },
-    //       { label: "Contact", value: data.contact },
-    //       { label: "Region", value: data.region },
-    //       { label: "City", value: data.city }
-    //     ];
-    //   }
-    // },
-    // async previous() {
-    //   this.dataLoaded = false;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   let respo = await this.$store.dispatch(api, {
-    //     currentPage: this.pageCount - 1
-    //   });
-    //   if (respo.status == "failure") this.errorAlerts(respo.data);
-    //   this.pageCount = this.pageCount - 1;
-    //   this.$router.push({ path: "/tenants", query: { page: this.pageCount } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // },
-    // async next() {
-    //   this.dataLoaded = false;
-    //   let numPage = parseInt(this.pageCount) + 1;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   let respo = await this.$store.dispatch(api, {
-    //     currentPage: parseInt(numPage)
-    //   });
-    //   if (respo.status == "failure") this.errorAlerts(respo.data);
-    //   this.pageCount = numPage;
-    //   this.$router.push({ path: "/tenants", query: { page: numPage } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // },
-    // arrangeData(response) {
-    //   this.tableData.data = response;
-    //   this.dataLoaded = true;
-    // }
   },
-  watch: {
-    // ownerListSelected: async function() {
-    //   this.dataLoaded = false;
-    //   let response;
-    //   this.pageCount = 1;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   await this.$store.dispatch("emptyListHouseowner");
-    //   response = await this.$store.dispatch(api, {
-    //     currentPage: this.pageCount
-    //   });
-    //   if (response.status == "failure") this.errorAlerts(response.data);
-    //   this.$router.push({ path: "/tenants", query: { page: this.pageCount } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // }
-  },
-  computed: {
-    // ...mapState({
-    //   dataList: state => state.houseownerModule.houseownerInformation,
-    //   currentPageState: state => state.houseownerModule.currentPageHouseowner,
-    //   totalPage: state => state.houseownerModule.totalPageHouseowner
-    // })
-  },
-  async mounted() {
-    this.dataLoaded = true;
-  }
+  watch: {},
+  computed: {}
 };
 </script>
 <style lang="scss" scoped>

@@ -19,9 +19,9 @@
                         <h3>
                           ব্যালান্স
                           <br />
-                          <span class="a">৳ 3487/-</span>
+                          <span class="a">৳ {{balance}}/-</span>
                           <br />
-                          <span class="b">উত্তোলনযোগ্য ৳ 2944/-</span>
+                          <span class="b">উত্তোলনযোগ্য ৳ {{balance > 500 ? balance - 500 : 0 }}/-</span>
                         </h3>
                       </div>
                     </v-flex>
@@ -250,6 +250,7 @@ import Mulmenu_Lenden from "../mulmenu/Mulmenu_Lenden";
 import Mulmenu_NotunKaaj from "../mulmenu/Mulmenu_NotunKaaj";
 import DrawerBalance from "../mulmenu/DrawerBalance";
 import Newjob from "../mulmenu/Newjob";
+import axios from "../../axios_instance";
 
 export default {
   components: {
@@ -260,6 +261,7 @@ export default {
   },
   data() {
     return {
+      balance: 0,
       rating: 4,
       dataLoaded: true,
       pageCount: 1,
@@ -291,14 +293,17 @@ export default {
   methods: {
     closeDrawer: function(value) {
       this.drawerBalance = false;
+    },
+
+    async getBalance() {
+      var res = await axios.get("/sp/balance");
+      this.balance = res.data;
     }
-    
   },
-  watch: {
-    
-  },
-  computed: {
-   
+  watch: {},
+  computed: {},
+  created() {
+    this.getBalance();
   },
   async mounted() {
     this.desserts = [
@@ -422,8 +427,11 @@ a:hover {
   }
 }
 .rating-image {
-  height: 170%;
   width: auto;
-  margin-top: -600px;
+  margin-top: -80px;
+}
+.row{
+  margin-right: 0px;
+  margin-left: 0px;
 }
 </style>
