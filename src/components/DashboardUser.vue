@@ -8,15 +8,6 @@
         style="background-color: var(--secondary); height: 100vh; position: fixed; width: 100%"
       >
         <div style="text-align: center !important">
-          <!-- <div
-            style="background: url('https://static.vecteezy.com/system/resources/thumbnails/000/330/836/small/background-1-19.jpg'); background-position:center; background-repeat:no-repeat; background-size:cover"
-          >
-            <img
-              style="width: 100px; margin-top: 45px; margin-bottom: 40px;"
-              src="http://mistrimama.com/photos/1/a.png"
-              alt="mistrimama_logo"
-            >
-          </div>-->
           <div
             style="height: 64px; background: url('https://img.freepik.com/free-vector/abstract-modern-yellow-background_42581-368.jpg?size=626&ext=jpg'); background-position:center; background-repeat:no-repeat; background-size:cover"
           >
@@ -55,22 +46,10 @@
             style="color: var(--secondary); cursor: pointer"
           >menu</v-icon>
           <v-flex>
-            <h1 class="headings">
-              <!-- <v-icon color="secondary">apps</v-icon> -->
+            <h4 class="headings">
               {{ this.$route.name }}
-            </h1>
+            </h4>
           </v-flex>
-
-          <!-- <v-toolbar-title
-            style="display: inline-block;"
-            class="headline text-uppercase hidden-sm-and-down"
-          >
-            <span
-              style="color: var(--secondary); font-family: 'Acme', sans-serif; font-size: 30px;"
-            >
-              <b>IERS</b>
-            </span>
-          </v-toolbar-title>-->
           <v-spacer></v-spacer>
           <v-menu transition="slide-y-transition" offset-y left>
             <template v-slot:activator="{ on }">
@@ -230,15 +209,14 @@ export default {
   }),
   created() {
     this.storeCategorys();
-    Echo.channel("orderChannel").listen('App\Events\OrderEvent', (res) => {
+    Echo.channel("orderChannel").listen("AppEventsOrderEvent", res => {
       console.log(res);
     });
-   
   },
   methods: {
     logout() {
       localStorage.clear();
-      this.$router.push("/login");
+      this.$router.push("/");
     },
 
     async storeCategorys() {
@@ -335,7 +313,7 @@ export default {
 .v-menu__content {
   border-radius: 5px;
 }
-.row{
+.row {
   margin-right: 0px;
   margin-left: 0px;
 }

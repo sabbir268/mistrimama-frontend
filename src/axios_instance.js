@@ -1,15 +1,17 @@
-import { localStorageService } from "./helper.js";
+import {
+  localStorageService
+} from "./helper.js";
 
 const axios = require("axios");
 const defaultOptions = {
   //baseURL: process.env.VUE_APP_API_URL
-  baseURL: 'https://staging.mistrimama.com/backend/api/',
+  baseURL: 'http://dev.mm/api/',
   headers: {
     "Content-Type": "application/json"
   }
 };
 let axiosInstance = axios.create(defaultOptions);
-axiosInstance.interceptors.request.use(function(config) {
+axiosInstance.interceptors.request.use(function (config) {
   let token = localStorageService.getItem("d_token");
   config.headers.Authorization = token ? `Bearer ${token}` : "";
   // config.headers.Authorization =  token ? `${token}` : '';

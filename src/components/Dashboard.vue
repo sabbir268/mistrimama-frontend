@@ -55,7 +55,7 @@
             style="color: var(--secondary); cursor: pointer"
           >menu</v-icon>
           <v-flex hidden-md-and-up>
-            <h1 class="headings">{{ this.$route.name }}</h1>
+            <h4 class="headings">{{ this.$route.name }}</h4>
           </v-flex>
           <v-flex hidden-sm-and-down>
             <v-menu>
@@ -238,7 +238,7 @@ export default {
   methods: {
     logout() {
       localStorage.clear();
-      this.$router.push("/login");
+      this.$router.push("/");
     }
   },
   created() {
@@ -344,7 +344,7 @@ export default {
 .v-menu__content {
   border-radius: 5px;
 }
-.row{
+.row {
   margin-right: 0px;
   margin-left: 0px;
 }

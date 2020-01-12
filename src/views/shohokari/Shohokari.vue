@@ -235,7 +235,9 @@ export default {
       this.dataLoaded = true;
     }
   },
-  watch: {},
+  watch: {
+    
+  },
   computed: {},
   created() {
     this.getAllComrades();
@@ -266,7 +268,7 @@ a:hover {
   font-size: 16px !important;
   padding: 10px;
 }
-.row{
+.row {
   margin-right: 0px;
   margin-left: 0px;
 }

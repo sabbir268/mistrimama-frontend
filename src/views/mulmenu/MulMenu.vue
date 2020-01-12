@@ -44,7 +44,7 @@
                     <v-flex md9 sm9 xs9>
                       <div class="empty-box">
                         <h3>
-                          মিস্ট্রি মামার কাজ
+                          মিস্ত্রি মামার কাজ
                           <br />
                           <!-- <span class="a">25</span>
                           <br>-->
@@ -430,7 +430,7 @@ a:hover {
   width: auto;
   margin-top: -80px;
 }
-.row{
+.row {
   margin-right: 0px;
   margin-left: 0px;
 }

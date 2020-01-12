@@ -592,6 +592,7 @@ export default {
       var order = axios.post("/order", {
         data: this.order
       });
+      console.log(order);
       await new Promise(r => setTimeout(r, 1000));
       this.orderPlacingStatus = true;
       await new Promise(r => setTimeout(r, 1000));
@@ -603,7 +604,7 @@ export default {
           item.qty > 1
             ? (item.qty - 1) * item.additional_price + item.price
             : item.price;
-        return total;
+        return parseInt(total);
       }
 
       var tp = servicesBits.map(indvidualTotal).reduce((f, n) => n + f, 0);

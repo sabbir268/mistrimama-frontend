@@ -362,13 +362,14 @@ export default {
           let usertype = localStorageService.getItem("currentUserData").type;
           if (this.mood == "user") {
             this.$router.replace(this.$route.query.redirect || "/user");
-          } else if ((this.mood && this.mood == "esp") || this.mood == "fsp") {
+          } else if (this.mood && this.mood == usertype && this.mood == "esp") {
             this.$router.replace(this.$route.query.redirect || "/mulmenu");
-          } else if (this.mood && this.mood == "comrade") {
-            this.$router.replace(this.$route.query.redirect || "/comrade-home");
+          } else if (this.mood && this.mood == usertype) {
+            this.$router.replace("/comrade-home");
           } else {
             localStorage.clear();
             this.alertMessage = "User not match";
+            this.snackbar = true;
           }
         } else {
           this.alertMessage = response.data.message;

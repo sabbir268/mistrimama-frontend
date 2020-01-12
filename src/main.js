@@ -11,12 +11,13 @@ import Echo from 'laravel-echo'
 window.Pusher = require('pusher-js');
 window.Echo = new Echo({
   broadcaster: 'pusher',
-  key: "aslkdlk89a7sd9asdlkasjd8uasd",
+  key: "fcafd01d6d4172b5c5bb",
   cluster: "ap2",
-  //encrypted: true,
-  wsHost: 'dev.mm',
-  wsPort: 6001,
-  disableStats: true,
+  forceTLS: true,
+  // encrypted: true,
+  // wsHost: 'https://staging.mistrimama.com/backend/',
+  // wsPort: 6001,
+  // disableStats: true,
   auth: {
     headers: {
       Authorization: 'Bearer ' + localStorage.d_token

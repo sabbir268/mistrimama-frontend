@@ -127,7 +127,7 @@ export default new Router({
       path: "/comrade",
       name: "DashboardComrade",
       component: DashboardComrade,
-      beforeEnter: requireAuth,
+      // beforeEnter: requireAuth,
       children: [{
         path: "/comrade-home",
         name: "সহকারী",

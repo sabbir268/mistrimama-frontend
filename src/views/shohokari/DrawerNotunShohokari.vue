@@ -177,7 +177,7 @@ export default {
       category: null,
       itemsService: localStorageService.getItem("categorys"),
       alertMessage: null,
-      snackbar: false,
+      snackbar: false
     };
   },
   watch: {
@@ -213,10 +213,10 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    addComrade() {
+    async addComrade() {
       this.process = true;
 
-      let res = axios.post(`/comrade`, {
+      var res = await axios.post(`/comrade`, {
         service_provider_id: 1,
         name: this.fullName,
         phone: this.phoneNumber,
@@ -228,10 +228,14 @@ export default {
         nid_back: this.nidImageBack,
         services: this.category
       });
+      if (res.data.message == "Comrade added successfully") {
+        this.alertMessage = res.data.message;
+        this.drawer = false;
+        this.$router.push("/shohokari");
+      } else {
+        this.alertMessage = "Something went wrong";
+      }
 
-      console.log(res)
-
-      this.alertMessage = res;
       this.snackbar = true;
       this.process = false;
     },

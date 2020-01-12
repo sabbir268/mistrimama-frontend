@@ -8,15 +8,6 @@
         style="background-color: var(--secondary); height: 100vh; position: fixed; width: 100%"
       >
         <div style="text-align: center !important">
-          <!-- <div
-            style="background: url('https://static.vecteezy.com/system/resources/thumbnails/000/330/836/small/background-1-19.jpg'); background-position:center; background-repeat:no-repeat; background-size:cover"
-          >
-            <img
-              style="width: 100px; margin-top: 45px; margin-bottom: 40px;"
-              src="http://mistrimama.com/photos/1/a.png"
-              alt="mistrimama_logo"
-            >
-          </div> -->
           <div
             style="height: 64px; background: url('https://img.freepik.com/free-vector/abstract-modern-yellow-background_42581-368.jpg?size=626&ext=jpg'); background-position:center; background-repeat:no-repeat; background-size:cover"
           >
@@ -55,10 +46,10 @@
             style="color: var(--secondary); cursor: pointer"
           >menu</v-icon>
           <v-flex>
-            <h1 class="headings">
+            <h4 class="headings">
               <!-- <v-icon color="secondary">apps</v-icon> -->
               {{ this.$route.name }}
-            </h1>
+            </h4>
           </v-flex>
 
           <!-- <v-toolbar-title
@@ -215,30 +206,20 @@ export default {
     drawer: null,
     userInfo: [],
     menuItems: [
-      { title: "DASHBOARD", link: "/user", avatar: "dashboard" },
-      { title: "ORDER", link: "/userorder", avatar: "room_service" },
-      {
-        title: "ORDER HISTORY",
-        link: "order-history",
-        avatar: "history"
-      },
-      { title: "PROMO CODE", link: "/promo", avatar: "code" },
-      { title: "REFER", link: "/refer", avatar: "group" },
-      { title: "OFFERS", link: "/offers", avatar: "local_offer" },
-      { title: "CONTACT US", link: "/usercontact", avatar: "phone_in_talk" }
+      { title: "ALL JOBS", link: "/comrade-order", avatar: "dashboard" },
+      { title: "HISTORY", link: "/userorder", avatar: "room_service" }
     ]
   }),
   created() {
     this.storeCategorys();
-    Echo.channel("orderChannel").listen('App\Events\OrderEvent', (res) => {
+    Echo.channel("orderChannel").listen("AppEventsOrderEvent", res => {
       console.log(res);
     });
-   
   },
   methods: {
     logout() {
       localStorage.clear();
-      this.$router.push("/login");
+      this.$router.push("/");
     },
 
     async storeCategorys() {
@@ -334,5 +315,9 @@ export default {
 }
 .v-menu__content {
   border-radius: 5px;
+}
+.row {
+  margin-right: 0;
+  margin-left: 0;
 }
 </style>

@@ -176,6 +176,7 @@ export default {
       var orders = await axios.get("/avaiable-order");
       // console.log(orders.data);
       this.orders = orders.data.data;
+      console.log(orders);
     },
 
     async getComrades(category) {
