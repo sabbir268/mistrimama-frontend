@@ -293,8 +293,8 @@
                             <td style="width: 30%;">
                               <v-text style="float:right" class="pr-3">
                                 {{bit.qty > 1
-                                ? (bit.qty - 1) * bit.additional_price + bit.price
-                                : bit.price}}
+                                ? (bit.qty - 1) * parseInt(bit.additional_price) + parseInt(bit.price)
+                                : parseInt(bit.price)}}
                               </v-text>
                             </td>
                           </tr>
@@ -505,9 +505,9 @@ export default {
         // console.log(slectedBit);
         var total =
           slectedBit.qty > 1
-            ? slectedBit.price +
-              slectedBit.additional_price * (slectedBit.qty - 1)
-            : slectedBit.price;
+            ? parseInt(slectedBit.price) +
+              parseInt(slectedBit.additional_price) * (slectedBit.qty - 1)
+            : parseInt(slectedBit.price);
         return total;
       }
       // return slectedBit == bit ? true : false;
@@ -602,8 +602,9 @@ export default {
       function indvidualTotal(item) {
         var total =
           item.qty > 1
-            ? (item.qty - 1) * item.additional_price + item.price
-            : item.price;
+            ? (item.qty - 1) * parseInt(item.additional_price) +
+              parseInt(item.price)
+            : parseInt(item.price);
         return parseInt(total);
       }
 

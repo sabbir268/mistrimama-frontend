@@ -4,124 +4,7 @@
     <!-- <div class="preloader"></div> -->
 
     <!-- Main Header-->
-    <header class="main-header header-style-one">
-      <div class="auto-container">
-        <div class="header-lower">
-          <div class="main-box clearfix">
-            <div class="logo-box">
-              <div class="logo p-1">
-                <a href="/">
-                  <img style="height: 94px;" src="https://mistrimama.com/photos/1/a.png" alt title />
-                </a>
-              </div>
-            </div>
-
-            <div class="nav-outer clearfix">
-              <!-- Main Menu -->
-              <nav class="main-menu navbar-expand-md">
-                <div class="navbar-header">
-                  <!-- Toggle Button -->
-                  <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <span class="icon flaticon-menu-button"></span>
-                  </button>
-                </div>
-
-                <div class="collapse navbar-collapse clearfix" id="navbarSupportedContent">
-                  <ul class="navigation clearfix">
-                    <li class="current dropdown">
-                      <a href="#">Home</a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#aboutus">About Us</a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#">Our Service</a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#">Book Now</a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#contactus">Contact Us</a>
-                    </li>
-                    <li class="dropdown">
-                      <router-link to="/login/user">
-                        <v-chip color="primary" text-color="white">
-                          <v-avatar>
-                            <v-icon>account_circle</v-icon>
-                          </v-avatar>Login &nbsp;&nbsp;
-                        </v-chip>
-                      </router-link>
-                    </li>
-                    <li class="dropdown">
-                      <router-link to="/login/user">
-                        <v-chip color="primary" text-color="white">
-                          <v-avatar>
-                            <v-icon>account_circle</v-icon>
-                          </v-avatar>Sign Up &nbsp;&nbsp;
-                        </v-chip>
-                      </router-link>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
-              <!-- Main Menu End-->
-
-              <!-- Outer Box-->
-              <!-- <div class="outer-box">
-                <div class="search-box-outer">
-                  <div class="dropdown">
-                    <button
-                      class="search-box-btn dropdown-toggle"
-                      type="button"
-                      id="dropdownMenu3"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <span class="fa fa-user"></span>
-                    </button>
-                    <ul
-                      class="dropdown-menu pull-right search-panel"
-                      aria-labelledby="dropdownMenu3"
-                    >
-                      <li class="panel-outer">
-                        <div class="form-container">
-                          <form
-                            method="post"
-                            action="https://expert-themes.com/html/contra/blog.html"
-                          >
-                            <div class="form-group">
-                              <input
-                                type="search"
-                                name="field-name"
-                                value
-                                placeholder="Search Here"
-                                required
-                              />
-                              <button type="submit" class="search-btn">
-                                <span class="fa fa-search"></span>
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>-->
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+    <HeaderLanding></HeaderLanding>
     <!--End Main Header -->
 
     <!-- Bnner Section -->
@@ -210,6 +93,34 @@
         <hooper-navigation slot="hooper-addons"></hooper-navigation>
         <hooper-pagination slot="hooper-addons"></hooper-pagination>
       </hooper>
+      <div class="order-form contact-form">
+        <!-- sabbir -->
+        <div class="row" style="padding: 14px 10px 0px 10px;">
+          <div class="form-group col-md-9 col-sm-9">
+            <!-- <input type="text" name="username" placeholder="Name" required /> -->
+            <select
+              name="category"
+              id="category"
+              class
+              v-model="selectedCategory"
+              style="color: #febe00;font-weight: bold;"
+            >
+              <option
+                v-for="category in categorys"
+                :key="category.id"
+                :value="category.slug"
+              >{{category.name}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2 col-sm-2">
+            <v-chip color="primary" text-color="white" @click="initOrder()">
+              <v-avatar>
+                <v-icon>forward</v-icon>
+              </v-avatar>Go &nbsp;&nbsp;&nbsp;
+            </v-chip>
+          </div>
+        </div>
+      </div>
 
       <!-- <div class="bottom-box" style="background-color:#fff">
         <div class="auto-container clearfix">
@@ -775,7 +686,6 @@
         </div>
 
         <div class="row clearfix">
-       
           <div class="team-block col-lg-4 col-md-6 col-sm-12">
             <div class="inner-box">
               <div class="image-box">
@@ -819,7 +729,6 @@
             </div>
           </div>
 
-      
           <div class="team-block col-lg-4 col-md-6 col-sm-12">
             <div class="inner-box">
               <div class="image-box">
@@ -863,7 +772,6 @@
             </div>
           </div>
 
-         
           <div class="team-block col-lg-4 col-md-6 col-sm-12">
             <div class="inner-box">
               <div class="image-box">
@@ -1499,6 +1407,7 @@ import "../assets/js/script.js";
 import ServicesLanding from "../views/landing/service-landing.vue";
 import axios from "../axios_instance.js";
 import { localStorageService } from "../helper.js";
+import HeaderLanding from "./HeaderLanding.vue";
 
 import {
   Hooper,
@@ -1516,11 +1425,13 @@ export default {
     HooperProgress,
     HooperPagination,
     HooperNavigation,
-    ServicesLanding
+    ServicesLanding,
+    HeaderLanding
   },
   data() {
     return {
       categorys: "",
+      selectedCategory: "",
       hooperSettings: {
         // itemsToShow: 1,
         centerMode: true,
@@ -1539,9 +1450,13 @@ export default {
 
   methods: {
     async storeCategorys() {
-      var allCategory = await axios.get("/category"); 
+      var allCategory = await axios.get("/category");
       localStorageService.setItem("categorys", allCategory.data.data);
       this.categorys = allCategory.data.data;
+    },
+
+    initOrder() {
+      this.$router.replace("/order/" + this.selectedCategory);
     }
   }
 };
@@ -1605,24 +1520,14 @@ export default {
   padding: 16px 32px;
 }
 
-.header-style-one .header-lower:after {
-    position: absolute;
-    top: 0;
-    right: -30px;
-    height: 0;
-    width: 0;
-    border-right: 30px solid transparent;
-    border-top: 110px solid rgba(0,0,0,0.80);
-    content: "";
-}
-.header-style-one .header-lower:before {
-    position: absolute;
-    top: 0;
-    left: -30px;
-    height: 0;
-    width: 0;
-    border-left: 30px solid transparent;
-    border-top: 110px solid rgba(0,0,0,0.80);
-    content: "";
+.order-form {
+  z-index: 200;
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 40%;
+  width: 33%;
+  background: #11090869;
+  border-radius: 5px;
 }
 </style>

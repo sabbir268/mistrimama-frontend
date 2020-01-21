@@ -7,8 +7,6 @@
         hidden-sm-and-down
         style="position: fixed; width: 100%; height: 100vh;  background-position:center; background-repeat:no-repeat; background-size:cover"
       >
-        <!-- <v-skeleton-loader class="mx-auto" max-width="300" type="card"></v-skeleton-loader> -->
-
         <img
           v-if="pageBanner"
           style="width:100%;height:100%"
@@ -122,7 +120,7 @@
                       >LOGIN</v-btn>
                       <br />
                       <br />
-                      <a class="custom-a" href="/create-apartment">Forgot your password?</a>
+                      <a class="custom-a" href="#">Forgot your password?</a>
                     </v-form>
                   </v-card-text>
                 </v-card>
@@ -183,7 +181,7 @@
                         append-icon="location_on"
                         outlined
                       ></v-text-field>
-                      <v-text-field
+                      <!-- <v-text-field
                         color="accent"
                         v-model="formData.mfs"
                         type="text"
@@ -198,7 +196,7 @@
                         label="MFS No."
                         append-icon="call"
                         outlined
-                      ></v-text-field>
+                      ></v-text-field>-->
                       <v-text-field
                         color="accent"
                         v-model="formData.password"
@@ -324,19 +322,24 @@ export default {
     this.pageData();
   },
   methods: {
+    /*register and validate*/
     async validate() {
       if (this.$refs.form.validate()) {
         // src/modules/user_module -> 'userRegistration' //
-        let response = await this.$store.dispatch(
-          "userRegistration",
-          this.formData
-        );
-        if (response.status == "success") {
-          this.alertMessage = "User registered successfully!";
-          this.snackbar = true;
-          this.otp = true;
-          this.formData = {};
-          this.confirmPassword = null;
+        let response = await axios.post("/client-register", {
+          name: this.formData.name,
+          phone: this.formData.phone,
+          email: this.formData.email,
+          password: this.formData.password,
+          area: this.formData.area,
+          address: this.formData.address
+        });
+        if (response.data.message != "Invalid credentials") {
+          this.$store.commit("setUserInfo", {
+            afterLoginUserData: response.data.user,
+            d_token: response.data.access_token
+          });
+          this.$router.replace(this.$route.query.redirect || "/user");
         } else {
           this.alertMessage = response.data.message;
           this.snackbar = true;

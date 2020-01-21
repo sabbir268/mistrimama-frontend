@@ -36,6 +36,9 @@ import ComradeHome from "./views/comrade/Home.vue";
 // Landing Page
 import Home from "./views/landingpage/home/Home.vue";
 
+//landing order
+import ServiceLanding from "./views/services/ServiceLanding.vue";
+
 import {
   localStorageService
 } from "./helper.js";
@@ -193,6 +196,11 @@ export default new Router({
       component: Login
     },
     {
+      path: "/order/:category",
+      name: "Order",
+      component: ServiceLanding,
+    },
+    {
       path: "/*",
       name: "LANDING",
       component: Landing,
@@ -206,7 +214,7 @@ export default new Router({
           name: "সহকারী",
           component: Shohokari,
           beforeEnter: requireAuthSP
-        }
+        },
       ]
     }
   ]
@@ -226,9 +234,9 @@ function requireAuthSP(to, from, next) {
     if (usertype == 'esp' || usertype == 'fsp') {
       next();
     } else {
-      window.location.href = "/login";
+      window.location.href = "/login/user";
     }
   } else {
-    window.location.href = "/login";
+    window.location.href = "/";
   }
 }

@@ -20,7 +20,7 @@
                           বর্তমান
                           <br />একাউন্ট ব্যালান্স
                           <br />
-                          <span class="a">৳ 3487/-</span>
+                          <span class="a">৳ {{balance}}/-</span>
                         </h3>
                       </div>
                     </v-flex>
@@ -29,7 +29,7 @@
                     <div class="box-buttons">
                       <p
                         style="font-size: 17px; font-weight: bold; color: grey;"
-                      >উত্তোলনযোগ্য ৳ 2944/-</p>
+                      >উত্তোলনযোগ্য ৳ {{balance > 500 ? balance - 500 : 0 }}/-</p>
                     </div>
                   </v-layout>
                 </v-card>
@@ -46,9 +46,11 @@
                       <div class="empty-box">
                         <h3>
                           সর্বশেষ
-                          <br />সার্ভিস সমূহ
+                          <br />সার্ভিস
                           <br />
-                          <span class="a">470</span>
+                          <span
+                            class="a"
+                          >৳ {{(lastOrder.total_price - ((parseInt(lastOrder.total_price) + parseInt(lastOrder.extra_charge)) * 20)/100)}}/-</span>
                         </h3>
                       </div>
                     </v-flex>
@@ -75,7 +77,7 @@
                           <br />আউট-এর
                           <br />পরিমান
                           <br />
-                          <span class="a">৳ 1500/-</span>
+                          <span class="a">৳ {{lastWithdraw.amount > 0 ? lastWithdraw.amount : 0}}/-</span>
                         </h3>
                       </div>
                     </v-flex>
@@ -101,7 +103,7 @@
                           শেষ রিচার্জ-এর
                           <br />পরিমান
                           <br />
-                          <span class="a">৳ 200/-</span>
+                          <span class="a">৳ {{lastRecharge.amount}}/-</span>
                         </h3>
                       </div>
                     </v-flex>
@@ -123,22 +125,22 @@
               <v-flex md12 sm12 xs12>
                 <v-card class="v-card-padding" flat>
                   <h3 class="custom-title">
-                    <v-icon class="custom-icon">attach_money</v-icon>আয়ের বিবরণের বর্ণনা
+                    <v-icon class="custom-icon">sync_alt</v-icon>লেনদেন এর বিবরন
                   </h3>
                   <v-layout>
-                    <v-flex md8 sm7 xs6>
+                    <v-flex md12 sm12 xs12>
                       <v-text-field
                         class="custom-searchbox"
                         label="Search ..."
                         solo
-                        v-model="ownerSearch"
+                        v-model="search"
                       >
                         <template v-slot:append>
-                          <v-icon class="icon-hover" @click="searchItem()">search</v-icon>
+                          <v-icon class="icon-hover">search</v-icon>
                         </template>
                       </v-text-field>
                     </v-flex>
-                    <v-flex md4 sm5 xs6 style="text-align: right;">
+                    <!-- <v-flex md4 sm5 xs6 style="text-align: right;">
                       <v-btn
                         small
                         @click="previous()"
@@ -164,67 +166,31 @@
                       >
                         <v-icon>keyboard_arrow_right</v-icon>
                       </v-btn>
-                    </v-flex>
+                    </v-flex>-->
                   </v-layout>
                   <template>
                     <v-data-table
                       :headers="headers"
-                      :items="desserts"
-                      hide-actions
-                      :search="ownerSearch"
-                      :items-per-page="5"
+                      :items="statements"
+                      :search="search"
                       class="elevation-2 scrollable-table"
                     >
                       <template v-slot:items="props">
-                        <td
-                          class="text-xs-left"
-                          style="cursor: pointer"
-                          @click="openDrawer(props.item)"
-                        >{{ props.item.name }}</td>
-                        <td
-                          class="text-xs-left"
-                          style="cursor: pointer"
-                          @click="openDrawer(props.item)"
-                        >{{ props.item.calories }}</td>
-                        <td
-                          class="text-xs-left"
-                          style="cursor: pointer"
-                          @click="openDrawer(props.item)"
-                        >{{ props.item.fat }}</td>
-                        <td
-                          class="text-xs-left"
-                          style="cursor: pointer"
-                          @click="openDrawer(props.item)"
-                        >{{ props.item.carbs }}</td>
+                        <td class="text-xs-left">{{ props.item.date }}</td>
+                        <td class="text-xs-left">{{ props.item.details }}</td>
+                        <td class="text-xs-left">{{props.item.trxno}}</td>
+                        <td class="text-xs-right">
+                          <v-chip>
+                            <v-avatar>
+                              <v-icon
+                                :color="props.item.status == 'credit' ? 'success' : 'red'"
+                              >{{ props.item.status == 'credit' ? 'add_circle_outline' : 'remove_circle_outline' }}</v-icon>
+                            </v-avatar>
+                            {{ props.item.amount }}/-
+                          </v-chip>
+                        </td>
                       </template>
                     </v-data-table>
-                    <!-- <v-flex md12 sm12 xs12 style="text-align: center; margin-top: 10px;">
-                      <v-btn
-                        @click="previous()"
-                        class="margins"
-                        color="primaryTwo"
-                        style="min-width: 20px !important;"
-                      >
-                        <v-icon>keyboard_arrow_left</v-icon>
-                      </v-btn>
-                      <v-btn
-                        @click="previous()"
-                        class="margins"
-                        color="primaryTwo"
-                        disabled
-                        style="min-width: 20px !important;"
-                      >
-                        <span style="color: var(--error)">1</span>
-                      </v-btn>
-                      <v-btn
-                        @click="previous()"
-                        class="margins"
-                        color="primaryTwo"
-                        style="min-width: 20px !important;"
-                      >
-                        <v-icon>keyboard_arrow_right</v-icon>
-                      </v-btn>
-                    </v-flex>-->
                   </template>
                 </v-card>
               </v-flex>
@@ -310,6 +276,7 @@ import { mapState } from "vuex";
 import DrawerShorboShesh from "../ayerbiboroni/DrawerShorboShesh";
 import DrawerSheshCashOut from "../ayerbiboroni/DrawerSheshCashOut";
 import DrawerSheshRecharge from "../ayerbiboroni/DrawerSheshRecharge";
+import axios from "../../axios_instance";
 
 export default {
   components: {
@@ -319,9 +286,14 @@ export default {
   },
   data() {
     return {
+      balance: 0,
+      lastOrder: "",
+      lastWithdraw: "",
+      lastRecharge: "",
+      search: "",
+      statements: [],
       dataLoaded: true,
       pageCount: 1,
-      dataLoaded: false,
       drawer: null,
       drawerShorboShesh: null,
       drawerSheshCashOut: null,
@@ -357,150 +329,36 @@ export default {
       this.drawerShorboShesh = false;
       this.drawerSheshCashOut = false;
       this.drawerSheshRecharge = false;
+    },
+    async getBalance() {
+      var res = await axios.get("/sp/balance");
+      this.balance = res.data;
+    },
+    async getLastRecharge() {
+      var res = await axios.get("/sp/last-recharge");
+      this.lastRecharge = res.data;
+    },
+    async getLastWithdraw() {
+      var res = await axios.get("/sp/last-withdraw");
+      this.lastWithdraw = res.data;
+    },
+    async getLastOrder() {
+      var res = await axios.get("/sp/last-order");
+      this.lastOrder = res.data;
+    },
+    async getStatements() {
+      var res = await axios.get("/sp/statements");
+      this.statements = res.data;
     }
-    // tableAction: function(data, option, isButton) {
-    //   this.selectedImage = data.photo;
-    //   this.rowData = data;
-    //   // this.displayImage = process.env.VUE_APP_IMAGE_API_URL + data.distributor.image;
-    //   this.actionButtonVisibleInSidePanel = isButton;
-    //   if (option == "ownerDetails") {
-    //     this.sidePanelTitle = "TENANT DETAILS";
-    //     this.sideData = [
-    //       { label: "Name", value: data.fullName },
-    //       { label: "Address", value: data.homeAddress },
-    //       { label: "Contact", value: data.phoneNumber }
-    //     ];
-    //   } else {
-    //     this.sidePanelTitle = "OWNER DETAILS";
-    //     this.sideData = [
-    //       { label: "ID", value: data.id },
-    //       { label: "Name", value: data.name },
-    //       { label: "Address", value: data.address },
-    //       { label: "Contact", value: data.contact },
-    //       { label: "Region", value: data.region },
-    //       { label: "City", value: data.city }
-    //     ];
-    //   }
-    // },
-    // async previous() {
-    //   this.dataLoaded = false;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   let respo = await this.$store.dispatch(api, {
-    //     currentPage: this.pageCount - 1
-    //   });
-    //   if (respo.status == "failure") this.errorAlerts(respo.data);
-    //   this.pageCount = this.pageCount - 1;
-    //   this.$router.push({ path: "/tenants", query: { page: this.pageCount } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // },
-    // async next() {
-    //   this.dataLoaded = false;
-    //   let numPage = parseInt(this.pageCount) + 1;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   let respo = await this.$store.dispatch(api, {
-    //     currentPage: parseInt(numPage)
-    //   });
-    //   if (respo.status == "failure") this.errorAlerts(respo.data);
-    //   this.pageCount = numPage;
-    //   this.$router.push({ path: "/tenants", query: { page: numPage } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // },
-    // arrangeData(response) {
-    //   this.tableData.data = response;
-    //   this.dataLoaded = true;
-    // }
   },
-  watch: {
-    // ownerListSelected: async function() {
-    //   this.dataLoaded = false;
-    //   let response;
-    //   this.pageCount = 1;
-    //   let api =
-    //     this.ownerListSelected != "Home Owner"
-    //       ? "getHouseownerDataByPage"
-    //       : "getHouseownerDataByPageOwnerOnly";
-    //   await this.$store.dispatch("emptyListHouseowner");
-    //   response = await this.$store.dispatch(api, {
-    //     currentPage: this.pageCount
-    //   });
-    //   if (response.status == "failure") this.errorAlerts(response.data);
-    //   this.$router.push({ path: "/tenants", query: { page: this.pageCount } });
-    //   this.arrangeData(this.dataList[this.pageCount - 1]);
-    // }
-  },
-  computed: {
-    // ...mapState({
-    //   dataList: state => state.houseownerModule.houseownerInformation,
-    //   currentPageState: state => state.houseownerModule.currentPageHouseowner,
-    //   totalPage: state => state.houseownerModule.totalPageHouseowner
-    // })
-  },
-  async mounted() {
-    this.desserts = [
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: "1%"
-      },
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: "1%"
-      },
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: "1%"
-      },
-      {
-        name: "Ice cream sandwich",
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        iron: "1%"
-      },
-      {
-        name: "Eclair",
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        iron: "7%"
-      },
-      {
-        name: "Cupcake",
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        iron: "8%"
-      },
-      {
-        name: "Gingerbread",
-        calories: 356,
-        fat: 16.0,
-        carbs: 49,
-        protein: 3.9,
-        iron: "16%"
-      }
-    ];
-    this.dataLoaded = true;
+  watch: {},
+  computed: {},
+  created() {
+    this.getBalance();
+    this.getLastRecharge();
+    this.getLastWithdraw();
+    this.getLastOrder();
+    this.getStatements();
   }
 };
 </script>

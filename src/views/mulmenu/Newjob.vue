@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-card flat style="height:396px">
+    <v-card flat style="height: 333px;
+    overflow: hidden;">
       <h3 class="custom-title">
         <v-icon class="custom-icon">gavel</v-icon>নতুন অর্ডার
       </h3>

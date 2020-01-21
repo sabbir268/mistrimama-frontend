@@ -19,12 +19,7 @@
                 ></v-text-field>
               </v-col>
               <v-col class="d-flex" cols="12">
-                <v-select
-                  color="accent"
-                  :items="itemsService"
-                  v-model="service"
-                  label="Select Service"
-                ></v-select>
+                <v-select color="accent" :items="itemsMfs" v-model="mfs" label="Select Service"></v-select>
               </v-col>
               <v-col cols="12">
                 <v-text-field
@@ -47,7 +42,7 @@
               </v-col>
               <div style="text-align: center; margin-top: 20px;">
                 <v-btn
-                  @click.stop="drawer = false; $emit('clicked', false)"
+                  @click="cashOutRequest()"
                   type="submit"
                   color="success"
                   style="min-width: 100px !important; margin: 5px;"
@@ -67,10 +62,21 @@
         </v-form>
       </div>
     </v-list>
+    <v-snackbar
+      v-model="snackbar"
+      :top="'top'"
+      :right="'right'"
+      :timeout="5000"
+      style="text-align: center !important;color:#fff !important;"
+    >
+      {{ message }}
+      <v-btn class="snackButton" color="primary" flat @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-navigation-drawer>
 </template>
 
 <script>
+import axios from "../../axios_instance";
 export default {
   name: "ItemTable",
   props: {
@@ -88,15 +94,35 @@ export default {
   },
   data() {
     return {
-      amount: null,
-      service: null,
+      message: "",
+      snackbar: null,
+      amount: 0,
+      mfs: null,
       mfsNumber: null,
       confirmPassword: null,
-      itemsService: ["Bkash", "SureCash", "Rocket"]
+      itemsMfs: ["Bkash", "Rocket", "MCash"]
     };
   },
 
-  methods: {},
+  methods: {
+    async cashOutRequest() {
+      var res = await axios.post("cashout-request", {
+        amount: this.amount,
+        mfs: this.mfs,
+        mfs_number: this.mfsNumber,
+        password: this.confirmPassword
+      });
+
+      if (res.data.message == "Request Placed Successfully") {
+        this.snackbar = true;
+        this.message = res.data.message;
+        this.drawer = false;
+      } else {
+        this.snackbar = true;
+        this.message = res.data.message;
+      }
+    }
+  },
   mounted() {}
 };
 </script>

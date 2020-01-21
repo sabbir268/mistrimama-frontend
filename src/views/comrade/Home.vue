@@ -130,6 +130,7 @@
                   <td class="text-xs-left" style="cursor: pointer">
                     <div v-if="props.item.status == 0">
                       <v-icon v-if="order.state == 1">remove</v-icon>
+                      <v-icon v-if="order.state == 3">close</v-icon>
                       <v-btn
                         v-if="order.state == 2"
                         @click="changeItemStatus(orderindex,props.index)"
@@ -144,6 +145,38 @@
                   </td>
                 </template>
               </v-data-table>
+              <!-- <div
+                class="elevation-2 pr-2"
+                color="success"
+                style="float: right;
+                      bottom: 15px;
+                      position: absolute;
+                      left: 100px;
+                      text-align:right"
+              >
+                <ul>
+                  <li>Total Price 1000</li>
+                  <li>Extra Charge 1000</li>
+                  <li style="border-bottom:1px solid #ddd">Discount 1000</li>
+                  <li>
+                    <b>Grand Total 1000</b>
+                  </li>
+                </ul>
+              </div>
+              v-if="order.state== 3" sabbir
+              -->
+              <v-btn
+                disabled
+                style="float: right;
+                      bottom: 6px;
+                      position: absolute;
+                      right: 180px;
+                      color: #000 !important;
+                      font-size:10px;
+                      font-weight:bolder"
+                color="success"
+              >((Total Price {{order.total_price }} + Extra Charge {{order.extra_charge}}) - Discount {{order.discount}}) = {{( parseInt( order.total_price) + parseInt(order.extra_charge))- order.discount}}/-</v-btn>
+
               <v-btn
                 :disabled="checkItemDone(orderindex)"
                 @click="changeOrderState(orderindex)"
@@ -152,7 +185,7 @@
                       position: absolute;
                       right: 6px;"
                 color="success"
-              >{{ order.state == 1 ? 'Start Working' : order.state== 2 ? 'Finished' : 'Finish Job'}}</v-btn>
+              >{{ order.state == 1 ? 'Start Working' : order.state== 2 ? 'Finished' : order.state== 3 ? 'Collect Payment' : 'Finish Job'}}</v-btn>
             </v-card>
             <v-btn color="success" dark absolute bottom left fab>
               <v-icon>add</v-icon>
@@ -198,11 +231,31 @@ export default {
       this.orders = orders.data.data;
     },
     changeItemStatus(orderIndex, itemIndex) {
+      this.itemDone(this.orders[orderIndex].items[itemIndex].id);
       this.orders[orderIndex].items[itemIndex].status = 1;
+    },
+    async itemDone(itemId) {
+      var res = await axios.get(`/item-status-change/${itemId}`);
+      if (res.data.message == "Work Done") {
+        this.snackbar = true;
+        this.message = res.data.message;
+      }
     },
     changeOrderState(orderIndex) {
       if (this.orders[orderIndex].state == 1) {
         this.startServicing(this.orders[orderIndex].id);
+      }
+
+      if (this.orders[orderIndex].state == 2) {
+        this.finishServicing(this.orders[orderIndex].id, orderIndex);
+      }
+
+      if (this.orders[orderIndex].state == 2) {
+        this.finishServicing(this.orders[orderIndex].id, orderIndex);
+      }
+
+      if (this.orders[orderIndex].state == 3) {
+        this.collectPayment(this.orders[orderIndex].id);
       }
 
       this.orders[orderIndex].status =
@@ -216,6 +269,27 @@ export default {
       if (res.data.message == "Status Updated") {
         this.snackbar = true;
         this.message = res.data.message;
+      }
+    },
+
+    async finishServicing(orderId, orderIndex) {
+      var res = await axios.post("finish-servicing", { id: orderId });
+      if (res.data.message == "Order Finished") {
+        this.snackbar = true;
+        this.message = "Order finished successfully wait for payment";
+        this.orders[orderIndex].discount = res.data.discount;
+        this.orders[orderIndex].total_price = res.data.total_price;
+      }
+    },
+
+    async collectPayment(orderId) {
+      var res = await axios.post("collect-payment", { id: orderId });
+      if (res.data.message == "Order Finish successfully") {
+        this.snackbar = true;
+        this.message = res.data.message;
+      } else {
+        this.snackbar = true;
+        this.message = "Something went wrong";
       }
     },
 
