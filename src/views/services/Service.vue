@@ -302,16 +302,16 @@
                       </ul>
                     </li>
                   </ul>
+                  <v-text
+                    class="elevation-2 px-3 py-3 d-flex"
+                    style="position: absolute;bottom: 53px;width: 50%;float:right;"
+                  >
+                    <h5>Total Price</h5>
+                    <span style="text-align: right;">
+                      <h3>{{ this.totalPrice(order.serviceBit)}}</h3>
+                    </span>
+                  </v-text>
                 </div>
-                <v-text
-                  class="elevation-2 px-3 py-3 d-flex"
-                  style="position: absolute;bottom: 53px;width: 50%;float:right;"
-                >
-                  <h3>Total Price</h3>
-                  <span style="text-align: right;">
-                    <h3>{{ this.totalPrice(order.serviceBit)}}</h3>
-                  </span>
-                </v-text>
               </v-flex>
             </v-layout>
           </v-card-body>
@@ -632,5 +632,9 @@ ul {
 .row {
   margin-right: 0px;
   margin-left: 0px;
+}
+
+hr {
+  margin: unset;
 }
 </style>

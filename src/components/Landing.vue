@@ -79,22 +79,22 @@
       <hooper style="height:auto" :settings="hooperSettings">
         <slide
           class="col-md-12 p-0 m-0 text-center"
-          style="width: 1358px;background-image: url(https://mistrimama.com/slider-images/AC.webp);background-position: center center;background-size: cover;background-repeat: no-repeat;height: 665px !important;"
+          style="width: 1358px;background-image: url(http://dev.mm/theme/WEBSIT-02.png);background-position: center center;background-size: cover;background-repeat: no-repeat;height: 665px !important;"
         >
           <!-- <div>Hello amigoaskjdh askdj kj</div> -->
         </slide>
-        <slide
+        <!-- <slide
           class="col-md-12 p-0 m-0 h-100"
           style="width: 1358px;background-image: url(https://mistrimama.com/slider-images/CCTV-2.png);background-position: center center;background-size: cover;background-repeat: no-repeat;height: 665px !important;"
         >
-          <!-- <div>Hello</div> -->
-        </slide>
+        </slide>-->
 
         <hooper-navigation slot="hooper-addons"></hooper-navigation>
         <hooper-pagination slot="hooper-addons"></hooper-pagination>
       </hooper>
       <div class="order-form contact-form">
         <!-- sabbir -->
+        <h2 style="text-align: center;padding-top:10px;color:#fff">Service Order</h2>
         <div class="row" style="padding: 14px 10px 0px 10px;">
           <div class="form-group col-md-9 col-sm-9">
             <!-- <input type="text" name="username" placeholder="Name" required /> -->
@@ -187,10 +187,10 @@
               </div>
               <div class="image-box">
                 <figure class="alphabet-img wow fadeInRight">
-                  <img src="../assets/images/resource/alphabet-image.png" alt />
+                  <img src="http://dev.mm/theme/ABOUT US-03.png" alt />
                 </figure>
                 <figure class="image wow fadeInRight" data-wow-delay="600ms">
-                  <img src="../assets/images/resource/image-1.jpg" alt />
+                  <img src="http://dev.mm/theme/ABOUT US-04.png" alt />
                 </figure>
               </div>
             </div>
@@ -1454,9 +1454,12 @@ export default {
       localStorageService.setItem("categorys", allCategory.data.data);
       this.categorys = allCategory.data.data;
     },
-
     initOrder() {
       this.$router.replace("/order/" + this.selectedCategory);
+    },
+    async getArea() {
+      var area = await axios.get("/area");
+      localStorageService.setItem("area", area.data.data);
     }
   }
 };
@@ -1529,5 +1532,13 @@ export default {
   width: 33%;
   background: #11090869;
   border-radius: 5px;
+}
+
+.main-menu .navigation > li.current > a,
+.main-menu .navigation > li:hover > a:hover {
+  color: #febe00 !important;
+}
+.header-style-one .main-menu .navigation > li > a:before {
+  background-color: #febe00 !important;
 }
 </style>
