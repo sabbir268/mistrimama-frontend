@@ -152,7 +152,8 @@ export default {
     this.getNewAvaibaleOrder();
     Echo.channel("orderChannel").listen("OrderEvent", res => {
       this.orders.push(res.order);
-      this.getServices();
+      console.log(this.orders);
+    //  this.getServices();
     });
   },
   methods: {
@@ -177,7 +178,7 @@ export default {
       var orders = await axios.get("/avaiable-order");
       // console.log(orders.data);
       this.orders = orders.data.data;
-      console.log(orders);
+
     },
 
     async getComrades(category) {

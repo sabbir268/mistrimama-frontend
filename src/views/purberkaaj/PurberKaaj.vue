@@ -128,6 +128,8 @@
         </v-flex>
         <!-- <v-flex lg1 md1 hidden-sm-and-down></v-flex> -->
       </v-layout>
+
+
       <v-navigation-drawer
         v-if="drawer"
         width="800"
@@ -174,6 +176,8 @@
           </div>
         </v-list>
       </v-navigation-drawer>
+
+
       <v-snackbar
         v-model="snackbar"
         :bottom="'bottom'"
@@ -232,7 +236,6 @@ export default {
         { text: "মোট মূল্য", value: "total price" },
         { text: "অবস্থা", value: "status" }
       ],
-      desserts: [],
       drawer: null,
       sideData: [],
       items: [

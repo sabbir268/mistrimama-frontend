@@ -125,7 +125,27 @@
                 <template v-slot:items="props">
                   <td class="text-xs-left" style="cursor: pointer">{{ props.item.service_name }}</td>
                   <td class="text-xs-left" style="cursor: pointer">{{ props.item.service_bit_name }}</td>
-                  <td class="text-xs-left" style="cursor: pointer">{{ props.item.quantity }}</td>
+                  <td class="text-xs-center" style="cursor: pointer">
+                    <span
+                      v-if="props.item.status != 0 || order.state != 2"
+                    >{{ props.item.quantity }}</span>
+                    <template v-if="order.state == 2 && props.item.status == 0">
+                      <v-btn-toggle fab style="background-color:#ddd">
+                        <v-btn flat small @click="qtyDecrease(orderindex,props.index)">
+                          <v-icon dark>remove</v-icon>
+                        </v-btn>
+                        <input
+                          type="text"
+                          class="custom-form-control"
+                          :value="props.item.quantity"
+                          readonly
+                        />
+                        <v-btn flat small @click="qtyIncrease(orderindex,props.index)">
+                          <v-icon dark>add</v-icon>
+                        </v-btn>
+                      </v-btn-toggle>
+                    </template>
+                  </td>
                   <td class="text-xs-left" style="cursor: pointer">{{ props.item.total_price }}</td>
                   <td class="text-xs-left" style="cursor: pointer">
                     <div v-if="props.item.status == 0">
@@ -163,9 +183,10 @@
                   </li>
                 </ul>
               </div>
-              v-if="order.state== 3" sabbir
+              
               -->
               <v-btn
+                v-if="order.state > 2"
                 disabled
                 style="float: right;
                       bottom: 6px;
@@ -205,6 +226,53 @@
       {{ message }}
       <v-btn class="snackButton" color="primary" flat @click="snackbar = false">Close</v-btn>
     </v-snackbar>
+
+    <v-navigation-drawer
+      v-if="addNewServiceDrawer"
+      width="800"
+      v-model="addNewServiceDrawer"
+      temporary
+      right
+      style="position: fixed"
+    >
+      <v-list class="pa-3" style="background-color: var(--primary) !important">
+        <h3
+          style="font-size: 20px; text-align: center; color: var(--secondary)"
+        >সার্ভিস-এর বিস্তারিত</h3>
+      </v-list>
+      <v-list style="background-color: white !important;" class="pt-0">
+        <div style="padding: 20px;">
+          <v-data-table
+            :headers="newHeadersItem"
+            :items="addNewItems"
+            hide-actions
+            :items-per-page="5"
+            class
+          >
+            <template v-slot:items="props">
+              <td class="text-xs-left">{{ props.item.service_name }}</td>
+              <td class="text-xs-left">{{ props.item.service_bit_name }}</td>
+              <td class="text-xs-left">{{ props.item.quantity }}</td>
+              <td class="text-xs-left">{{ props.item.price }}</td>
+              <td class="text-xs-left">{{ props.item.additional_price }}</td>
+              <td class="text-xs-left">{{ props.item.total_price }}</td>
+              <td class="text-xs-left">
+                <v-icon>{{ props.item.status == 1 ? 'done' : 'close' }}</v-icon>
+              </td>
+            </template>
+          </v-data-table>
+          <div style="text-align: center; margin-top: 15px;">
+            <v-btn
+              color="accent"
+              @click.stop="drawer = false; $emit('clicked', false)"
+              style="min-width: 100px !important; margin: 5px; margin-top: 20px;"
+            >
+              <v-icon class="button-icon-cancel">close</v-icon>
+            </v-btn>
+          </div>
+        </div>
+      </v-list>
+    </v-navigation-drawer>
   </v-container>
 </template>
 
@@ -213,16 +281,27 @@ import axios from "../../axios_instance";
 export default {
   data() {
     return {
+      addNewServiceDrawer: false,
       snackbar: false,
       message: "",
       headers: [
         { text: "Service", sortable: false },
         { text: "Service Bit", sortable: false },
-        { text: "Quantiy", sortable: false },
+        { text: "Quantiy", sortable: false, align: "center" },
         { text: "Price", sortable: false },
         { text: "Action", sortable: false }
       ],
-      orders: []
+      orders: [],
+      newHeadersItem: [
+        { text: "সার্ভিস", value: "service" },
+        { text: "সার্ভিস বিট", value: "service bit" },
+        { text: "পরিমান", value: "quantity" },
+        { text: "মূল্য", value: "price" },
+        { text: " অতিঃমূল্য", value: "additional price" },
+        { text: "মোট মূল্য", value: "total price" },
+        { text: "Action", value: "action" }
+      ],
+      addNewItems: []
     };
   },
   methods: {
@@ -305,6 +384,43 @@ export default {
         return true;
       } else {
         return false;
+      }
+    },
+    qtyIncrease(orderIndex, itemIndex) {
+      var item = this.orders[orderIndex].items[itemIndex];
+      item.quantity++;
+      if (item.quantity > 1) {
+        item.total_price = parseFloat(
+          parseInt(item.price) +
+            parseInt((item.quantity - 1) * item.additional_price)
+        ).toFixed(2);
+      } else {
+        item.total_price = parseFloat(item.price).toFixed(2);
+      }
+
+      this.qtyUpdate(item.id, item.quantity);
+    },
+    qtyDecrease(orderIndex, itemIndex) {
+      var item = this.orders[orderIndex].items[itemIndex];
+      if (item.quantity != 1) {
+        item.quantity--;
+        item.total_price = parseFloat(
+          parseInt(item.price) +
+            parseInt((item.quantity - 1) * item.additional_price)
+        ).toFixed(2);
+      }
+
+      if (item.quantity == 1) {
+        item.total_price = parseFloat(item.price).toFixed(2);
+      }
+
+      this.qtyUpdate(item.id, item.quantity);
+    },
+
+    async qtyUpdate(itemId, qty) {
+      var res = await axios.get(`item-quantity-update/${itemId}/${qty}`);
+      if ((res.data.message = "success")) {
+        console.log("Quantity Update");
       }
     }
   },
