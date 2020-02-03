@@ -208,7 +208,7 @@
                 color="success"
               >{{ order.state == 1 ? 'Start Working' : order.state== 2 ? 'Finished' : order.state== 3 ? 'Collect Payment' : 'Finish Job'}}</v-btn>
             </v-card>
-            <v-btn color="success" dark absolute bottom left fab>
+            <v-btn color="success" dark absolute bottom left fab @click="addNewService(order)">
               <v-icon>add</v-icon>
             </v-btn>
           </v-flex>
@@ -242,7 +242,7 @@
       </v-list>
       <v-list style="background-color: white !important;" class="pt-0">
         <div style="padding: 20px;">
-          <v-data-table
+          <!-- <v-data-table
             :headers="newHeadersItem"
             :items="addNewItems"
             hide-actions
@@ -260,14 +260,58 @@
                 <v-icon>{{ props.item.status == 1 ? 'done' : 'close' }}</v-icon>
               </td>
             </template>
-          </v-data-table>
+          </v-data-table>-->
+          <v-list>
+            <v-list-group v-for="item in addNewItems" :key="item.title" no-action>
+              <template v-slot:activator>
+                <v-list-tile>
+                  <v-list-tile-content>
+                    <v-list-tile-title>{{item.name}}</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </template>
+
+              <v-list-tile v-for="subItem  in item.serviceBits" :key="subItem.id">
+                <v-checkbox v-model="selectedNewItems" :value="subItem">
+                  <template v-slot:label>
+                    <v-list-tile-content>
+                      <v-list-tile-title class="pt-1">{{subItem.name}}</v-list-tile-title>
+                      <!-- <v-list-tile-sub-title
+                        v-if="checkSelectedBit(serviceBit.id)"
+                      >Price: {{bitPriceTotal(serviceBit.id)}}</v-list-tile-sub-title>-->
+                    </v-list-tile-content>
+                  </template>
+                </v-checkbox>
+                <v-felx v-if="!checkSelectedBit(subItem.id)">
+                  <v-btn-toggle fab style="background-color:#ddd">
+                    <v-btn flat small @click="subItem.qty == 1 ? 1 :subItem.qty--">
+                      <v-icon dark>remove</v-icon>
+                    </v-btn>
+                    <input type="text" class="custom-form-control" :value="subItem.qty" />
+                    <v-btn flat small @click="subItem.qty++">
+                      <v-icon dark>add</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-felx>
+              </v-list-tile>
+            </v-list-group>
+          </v-list>
+
           <div style="text-align: center; margin-top: 15px;">
             <v-btn
               color="accent"
-              @click.stop="drawer = false; $emit('clicked', false)"
+              @click.stop="addNewServiceDrawer = false; $emit('clicked', false)"
               style="min-width: 100px !important; margin: 5px; margin-top: 20px;"
             >
               <v-icon class="button-icon-cancel">close</v-icon>
+            </v-btn>
+
+            <v-btn
+              color="success"
+              @click="newSelectedItemsAdd"
+              style="min-width: 100px !important; margin: 5px; margin-top: 20px;"
+            >
+              <v-icon class="button-icon-cancel">check</v-icon>
             </v-btn>
           </div>
         </div>
@@ -281,7 +325,6 @@ import axios from "../../axios_instance";
 export default {
   data() {
     return {
-      addNewServiceDrawer: false,
       snackbar: false,
       message: "",
       headers: [
@@ -301,7 +344,10 @@ export default {
         { text: "মোট মূল্য", value: "total price" },
         { text: "Action", value: "action" }
       ],
-      addNewItems: []
+      addNewServiceDrawer: false,
+      addNewItems: [],
+      selectedNewItems: [],
+      selectedOrder: ""
     };
   },
   methods: {
@@ -422,6 +468,32 @@ export default {
       if ((res.data.message = "success")) {
         console.log("Quantity Update");
       }
+    },
+
+    async addNewService(order) {
+      this.addNewServiceDrawer = true;
+      var res = await axios.get(`/category/service_by_id/${order.category_id}`);
+      this.selectedOrder = order;
+      this.addNewItems = res.data.data.services;
+    },
+
+    checkSelectedBit: function(serviceBitId) {
+      var arr = this.selectedNewItems;
+      var slectedBit = this.selectedNewItems.find(
+        arr => arr.id == serviceBitId
+      );
+      var arr2 = this.addNewItems;
+      var bit = this.addNewItems.find(arr2 => arr2.id == serviceBitId);
+      return slectedBit == bit ? true : false;
+    },
+
+    async newSelectedItemsAdd() {
+      // console.log(this.selectedNewItems);
+      var res = await axios.post(`add_new_service/${this.selectedOrder.id}`, {
+        data: this.selectedNewItems
+      });
+      console.log(res.data);
+      this.addNewServiceDrawer = false;
     }
   },
   created() {
