@@ -253,13 +253,13 @@
 <script>
 import { mapState } from "vuex";
 import axios from "../../axios_instance.js";
-import ShokolKaaj_CholtiKaaj from "../shokolkaaj/ShokolKaaj_CholtiKaaj";
-import ShokolKaaj_PhoneOrder from "../shokolkaaj/ShokolKaaj_PhoneOrder";
+import ShokolKaajCholtiKaaj from "../shokolkaaj/ShokolKaajCholtiKaaj";
+import ShokolKaajPhoneOrder from "../shokolkaaj/ShokolKaajPhoneOrder";
 
 export default {
   components: {
-    ShokolKaaj_CholtiKaaj,
-    ShokolKaaj_PhoneOrder
+    ShokolKaajCholtiKaaj,
+    ShokolKaajPhoneOrder
   },
   data() {
     return {

@@ -103,10 +103,10 @@
                     <v-tabs-items v-model="tab">
                       <v-tab-item v-for="item in tabValue" :key="item">
                         <div v-if="item == 1">
-                          <ShokolKaaj_PhoneOrder />
+                          <ShokolKaajPhoneOrder />
                         </div>
                         <div v-if="item == 2">
-                          <ShokolKaaj_CholtiKaaj />
+                          <ShokolKaajCholtiKaaj />
                         </div>
                       </v-tab-item>
                     </v-tabs-items>
@@ -135,13 +135,13 @@
 
 <script>
 import { mapState } from "vuex";
-import ShokolKaaj_CholtiKaaj from "../shokolkaaj/ShokolKaaj_CholtiKaaj";
-import ShokolKaaj_PhoneOrder from "../shokolkaaj/ShokolKaaj_PhoneOrder";
+import ShokolKaajCholtiKaaj from "../shokolkaaj/ShokolKaajCholtiKaaj";
+import ShokolKaajPhoneOrder from "../shokolkaaj/ShokolKaajPhoneOrder";
 
 export default {
   components: {
-    ShokolKaaj_CholtiKaaj,
-    ShokolKaaj_PhoneOrder
+    ShokolKaajCholtiKaaj,
+    ShokolKaajPhoneOrder
   },
   data() {
     return {

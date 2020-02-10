@@ -199,6 +199,7 @@
               >((Total Price {{order.total_price }} + Extra Charge {{order.extra_charge}}) - Discount {{order.discount}}) = {{( parseInt( order.total_price) + parseInt(order.extra_charge))- order.discount}}/-</v-btn>
 
               <v-btn
+                v-if="!order.state == 3"
                 :disabled="checkItemDone(orderindex)"
                 @click="changeOrderState(orderindex)"
                 style="float: right;
@@ -206,7 +207,21 @@
                       position: absolute;
                       right: 6px;"
                 color="success"
-              >{{ order.state == 1 ? 'Start Working' : order.state== 2 ? 'Finished' : order.state== 3 ? 'Collect Payment' : 'Finish Job'}}</v-btn>
+              >{{ order.state == 1 ? 'Start Working' : order.state == 2 ? 'Finished' : order.state == 3 ? 'Collect Payment' : 'Finish Job'}}</v-btn>
+              <div
+                v-if="order.state == 3"
+                style="float: right;
+                      bottom: 6px;
+                      position: absolute;
+                      right: 6px;
+                      text-align: center;"
+                color="success"
+              >
+                <v-text>Collect Payment</v-text>
+                <br />
+                <v-btn small class="p-0 m-0" @click="collectCash(orderindex)">Cash</v-btn>
+                <v-btn small class="p-0 m-0" @click="payDigital(orderindex)">Digital</v-btn>
+              </div>
             </v-card>
             <v-btn color="success" dark absolute bottom left fab @click="addNewService(order)">
               <v-icon>add</v-icon>
@@ -374,19 +389,6 @@ export default {
       if (this.orders[orderIndex].state == 2) {
         this.finishServicing(this.orders[orderIndex].id, orderIndex);
       }
-
-      if (this.orders[orderIndex].state == 2) {
-        this.finishServicing(this.orders[orderIndex].id, orderIndex);
-      }
-
-      if (this.orders[orderIndex].state == 3) {
-        this.collectPayment(this.orders[orderIndex].id);
-      }
-
-      this.orders[orderIndex].status =
-        parseInt(this.orders[orderIndex].status) + 1;
-      this.orders[orderIndex].state =
-        parseInt(this.orders[orderIndex].state) + 1;
     },
 
     async startServicing(orderId) {
@@ -417,7 +419,26 @@ export default {
         this.message = "Something went wrong";
       }
     },
+    collectCash(orderIndex) {
+      if (this.orders[orderIndex].state == 3) {
+        this.collectPayment(this.orders[orderIndex].id);
+      }
 
+      this.orders[orderIndex].status =
+        parseInt(this.orders[orderIndex].status) + 1;
+      this.orders[orderIndex].state =
+        parseInt(this.orders[orderIndex].state) + 1;
+    },
+    payDigital(orderIndex) {
+      if (this.orders[orderIndex].state == 3) {
+        this.paySSL(this.orders[orderIndex].id);
+      }
+
+      // this.orders[orderIndex].status =
+      //   parseInt(this.orders[orderIndex].status) + 1;
+      // this.orders[orderIndex].state =
+      //   parseInt(this.orders[orderIndex].state) + 1;
+    },
     checkItemDone(orderIndex) {
       var arr = this.orders[orderIndex].items;
       var doneItems = this.orders[orderIndex].items.filter(
@@ -492,8 +513,25 @@ export default {
       var res = await axios.post(`add_new_service/${this.selectedOrder.id}`, {
         data: this.selectedNewItems
       });
-      console.log(res.data);
+
+      var order = this.orders;
+      var corder = this.orders.find(order => order.id == this.selectedOrder.id);
+      console.log(corder.items);
+      //corder.items.push.apply(corder.items, res.data.data);
+      corder.items = res.data.data;
       this.addNewServiceDrawer = false;
+    },
+    async paySSL(orderid) {
+      var res = await axios.get(`pay/ssl/${orderid}`);
+      if (res.data.status == "success") {
+        axios.post("pay/offline", {
+          orderId: orderid,
+          payUrl: res.data.data
+        });
+        // window.location.href = res.data.data;
+        // //window.open(res.data.data, '_blank');
+        // this.payDialog = false;
+      }
     }
   },
   created() {

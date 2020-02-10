@@ -46,10 +46,10 @@
             style="color: var(--secondary); cursor: pointer"
           >menu</v-icon>
           <v-flex>
-            <h4 class="headings">
-              {{ this.$route.name }}
-            </h4>
+            <h4 class="headings">{{ this.$route.name }}</h4>
+            <v-btn @click="payDialog = !payDialog ">Test</v-btn>
           </v-flex>
+
           <v-spacer></v-spacer>
           <v-menu transition="slide-y-transition" offset-y left>
             <template v-slot:activator="{ on }">
@@ -177,6 +177,116 @@
         </v-flex>-->
       </v-flex>
     </v-layout>
+
+    <v-layout row justify-center>
+      <v-dialog v-model="payDialog" persistent style="width:80%">
+        <v-card>
+          <v-container class="grey lighten-5">
+            <h3
+              style="text-align:center"
+              color="white"
+            >Your order has been served. Service Provider Wating for payment</h3>
+            <v-divider></v-divider>
+            <v-layout row>
+              <v-flex xs4 sm12>
+                <v-card dark tile flat color="white" style="color:#000;float:left">
+                  <v-card-text>
+                    <b>User:</b>
+                    <br />
+                    {{waitngPayOrder.name}}
+                    <br />
+                    {{waitngPayOrder.phone}}
+                    <br />
+                    {{waitngPayOrder.address}}
+                    <br />
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+              <v-flex xs4 sm12>
+                <v-card dark tile flat color="white" style="color:#000;text-align:center">
+                  <v-card-text>
+                    Order#
+                    <br />
+                    {{waitngPayOrder.order_no}}
+                    <br />
+                    {{waitngPayOrder.category_name}}
+                    <br />
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+              <v-flex xs4 sm12>
+                <v-card dark tile flat color="white" style="color:#000;float:right">
+                  <v-card-text>
+                    <b>Service Provider:</b>
+                    <br />
+                    {{waitngPayOrder.comrade_name}}
+                    <br />
+                    {{waitngPayOrder.comrade_phone}}
+                    <br />
+                    {{waitngPayOrder.comrade_address}}
+                    <br />
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+            </v-layout>
+
+            <v-layout row>
+              <v-flex xs12>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Service</th>
+                      <th>Service Bit</th>
+                      <th class="text-right">Price</th>
+                      <th class="text-right">Adtnl. Price</th>
+                      <th class="text-center">Qty</th>
+                      <th class="text-right">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in waitngPayOrder.items" :key="item.id" v-if="item.status == 1">
+                      <td>{{item.service_name}}</td>
+                      <td>{{item.service_bit_name}}</td>
+                      <td class="text-right">{{item.price}}</td>
+                      <td class="text-right">{{ item.quantity > 1 ? item.additional_price : '0.00'}}</td>
+                      <td class="text-center">{{item.quantity}}</td>
+                      <td class="text-right">{{item.total_price}}</td>
+                    </tr>
+                    <tr class="bg-light">
+                      <td colspan="3"></td>
+                      <td colspan="2">(+)Extra Charge</td>
+                      <td class="text-right">{{waitngPayOrder.extra_charge}}</td>
+                    </tr>
+                    <tr class="bg-light">
+                      <td colspan="3"></td>
+                      <td colspan="2">(-)Discount</td>
+                      <td class="text-right">{{waitngPayOrder.discount}}</td>
+                    </tr>
+                    <tr class="bg-dark text-white">
+                      <td colspan="3"></td>
+                      <td colspan="2">Grand Total</td>
+                      <td class="text-right">{{waitngPayOrder.total_price.toFixed(2)}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </v-flex>
+            </v-layout>
+          </v-container>
+
+          <v-card-actions style="overflow:hidden">
+            <v-btn style="width:33%" class="pl-3" @click="payCash(waitngPayOrder.id)">
+              <v-icon>monetization_on</v-icon>Cash
+            </v-btn>
+            <v-btn style="width:33%" class="pl-3" @click="paySSL(waitngPayOrder.id)">
+              <v-icon>payment</v-icon>Card
+            </v-btn>
+            <v-btn style="width:33%" class="pl-3" @click="payDialog = false">
+              <v-icon>polymer</v-icon>Bkash
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
   </div>
 </template>
 
@@ -191,6 +301,9 @@ export default {
     // Footer
   },
   data: () => ({
+    payDialog: false,
+    waitngPayOrder: [],
+    isPayActive: false,
     drawer: null,
     userInfo: [],
     menuItems: [
@@ -209,9 +322,16 @@ export default {
   }),
   created() {
     this.storeCategorys();
-    Echo.channel("orderChannel").listen("AppEventsOrderEvent", res => {
+    Echo.channel("orderPaymentChannel").listen("OrderPaymentEvent", res => {
       console.log(res);
+      //  this.getServices();
     });
+    this.watingPayOrder();
+  },
+  watch: {
+    $route(to, from) {
+      this.watingPayOrder();
+    }
   },
   methods: {
     logout() {
@@ -222,6 +342,27 @@ export default {
     async storeCategorys() {
       var allCategory = await axios.get("/category"); // http://dev.mm/api/category
       localStorageService.setItem("categorys", allCategory.data.data);
+    },
+    async watingPayOrder() {
+      var order = await axios.get("/user/check-waiting-payment");
+      this.waitngPayOrder = order.data.data;
+      if (this.waitngPayOrder) {
+        this.payDialog = true;
+      }
+    },
+    async payCash(orderid) {
+      var res = await axios.get(`pay/cash/${orderid}`);
+      if (res.data.message == "Success") {
+        this.payDialog = false;
+      }
+    },
+    async paySSL(orderid) {
+      var res = await axios.get(`pay/ssl/${orderid}`);
+      if (res.data.status == "success") {
+        window.location.href = res.data.data;
+        //window.open(res.data.data, '_blank');
+        this.payDialog = false;
+      }
     }
   },
   computed: {

@@ -4,7 +4,7 @@
     <!-- <div class="preloader"></div> -->
 
     <!-- Main Header-->
-    <HeaderLanding></HeaderLanding>
+    <HeaderLanding :categorys="categorys"></HeaderLanding>
     <!--End Main Header -->
 
     <!-- Bnner Section -->

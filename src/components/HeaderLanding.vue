@@ -40,7 +40,7 @@
                     <a href="#">Our Service</a>
                   </li>
                   <li class="dropdown">
-                    <a href="#">Book Now</a>
+                    <a href="#" @click="quicikOrderDialog = true">Quick Order</a>
                   </li>
                   <li class="dropdown">
                     <a href="#contactus">Contact Us</a>
@@ -115,11 +115,89 @@
         </div>
       </div>
     </div>
+
+    <v-dialog v-model="quicikOrderDialog" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Quick Order</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12>
+                <v-select
+                  v-model="quickOrderData.category_id"
+                  :items="categorys"
+                  item-text="name"
+                  item-value="id"
+                  label="Service Category"
+                  required
+                ></v-select>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="quickOrderData.name" label="Full Name" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="quickOrderData.phone" label="Phone Number" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="quickOrderData.address" label="Details Address" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="quickOrderData.comments"
+                  label="Comments/Instaruction Details"
+                  required
+                ></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary darken-1" flat @click="quicikOrderDialog = false">Close</v-btn>
+          <v-btn color="primary darken-1" flat @click="palceQuickOrder">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </header>
 </template>
 
 <script>
-export default {};
+import axios from "../axios_instance";
+export default {
+  props: ["categorys"],
+  data() {
+    return {
+      quicikOrderDialog: false,
+      quickOrderData: {
+        category_id: "",
+        name: "",
+        phone: "",
+        address: "",
+        comments: ""
+      }
+    };
+  },
+  methods: {
+    async palceQuickOrder() {
+      var res = await axios.post("quickorder", {
+        category_id: this.quickOrderData.category_id,
+        name: this.quickOrderData.name,
+        phone: this.quickOrderData.phone,
+        address: this.quickOrderData.address,
+        comments: this.quickOrderData.comments
+      });
+      console.log(res);
+      if (res.status == 200) {
+        this.quicikOrderDialog = false;
+        alert("We will contact you soon!");
+      } else {
+        alert("Something went worng");
+      }
+    }
+  }
+};
 </script>
 
 <style>
