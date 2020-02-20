@@ -227,7 +227,7 @@ export default {
     userInfo: [],
     menuItems: [
       { title: "পূর্বের কাজ", link: "purberkaaj", avatar: "work" },
-      { title: "সার্ভিস অর্ডার", link: "serviceorder", avatar: "room_service" },
+      { title: "সার্ভিস অর্ডার", link: "sp-order/electrical", avatar: "room_service" },
       { title: "অফার দেখুন", link: "offerdekhun", avatar: "local_offer" },
       { title: "রিচার্জ করুন", link: "rechargekorun", avatar: "flash_on" },
       { title: "জিজ্ঞাসা", link: "jiggasha", avatar: "question_answer" },

@@ -140,6 +140,7 @@
         </v-btn>
       </v-flex>-->
     </template>
+
     <v-navigation-drawer
       width="800"
       v-model="drawerBistarito"
@@ -235,6 +236,7 @@
         </div>
       </v-list>
     </v-navigation-drawer>
+
     <v-navigation-drawer v-model="drawerShohokari" temporary right style="position: fixed">
       <v-list class="pa-3" style="background-color: var(--primary) !important">
         <h3 style="font-size: 20px; text-align: center; color: var(--secondary)">সহকারী পরিবর্তন</h3>

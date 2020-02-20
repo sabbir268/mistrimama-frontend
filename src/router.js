@@ -20,7 +20,7 @@ import PurberKaaj from "./views/purberkaaj/PurberKaaj.vue";
 import OfferDekhun from "./views/offerdekhun/OfferDekhun.vue";
 import Jiggasha from "./views/jiggasha/Jiggasha.vue";
 import RechargeKorun from "./views/rechargekorun/RechargeKorun.vue";
-import ServiceOrder from "./views/serviceorder/ServiceOrder.vue";
+import SpOrder from "./views/serviceorder/SpOrder.vue";
 import Baboharbidhi from "./views/baboharbidhi/Baboharbidhi.vue";
 
 // MENUS: USER
@@ -107,9 +107,15 @@ export default new Router({
           beforeEnter: requireAuthSP
         },
         {
-          path: "/serviceorder",
+          path: "/sp-order",
           name: "সার্ভিস অর্ডার",
-          component: ServiceOrder,
+          component: SpOrder,
+          beforeEnter: requireAuthSP
+        },
+        {
+          path: "/sp-order/:category",
+          name: "সার্ভিস অর্ডার",
+          component: SpOrder,
           beforeEnter: requireAuthSP
         },
         {

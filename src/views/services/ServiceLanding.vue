@@ -27,7 +27,7 @@
                       :alt="category.name"
                     />
                   </v-card-text>
-                  <span>{{category.name}} Service</span>
+                  <span>{{category.name}}</span>
                 </router-link>
               </v-card>
             </v-flex>

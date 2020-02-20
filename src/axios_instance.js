@@ -5,7 +5,7 @@ import {
 const axios = require("axios");
 const defaultOptions = {
   //baseURL: process.env.VUE_APP_API_URL
-  baseURL: 'https://staging.mistrimama.com/backend/api/',
+  baseURL: 'http://dev.mm/api/',
   headers: {
     "Content-Type": "application/json"
   }
