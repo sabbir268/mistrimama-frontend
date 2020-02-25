@@ -11,25 +11,10 @@
               class="elevation-2 side-gapper top-gapper"
               style="background-color: white;"
             >
-              <!-- <v-flex md5 sm4 xs12 class="up-bottom-gap">
-                <div v-if="uploadImageOption" style="text-align: center !important">
-                  <ImageCropper :src="imgURL"/>
-                  <br>
-                  <v-btn @click="uploadImageOption = false">DONE</v-btn>
-                  <v-btn @click="uploadImageOption = false">CANCEL</v-btn>
-                </div>
-                <div v-if="!uploadImageOption">
-                  <v-avatar :size="170" color="grey lighten-4" style="margin-bottom: 15px;">
-                    <img class="rect-image" :src="imgURL" alt="user_image">
-                  </v-avatar>
-                  <br>
-                  <v-btn @click="uploadImageOption = true">UPLOAD IMAGE</v-btn>
-                </div>
-              </v-flex>-->
               <v-flex v-if="personalImage" md5 sm4 xs12 class="up-bottom-gap">
                 <div v-if="uploadImageOption" style="text-align: center !important">
-                  <ImageCropper :src="personalImage" @clicked="croppedImage"/>
-                  <br>
+                  <ImageCropper :src="personalImage" @clicked="croppedImage" />
+                  <br />
                   <v-btn
                     color="success"
                     class="pagination-button"
@@ -49,9 +34,9 @@
                 </div>
                 <div v-if="!uploadImageOption">
                   <v-avatar :size="170" color="grey lighten-4" style="margin-bottom: 15px;">
-                    <img class="rect-image" :src="personalImage" alt="user_image">
+                    <img class="rect-image" :src="personalImage" alt="user_image" />
                   </v-avatar>
-                  <br>
+                  <br />
                   <v-btn
                     color="primary"
                     class="pagination-button"
@@ -72,6 +57,7 @@
                     color="success"
                     style="margin: 5px; max-width: 50px !important; min-width: 40px; !important"
                     class="pagination-button"
+                    @click="imageChange"
                   >
                     <v-icon>check</v-icon>
                   </v-btn>
@@ -79,21 +65,21 @@
               </v-flex>
               <v-flex v-if="!personalImage" md5 sm4 xs12 class="up-bottom-gap">
                 <v-avatar :size="170" color="grey lighten-4" style="margin-bottom: 15px;">
-                  <img class="rect-image" :src="imgURL" alt="user_image">
+                  <img class="rect-image" :src="imgURL" alt="user_image" />
                 </v-avatar>
-                <br>
+                <br />
                 <div style="text-align: center">
                   <input
                     style="font-size: 17px;"
                     @change="onFileChange('personalImage', $event)"
                     type="file"
                     label="File input"
-                  >
+                  />
                 </div>
               </v-flex>
               <v-flex md7 sm8 xs12 class="up-bottom-gap" style="text-align: left; padding: 15px;">
                 <h3 style="font-size: 20px;">PROFILE INFORMATION</h3>
-                <hr>
+                <hr />
                 <v-form ref="form" v-model="valid" lazy-validation style="margin-top: 15px;">
                   <v-text-field
                     v-model="formData.name"
@@ -109,7 +95,7 @@
                     required
                   ></v-text-field>
                   <v-text-field
-                    v-model="formData.phoneNumber"
+                    v-model="formData.phone"
                     :counter="11"
                     :rules="mobileNumberRules"
                     label="Mobile Number"
@@ -121,6 +107,15 @@
                     :counter="100"
                     :rules="addressRules"
                     label="Address"
+                    required
+                  ></v-textarea>
+                  <v-textarea
+                    v-if="formData.client_type == 'ondemand' || formData.client_type == 'affiliation'"
+                    rows="2"
+                    v-model="formData.company_name"
+                    :counter="100"
+                    :rules="addressRules"
+                    label="Company Name"
                     required
                   ></v-textarea>
                   <v-btn
@@ -154,6 +149,8 @@
 <script>
 import { mapState } from "vuex";
 import ImageCropper from "../components/ImageCropper";
+import { localStorageService } from "../helper.js";
+import axios from "../axios_instance.js";
 
 export default {
   name: "UserProfile",
@@ -163,14 +160,21 @@ export default {
   data() {
     return {
       uploadImageOption: false,
-      imgURL: "https://image.flaticon.com/icons/png/512/236/236832.png",
+      imgURL: localStorageService.getItem("currentUserData").photo
+        ? localStorageService.getItem("currentUserData").photo
+        : "https://image.flaticon.com/icons/png/512/236/236832.png",
       personalImage: null,
       personalImageTemp: null,
       formData: {
-        name: null,
-        address: null,
-        email: null,
-        phoneNumber: null
+        name: localStorageService.getItem("currentUserData").name,
+        address: localStorageService.getItem("currentUserData").address,
+        email: localStorageService.getItem("currentUserData").email,
+        phone: localStorageService.getItem("currentUserData").phone,
+        mfs_type: localStorageService.getItem("currentUserData").mfs_type,
+        mfs_no: localStorageService.getItem("currentUserData").mfs_no,
+        company_name: localStorageService.getItem("currentUserData")
+          .company_name,
+        client_type: localStorageService.getItem("currentUserData").client_type
       },
       valid: true,
       nameRules: [
@@ -195,9 +199,32 @@ export default {
     };
   },
   methods: {
-    validate() {
+    async validate() {
       if (this.$refs.form.validate()) {
-        // call API from STORE
+        var res = await axios.post(
+          `/profile-update/client/${
+            localStorageService.getItem("currentUserData").client_id
+          }`,
+          this.formData
+        );
+
+        if (res.data.message == "Data updated successfully") {
+          var userData = localStorageService.getItem("currentUserData");
+
+          userData.name = this.formData.name;
+          userData.phone = this.formData.phone;
+          userData.address = this.formData.address;
+          userData.email = this.formData.email;
+          userData.mfs_type = this.formData.mfs_type;
+          userData.mfs_no = this.formData.mfs_no;
+          userData.company_name = this.formData.company_name;
+          console.log(userData);
+          localStorageService.setItem("currentUserData", userData);
+          alert("Profile updated");
+          this.$router.push("/user");
+        } else {
+          alert("Something went worng");
+        }
       }
     },
     onFileChange(item, e) {
@@ -215,6 +242,27 @@ export default {
     },
     croppedImage: function(val) {
       this.personalImageTemp = val;
+    },
+
+    async imageChange() {
+      var res = await axios.post(
+        `/profile-image-change/client/${
+          localStorageService.getItem("currentUserData").client_id
+        }`,
+        {
+          photo: this.personalImage
+        }
+      );
+
+      //console.log(res.data.message);
+      if (res.data.message == "Profile picture updated") {
+        var userData = localStorageService.getItem("currentUserData");
+
+        userData.photo = this.personalImage;
+        localStorageService.setItem("currentUserData", userData);
+        this.imgURL = this.personalImage;
+        this.personalImage = null;
+      }
     }
   },
   watch: {

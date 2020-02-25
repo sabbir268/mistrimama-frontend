@@ -24,7 +24,7 @@
                     :alt="category.name"
                   />
                 </v-card-text>
-                <span>{{category.name}} Service</span>
+                <span>{{category.name}}</span>
               </router-link>
             </v-card>
           </v-flex>
@@ -33,7 +33,7 @@
         <v-card>
           <v-card-title primary-title>
             <v-layout justify-center row>
-              <div class="headline">All {{category.name}} Services</div>
+              <div class="headline">All {{category.name}}</div>
             </v-layout>
           </v-card-title>
           <v-divider></v-divider>

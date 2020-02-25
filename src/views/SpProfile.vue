@@ -11,21 +11,6 @@
               class="elevation-2 side-gapper top-gapper"
               style="background-color: white;"
             >
-              <!-- <v-flex md5 sm4 xs12 class="up-bottom-gap">
-                <div v-if="uploadImageOption" style="text-align: center !important">
-                  <ImageCropper :src="imgURL"/>
-                  <br>
-                  <v-btn @click="uploadImageOption = false">DONE</v-btn>
-                  <v-btn @click="uploadImageOption = false">CANCEL</v-btn>
-                </div>
-                <div v-if="!uploadImageOption">
-                  <v-avatar :size="170" color="grey lighten-4" style="margin-bottom: 15px;">
-                    <img class="rect-image" :src="imgURL" alt="user_image">
-                  </v-avatar>
-                  <br>
-                  <v-btn @click="uploadImageOption = true">UPLOAD IMAGE</v-btn>
-                </div>
-              </v-flex>-->
               <v-flex v-if="personalImage" md5 sm4 xs12 class="up-bottom-gap">
                 <div v-if="uploadImageOption" style="text-align: center !important">
                   <ImageCropper :src="personalImage" @clicked="croppedImage" />

@@ -199,7 +199,7 @@
               >((Total Price {{order.total_price }} + Extra Charge {{order.extra_charge}}) - Discount {{order.discount}}) = {{( parseInt( order.total_price) + parseInt(order.extra_charge))- order.discount}}/-</v-btn>
 
               <v-btn
-                v-if="!order.state == 3"
+                v-if="order.state != 3"
                 :disabled="checkItemDone(orderindex)"
                 @click="changeOrderState(orderindex)"
                 style="float: right;
@@ -208,6 +208,7 @@
                       right: 6px;"
                 color="success"
               >{{ order.state == 1 ? 'Start Working' : order.state == 2 ? 'Finished' : order.state == 3 ? 'Collect Payment' : 'Finish Job'}}</v-btn>
+
               <div
                 v-if="order.state == 3"
                 style="float: right;
@@ -220,7 +221,18 @@
                 <v-text>Collect Payment</v-text>
                 <br />
                 <v-btn small class="p-0 m-0" @click="collectCash(orderindex)">Cash</v-btn>
-                <v-btn small class="p-0 m-0" @click="payDigital(orderindex)">Digital</v-btn>
+                <v-btn
+                  v-if="order.order_from != 'ondemand'"
+                  small
+                  class="p-0 m-0"
+                  @click="payDigital(orderindex)"
+                >Digital</v-btn>
+                <v-btn
+                  v-if="order.order_from == 'ondemand' || order.order_from == 'affiliation'"
+                  small
+                  class="p-0 m-0"
+                  @click="payLater(order.id)"
+                >Pay Later</v-btn>
               </div>
             </v-card>
             <v-btn color="success" dark absolute bottom left fab @click="addNewService(order)">
@@ -389,6 +401,8 @@ export default {
       if (this.orders[orderIndex].state == 2) {
         this.finishServicing(this.orders[orderIndex].id, orderIndex);
       }
+      this.orders[orderIndex].state++;
+      this.orders[orderIndex].status++;
     },
 
     async startServicing(orderId) {
@@ -422,12 +436,9 @@ export default {
     collectCash(orderIndex) {
       if (this.orders[orderIndex].state == 3) {
         this.collectPayment(this.orders[orderIndex].id);
+        this.orders[orderIndex].status++;
+        this.orders[orderIndex].state++;
       }
-
-      this.orders[orderIndex].status =
-        parseInt(this.orders[orderIndex].status) + 1;
-      this.orders[orderIndex].state =
-        parseInt(this.orders[orderIndex].state) + 1;
     },
     payDigital(orderIndex) {
       if (this.orders[orderIndex].state == 3) {
@@ -438,6 +449,15 @@ export default {
       //   parseInt(this.orders[orderIndex].status) + 1;
       // this.orders[orderIndex].state =
       //   parseInt(this.orders[orderIndex].state) + 1;
+    },
+    payLater(order_id) {
+      axios.get(`/outstanding/add/${order_id}`).then(res => {
+        if (res.data == 1) {
+          this.allocatedOrder();
+        } else {
+          alert("Something went wrong");
+        }
+      });
     },
     checkItemDone(orderIndex) {
       var arr = this.orders[orderIndex].items;
@@ -536,6 +556,11 @@ export default {
   },
   created() {
     this.allocatedOrder();
+  },
+  mounted() {
+    axios.get("/allowcated-orders/comrade").then(res => {
+      this.orders = res.data.data;
+    });
   }
 };
 </script>

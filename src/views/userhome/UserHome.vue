@@ -41,10 +41,8 @@
                   </v-layout>
                 </v-card>
               </v-flex>
+              
               <v-flex
-                md3
-                sm12
-                xs12
                 class="total-box"
                 v-if="userInfo.client_type != 'client' || userInfo.client_type != 'agnet'"
               >
@@ -78,6 +76,7 @@
                   </v-layout>
                 </v-card>
               </v-flex>
+              
               <v-flex md3 sm12 xs12 class="total-box" v-if="userInfo.client_type == 'agent'">
                 <v-card class="card-height border_radius">
                   <v-layout wrap>
@@ -116,7 +115,8 @@
                   </v-layout>
                 </v-card>
               </v-flex>
-              <v-flex md6 sm12 xs12 class="total-box">
+
+              <v-flex md6 sm12 xs12 class="total-box" v-if="userInfo.client_type == 'client'">
                 <v-card class="card-height border_radius">
                   <v-layout
                     style="background-color: var(--primary); padding: 8px; border-bottom: 1px solid rgb(189, 189, 189)"

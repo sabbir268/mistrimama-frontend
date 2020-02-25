@@ -34,6 +34,21 @@
                 <v-list-tile-title v-html="item.title"></v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+
+            <v-list-tile
+              avatar
+              @click.stop
+              style="background-color: var(--secondary);"
+              href="tel:+8809610222111"
+            >
+              <v-list-tile-avatar>
+                <v-icon color="secondary">phone_in_talk</v-icon>
+              </v-list-tile-avatar>
+
+              <v-list-tile-content>
+                <v-list-tile-title>CONTACT US</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
           </v-list>
         </div>
       </v-flex>
@@ -126,11 +141,11 @@
                   <v-icon class="font-sizes">settings</v-icon>Settings
                 </v-list-tile-title>
               </v-list-tile>-->
-              <v-list-tile style="cursor: pointer" to="/help">
+              <!-- <v-list-tile style="cursor: pointer" to="/help">
                 <v-list-tile-title>
                   <v-icon class="font-sizes">help</v-icon>Help
                 </v-list-tile-title>
-              </v-list-tile>
+              </v-list-tile> -->
               <v-list-tile style="cursor: pointer">
                 <v-list-tile-title @click="logout">
                   <v-icon class="font-sizes">power_settings_new</v-icon>Logout
@@ -311,7 +326,6 @@ export default {
     userInfo: [],
     menuItems: [
       { title: "DASHBOARD", link: "/user", avatar: "dashboard" },
-      { title: "ORDER", link: "/userorder", avatar: "room_service" },
       {
         title: "ORDER HISTORY",
         link: "order-history",
@@ -320,7 +334,6 @@ export default {
       { title: "PROMO CODE", link: "/promo", avatar: "code" },
       { title: "REFER", link: "/refer", avatar: "group" },
       { title: "OFFERS", link: "/offers", avatar: "local_offer" },
-      { title: "CONTACT US", link: "/usercontact", avatar: "phone_in_talk" }
     ]
   }),
   created() {
