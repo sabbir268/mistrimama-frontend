@@ -364,6 +364,9 @@ export default {
           // console.log(response.data.access_token);
           let usertype = localStorageService.getItem("currentUserData").type;
           if (this.mood == "user") {
+            if (usertype == "client") {
+              this.$router.replace(this.$route.query.redirect || "/user");
+            }
             this.$router.replace(this.$route.query.redirect || "/user");
           } else if (this.mood && this.mood == usertype && this.mood == "esp") {
             this.$router.replace(this.$route.query.redirect || "/mulmenu");

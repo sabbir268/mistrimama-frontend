@@ -45,12 +45,15 @@
             class="hidden-md-and-up"
             style="color: var(--secondary); cursor: pointer"
           >menu</v-icon>
-          <v-flex>
+          <!-- <v-flex>
             <h4 class="headings">{{ this.$route.name }}</h4>
             <v-btn @click="payDialog = !payDialog ">Test</v-btn>
-          </v-flex>
+          </v-flex>-->
 
           <v-spacer></v-spacer>
+          <v-text
+            v-if="userInfo.client_type != 'client' || userInfo.client_type != 'agent'"
+          >{{userInfo.company_name}}</v-text>
           <v-menu transition="slide-y-transition" offset-y left>
             <template v-slot:activator="{ on }">
               <v-toolbar-items>
@@ -178,7 +181,7 @@
       </v-flex>
     </v-layout>
 
-    <v-layout row justify-center>
+    <v-layout row justify-center v-if="waitngPayOrder">
       <v-dialog v-model="payDialog" persistent style="width:80%">
         <v-card>
           <v-container class="grey lighten-5">
@@ -363,6 +366,9 @@ export default {
         //window.open(res.data.data, '_blank');
         this.payDialog = false;
       }
+    },
+    getUser() {
+      return localStorageService.getItem("currentUserData");
     }
   },
   computed: {

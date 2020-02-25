@@ -572,9 +572,9 @@ export default {
       this.order.time = time;
     },
     orderarInfo: function() {
-      this.order.orderFrom = localStorageService.getItem(
-        "currentUserData"
-      ).type;
+      let cuser = localStorageService.getItem("currentUserData");
+      this.order.orderFrom =
+        cuser.type == "client" ? cuser.client_type : cuser.type;
       this.order.userId = localStorageService.getItem("currentUserData").id;
       this.order.orderarName = localStorageService.getItem(
         "currentUserData"

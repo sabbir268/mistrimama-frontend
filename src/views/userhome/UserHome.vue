@@ -6,7 +6,7 @@
         <v-flex lg12 md12 sm12 xs12>
           <div style="text-align: left; margin-bottom: 20px; font-size: 40px">
             <v-layout wrap align-center class="top-gapper">
-              <v-flex md3 sm12 xs12 class="total-box">
+              <v-flex grow class="total-box">
                 <v-card class="card-height border_radius">
                   <v-layout wrap>
                     <v-flex md3 sm3 xs3>
@@ -27,7 +27,7 @@
                     </v-flex>
                   </v-layout>
                   <v-layout wrap class="lower-box">
-                    <v-layout wrap class="lower-box">
+                    <v-layout wrap class>
                       <v-flex
                         md12
                         style="height: 100%; padding-left: 10px; padding-right: 10px; padding-top: 6px;"
@@ -41,7 +41,44 @@
                   </v-layout>
                 </v-card>
               </v-flex>
-              <v-flex md3 sm12 xs12 class="total-box">
+              <v-flex
+                md3
+                sm12
+                xs12
+                class="total-box"
+                v-if="userInfo.client_type != 'client' || userInfo.client_type != 'agnet'"
+              >
+                <v-card class="card-height border_radius">
+                  <v-layout wrap>
+                    <v-flex md3 sm3 xs3>
+                      <div class="icon-box floating">
+                        <v-icon>emoji_events</v-icon>
+                      </div>
+                    </v-flex>
+                    <v-flex md9 sm9 xs9>
+                      <div class="empty-box">
+                        <h3>
+                          OUTSTANDING BALANCE
+                          <br />
+                          <span class="a">BDT {{userInfo.balance}}/-</span>
+                        </h3>
+                      </div>
+                    </v-flex>
+                  </v-layout>
+                  <v-layout wrap class="lower-box">
+                    <v-flex
+                      md12
+                      style="height: 100%; padding-left: 10px; padding-right: 10px; padding-top: 6px;"
+                    >
+                      <v-btn
+                        style="font-size: 12px !important; min-width: 10px; width: 92%;"
+                        to="/view-order"
+                      >PAY NOW</v-btn>
+                    </v-flex>
+                  </v-layout>
+                </v-card>
+              </v-flex>
+              <v-flex md3 sm12 xs12 class="total-box" v-if="userInfo.client_type == 'agent'">
                 <v-card class="card-height border_radius">
                   <v-layout wrap>
                     <v-flex md3 sm3 xs3>
@@ -65,7 +102,7 @@
                       style="height: 100%; padding-left: 10px; padding-right: 6px; padding-top: 6px;"
                     >
                       <v-btn
-                        style="font-size: 12px !important; min-width: 10px; width: 100% "
+                        style="font-size: 12px !important; min-width: 10px; width: 82% "
                       >ADJUST BILL</v-btn>
                     </v-flex>
                     <v-flex
@@ -73,7 +110,7 @@
                       style="height: 100%; padding-left: 6px; padding-right: 10px; padding-top: 6px;"
                     >
                       <v-btn
-                        style="font-size: 12px !important; min-width: 10px; width: 100%"
+                        style="font-size: 12px !important; min-width: 10px; width: 82%"
                       >CASH OUT</v-btn>
                     </v-flex>
                   </v-layout>
@@ -86,11 +123,11 @@
                   >
                     <v-icon style="color: white; margin-right: 7px;">create</v-icon>
                     <p style="font-size: 20px; margin: 0px !important; color: white;">
-                      <b>PLACE ORDER</b>
+                      <b>QUICK ORDER</b>
                     </p>
                   </v-layout>
                   <v-layout wrap style="text-align: center !important;">
-                    <router-link :to="{path: '/service/air-conditionar'}">
+                    <!-- <router-link :to="{path: '/service/air-conditionar'}">
                       <v-flex md4 sm4 xs4>
                         <div class="electrical_service">
                           <img
@@ -152,7 +189,22 @@
                         />
                         <h4>CCTV Service</h4>
                       </div>
-                    </v-flex>
+                    </v-flex>-->
+                    <div class="col-md-12">
+                      <div class="form-group m-0">
+                        <input
+                          type="text"
+                          class="form-control form-control my-2 mt-2"
+                          placeholder="Required Service"
+                        />
+                        <input
+                          type="text"
+                          class="form-control form-control mt-2"
+                          placeholder="Location/Address"
+                        />
+                      </div>
+                      <v-btn class="float-right">Order Now</v-btn>
+                    </div>
                   </v-layout>
                 </v-card>
               </v-flex>
@@ -162,7 +214,7 @@
               class="elevation-2 side-gapper top-gapper border_radius"
               style="background-color: white;"
             >
-              <v-flex md6 sm12 xs12>
+              <!-- <v-flex md6 sm12 xs12>
                 <v-card flat style="padding: 10px;">
                   <h3 class="custom-title" style="padding: 8px; margin: 5px;">
                     <v-icon class="custom-icon">info</v-icon>HOW IT WORKS
@@ -180,8 +232,8 @@
                     <p>What next? Nothing! Now, relax and enjoy Mistri Mama Services.</p>
                   </div>
                 </v-card>
-              </v-flex>
-              <v-flex md6 sm12 xs12 align-center>
+              </v-flex>-->
+              <!-- <v-flex md6 sm12 xs12 align-center>
                 <v-card class="v-card-padding-pic" flat>
                   <img
                     style="width: 100%;"
@@ -189,7 +241,16 @@
                     alt
                   />
                 </v-card>
-              </v-flex>
+              </v-flex>-->
+              <div class="row">
+                <div v-for="category in categorys" :key="category.id" class="col-md-2">
+                  <router-link :to="{path: `/service/${category.slug}`}">
+                    <div class="shadow-sm p-2 my-3 bg-white rounded border">
+                      <img :src="category.thumb" alt="ac_service" class="w-100" />
+                    </div>
+                  </router-link>
+                </div>
+              </div>
             </v-layout>
           </div>
         </v-flex>
@@ -217,6 +278,7 @@ import { mapState } from "vuex";
 import Mulmenu_Lenden from "../mulmenu/Mulmenu_Lenden";
 import Mulmenu_NotunKaaj from "../mulmenu/Mulmenu_NotunKaaj";
 import axios from "../../axios_instance.js";
+import { localStorageService } from "../../helper";
 
 export default {
   components: {
@@ -227,6 +289,8 @@ export default {
   data() {
     return {
       currentOrderCount: 0,
+      userInfo: [],
+      categorys: [],
       rating: 4,
       dataLoaded: true,
       pageCount: 1,
@@ -258,12 +322,23 @@ export default {
     async getCurrentOrderCount() {
       var countOrder = await axios.get("/user-order-count");
       this.currentOrderCount = countOrder.data;
+    },
+    getCatgory() {
+      this.categorys = localStorageService.getItem("categorys");
     }
   },
   watch: {},
   computed: {},
   created() {
     this.getCurrentOrderCount();
+    this.getCatgory();
+  },
+  async mounted() {
+    await this.$store.commit("setUserInfo", {
+      afterLoginUserData: localStorageService.getItem("currentUserData"),
+      d_token: localStorageService.getItem("d_token")
+    });
+    this.userInfo = this.$store.getters.getCurrentUserData;
   }
 };
 </script>
