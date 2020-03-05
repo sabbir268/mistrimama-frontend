@@ -146,12 +146,15 @@
             </v-layout>
             <v-layout row text-xs-center>
               <v-flex>
-                <v-btn
-                  v-for="(time,i) in times"
-                  :key="i"
-                  :color="order.time == time ? 'primary' : 'error'"
-                  @click="addTime(time)"
-                >{{time}}</v-btn>
+                <hooper style="height:auto" :settings="hooperSettingsTime">
+                  <slide v-for="(time,i) in times" :key="i">
+                    <v-btn
+                      :color="order.time == time ? 'primary' : 'error'"
+                      @click="addTime(time)"
+                    >{{time}}</v-btn>
+                  </slide>
+                  <hooper-navigation slot="hooper-addons"></hooper-navigation>
+                </hooper>
               </v-flex>
             </v-layout>
           </v-card-body>
@@ -402,14 +405,42 @@ export default {
       times: [
         "9am - 10am",
         "10am - 11am",
-        "11am - 12am",
-        "12am - 1pm",
-        "1pm - 2pm"
+        "11am - 12pm",
+        "12pm - 1pm",
+        "1pm - 2pm",
+        "2pm - 3pm",
+        "3pm - 4pm",
+        "4pm - 5pm",
+        "5pm - 6pm",
+        "6pm - 7pm",
+        "7pm - 8pm",
+        "8pm - 9pm",
+        "9pm - 10pm",
+        "10pm - 11pm",
+        "11pm - 12am",
+        "12am - 1am",
+        "1am - 2am",
+        "2am - 3am",
+        "3am - 4am",
+        "4am - 5am",
+        "5am - 6am",
+        "6am - 7am",
+        "7am - 8am",
+        "8am - 9am"
       ],
       orderDone: false,
       orderPlacingStatus: false,
       hooperSettings: {
         itemsToShow: 3,
+        centerMode: false,
+        wheelControl: false,
+        infiniteScroll: false,
+        autoPlay: false,
+        playSpeed: 3000,
+        transition: 1000
+      },
+      hooperSettingsTime: {
+        itemsToShow: 7,
         centerMode: false,
         wheelControl: false,
         infiniteScroll: false,

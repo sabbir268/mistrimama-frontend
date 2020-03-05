@@ -217,7 +217,6 @@ export default {
       this.process = true;
 
       var res = await axios.post(`/comrade`, {
-        service_provider_id: 1,
         name: this.fullName,
         phone: this.phoneNumber,
         email: this.email,

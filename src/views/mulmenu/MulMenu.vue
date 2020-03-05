@@ -121,12 +121,14 @@
                         </h3>
                       </div>
                     </v-flex>
-                    <v-flex style="margin-top: -10px;">
-                      <img
+                    <v-flex style="margin-top: -60px;">
+                      <!-- <img
                         class="rating-image"
                         :src="require(`../../assets/${rating}star.png`)"
                         alt="rating"
-                      />
+                      /> -->
+                      4.7
+                      <v-icon style="font-size: 44px">star</v-icon>
                     </v-flex>
 
                     <!-- <v-flex md12 sm12 xs12>
@@ -266,7 +268,7 @@ export default {
   data() {
     return {
       balance: 0,
-      rating: 0,
+      rating: 5,
       dataLoaded: true,
       pageCount: 1,
       statements: [],

@@ -6,7 +6,15 @@ import router from "./router";
 import store from "./store/store.js";
 import Vuelidate from "vuelidate";
 
+
 import Echo from 'laravel-echo'
+
+import Toasted from 'vue-toasted';
+
+Vue.config.productionTip = false
+Vue.use(Toasted, {
+  duration: 2500
+})
 
 window.Pusher = require('pusher-js');
 window.Echo = new Echo({

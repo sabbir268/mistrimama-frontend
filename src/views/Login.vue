@@ -148,6 +148,7 @@
                         append-icon="person"
                         outlined
                       ></v-text-field>
+                      <v-text style="color:red" v-if="errors.name">{{errors.name}}</v-text>
                       <v-text-field
                         color="accent"
                         v-model="formData.phone"
@@ -157,6 +158,7 @@
                         append-icon="call"
                         outlined
                       ></v-text-field>
+                      <v-text style="color:red" v-if="errors.phone">{{errors.phone}}</v-text>
                       <v-text-field
                         color="accent"
                         v-model="formData.email"
@@ -165,6 +167,7 @@
                         append-icon="email"
                         outlined
                       ></v-text-field>
+                      <v-text style="color:red" v-if="errors.email">{{errors.email}}</v-text>
                       <v-text-field
                         color="accent"
                         v-model="formData.area"
@@ -173,6 +176,7 @@
                         append-icon="map"
                         outlined
                       ></v-text-field>
+                      <v-text style="color:red" v-if="errors.area">{{errors.area}}</v-text>
                       <v-text-field
                         color="accent"
                         v-model="formData.address"
@@ -181,6 +185,7 @@
                         append-icon="location_on"
                         outlined
                       ></v-text-field>
+                      <v-text style="color:red" v-if="errors.address">{{errors.address}}</v-text>
                       <!-- <v-text-field
                         color="accent"
                         v-model="formData.mfs"
@@ -207,6 +212,7 @@
                         @click:append="passShow = !passShow"
                         outlined
                       ></v-text-field>
+                      <v-text color="red" v-if="errors.password">{{errors.password}}</v-text>
                       <v-text-field
                         color="accent"
                         v-model="confirmPassword"
@@ -247,7 +253,7 @@
                       ></v-text-field>
                       <v-btn
                         style="width: 100% !important;"
-                        @click="otp = false; tabs = 0;"
+                        @click="varifyOtp()"
                         color="primary"
                       >DONE</v-btn>
                       <br />
@@ -287,6 +293,16 @@ export default {
       otp: false,
       page: "",
       pageBanner: "",
+      errors: {
+        name: null,
+        phone: null,
+        email: null,
+        mfs: null,
+        mfsNumber: null,
+        password: null,
+        area: null,
+        address: null
+      },
       formData: {
         name: null,
         phone: null,
@@ -325,26 +341,61 @@ export default {
     /*register and validate*/
     async validate() {
       if (this.$refs.form.validate()) {
-        // src/modules/user_module -> 'userRegistration' //
-        let response = await axios.post("/client-register", {
-          name: this.formData.name,
-          phone: this.formData.phone,
-          email: this.formData.email,
-          password: this.formData.password,
-          area: this.formData.area,
-          address: this.formData.address
-        });
-        if (response.data.message != "Invalid credentials") {
-          this.$store.commit("setUserInfo", {
-            afterLoginUserData: response.data.user,
-            d_token: response.data.access_token
+        try {
+          let response = await axios.post("/client-register", {
+            name: this.formData.name,
+            phone: this.formData.phone,
+            email: this.formData.email,
+            password: this.formData.password,
+            area: this.formData.area,
+            address: this.formData.address
           });
-          this.$router.replace(this.$route.query.redirect || "/user");
-        } else {
-          this.alertMessage = response.data.message;
-          this.snackbar = true;
+          console.log(response);
+
+          if (response.data.message == "success") {
+            // this.$store.commit("setUserInfo", {
+            //   afterLoginUserData: response.data.user,
+            //   d_token: response.data.access_token
+            // });
+            this.otp = true;
+
+            // localStorage.clear();
+            //this.$router.replace(this.$route.query.redirect || "/user");
+          } else {
+            this.alertMessage = response.data.message;
+            this.snackbar = true;
+          }
+        } catch (err) {
+          var errors = Object.values(err.response.data.errors).flat();
+          console.log(err.response.data.errors);
+          // this.alertMessage = err;
+          // this.snackbar = true;
+          console.log(errors[0]);
+          this.errors.phone = err.response.data.errors.phone[0];
+          this.errors.email = err.response.data.errors.email[0];
+          this.errors.email = err.response.data.errors.name[0];
+          var i = 0;
+          for (i; i < errors.length; i++) {
+            this.$toasted.show(errors[i]);
+            console.log(errors[i]);
+          }
         }
       }
+    },
+    varifyOtp() {
+      axios
+        .post("/varify-otp", {
+          phone: this.formData.phone,
+          password: this.formData.password,
+          otp_code: this.otpCode
+        })
+        .then(res => {
+          if (res.status == 200) {
+            localStorageService.setItem("currentUserData", res.data.user);
+            localStorageService.setItem("d_token", res.data.access_token);
+            this.$router.push("/user");
+          }
+        });
     },
     async login() {
       var response;

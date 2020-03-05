@@ -145,7 +145,7 @@
                 <v-list-tile-title>
                   <v-icon class="font-sizes">help</v-icon>Help
                 </v-list-tile-title>
-              </v-list-tile> -->
+              </v-list-tile>-->
               <v-list-tile style="cursor: pointer">
                 <v-list-tile-title @click="logout">
                   <v-icon class="font-sizes">power_settings_new</v-icon>Logout
@@ -298,7 +298,7 @@
             <v-btn style="width:33%" class="pl-3" @click="paySSL(waitngPayOrder.id)">
               <v-icon>payment</v-icon>Card
             </v-btn>
-            <v-btn style="width:33%" class="pl-3" @click="payDialog = false">
+            <v-btn style="width:33%" class="pl-3" @click="bkashPay(waitngPayOrder.id)">
               <v-icon>polymer</v-icon>Bkash
             </v-btn>
           </v-card-actions>
@@ -307,7 +307,7 @@
     </v-layout>
   </div>
 </template>
-
+<script src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js"></script>
 <script>
 import axios from "../axios_instance.js";
 import { localStorageService } from "../helper.js";
@@ -322,7 +322,7 @@ export default {
     payDialog: false,
     waitngPayOrder: [],
     isPayActive: false,
-    drawer: null,
+    drawer: null, 
     userInfo: [],
     menuItems: [
       { title: "DASHBOARD", link: "/user", avatar: "dashboard" },
@@ -333,7 +333,7 @@ export default {
       },
       { title: "PROMO CODE", link: "/promo", avatar: "code" },
       { title: "REFER", link: "/refer", avatar: "group" },
-      { title: "OFFERS", link: "/offers", avatar: "local_offer" },
+      { title: "OFFERS", link: "/offers", avatar: "local_offer" }
     ]
   }),
   created() {
@@ -380,6 +380,112 @@ export default {
         this.payDialog = false;
       }
     },
+    bkashPay(ordedrId) {
+      window.location.href = `http://dev.mm/pay/bkash/${ordedrId}`;
+    },
+    /* bkashPayInit(orderid) {
+      axios
+        .post("pay/bkash", {
+          id: orderid
+        })
+        .then(res => {
+          console.log(res);
+          bKash.init({
+            paymentMode: "checkout"
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    bkashPayInitTest(orderid) {
+      bkash
+        .queryPayment({
+          paymentID: "42"
+        })
+        .then(({ data, error, headers, meta }) => {
+          // data  -> HTTP Status Code < 400
+          // error -> HTTP Status Code >= 400
+          console.log(data);
+        })
+        .catch(err => {
+          // HTTP Status Code >= 500
+        });
+      axios
+        .get("bkash/token")
+        .then(res => {
+          console.log(res);
+          var paymentID = "";
+          bKash.init({
+            paymentMode: "checkout", //fixed value ‘checkout’
+      // paymentRequest format: {amount: AMOUNT, intent: INTENT}
+      // intent options
+      // 1) ‘sale’ – immediate transaction (2 API calls)
+      // 2) ‘authorization’ – deferred transaction (3 API calls)
+      paymentRequest: {
+        amount: "100.50", //max two decimal points allowed
+        intent: "sale"
+      },
+      createRequest: function(request) {
+      // request object is basically the paymentRequest object, automatically pushed by the script in createRequest method
+      $.ajax({
+        url: "MERCHANT_BACKEND_CREATE_API_CALLER_URL",
+        type: "POST",
+        contentType: "application/json",
+        success: function(data) {
+          data = JSON.parse(data);
+          if (data && data.paymentID != null) {
+            paymentID = data.paymentID;
+            bKash.create().onSuccess(data); //pass the whole response data in bKash.create().onSucess() method as a parameter
+          } else {
+            bKash.create().onError();
+          }
+        },
+        error: function() {
+          bKash.create().onError();
+        }
+      });
+
+        axios
+          .post("pay/bkash", {
+            id: orderid
+          })
+          .then(res => {
+            console.log(res);
+            paymentID = res.data.paymentID;
+            bKash.create().onSuccess(res.data);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+      executeRequestOnAuthorization: function() {
+        $.ajax({
+          url: "MERCHANT_BACKEND_EXECUTE_API_CALLER_URL",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({
+            paymentID: paymentID
+          }),
+          success: function(data) {
+            data = JSON.parse(data);
+            if (data && data.paymentID != null) {
+              window.location.href = "success.html"; //Merchant’s success page
+            } else {
+              bKash.execute().onError();
+            }
+          },
+          error: function() {
+            bKash.execute().onError();
+          }
+        });
+      }
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    },*/
     getUser() {
       return localStorageService.getItem("currentUserData");
     }

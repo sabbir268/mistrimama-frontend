@@ -35,25 +35,22 @@
                                     <span style="text-align:center">Order Placed</span>
                                   </v-stepper-step>
                                   <v-divider></v-divider>
-                                  <v-stepper-step
-                                    step="2"
-                                    :complete="order.status >= 1"
-                                  >Order Accepted</v-stepper-step>
-                                  <v-divider></v-divider>
-                                  <v-stepper-step step="3" :complete="order.status >= 2">
-                                    <span style="text-align:center">Service Provider Allowcated</span>
+                                  <v-stepper-step step="2" :complete="order.status >= 2">
+                                    <span style="text-align:center">Technician Allowcated</span>
                                   </v-stepper-step>
                                   <v-divider></v-divider>
-                                  <v-stepper-step step="4" :complete="order.status >= 3">
-                                    <span style="text-align:center">Comrade Start Working</span>
+                                  <v-stepper-step step="3" :complete="order.status >= 3">
+                                    <span style="text-align:center">Technician Start Working</span>
                                   </v-stepper-step>
                                   <v-divider></v-divider>
-                                  <v-stepper-step step="5" :complete="order.status >= 4">
-                                    <span style="text-align:center">Comrade Start Working</span>
+                                  <v-stepper-step step="4" :complete="order.status >= 4">
+                                    <span
+                                      style="text-align:center"
+                                    >{{order.status >= 5 ? 'Payment Done' : 'Bill Payment'}}</span>
                                   </v-stepper-step>
                                   <v-divider></v-divider>
-                                  <v-stepper-step step="6" :complete="order.status >= 5">
-                                    <span style="text-align:center">Waiting For Paymnet</span>
+                                  <v-stepper-step step="5" :complete="order.status >= 5">
+                                    <span style="text-align:center">Feedback</span>
                                   </v-stepper-step>
                                 </v-stepper-header>
                               </v-stepper>
@@ -90,7 +87,6 @@
                                     >{{ props.item.total_price }}</td>
                                   </template>
                                 </v-data-table>
-                               
                               </v-flex>
                             </v-layout>
                           </v-card>
@@ -150,7 +146,7 @@ export default {
   },
   watch: {},
   computed: {},
-  created(){
+  created() {
     this.getCurrentOrder();
   }
 };
