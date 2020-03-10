@@ -38,6 +38,7 @@ import Home from "./views/landingpage/home/Home.vue";
 
 //landing order
 import ServiceLanding from "./views/services/ServiceLanding.vue";
+import CategoryDetails from "./views/landing/CategoryDetails.vue";
 
 import {
   localStorageService
@@ -205,6 +206,11 @@ export default new Router({
       path: "/order/:category",
       name: "Order",
       component: ServiceLanding,
+    },
+    {
+      path: "/:category",
+      name: "CategoryDetails",
+      component: CategoryDetails,
     },
     {
       path: "/*",

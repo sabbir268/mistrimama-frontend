@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="https://expert-themes.com/html/contra/css/style.css" />
   <link rel="stylesheet" href="https://expert-themes.com/html/contra/css/responsive.css" />
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
 
   <style>
     html {
@@ -34,19 +36,37 @@
   <div id="app"></div>
   <!-- built files will be auto injected -->
 </body>
-<script src="https://expert-themes.com/html/contra/js/jquery.js"></script>
-<script src="https://expert-themes.com/html/contra/js/jquery.fancybox.js"></script>
-<script src="https://expert-themes.com/html/contra/js/popper.min.js"></script>
-<script src="https://expert-themes.com/html/contra/js/bootstrap.min.js"></script>
-<script src="https://expert-themes.com/html/contra/js/owl.js"></script>
-<script src="https://expert-themes.com/html/contra/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="https://expert-themes.com/html/contra/js/wow.js"></script>
-<script src="https://expert-themes.com/html/contra/js/appear.js"></script>
-<script src="https://expert-themes.com/html/contra/js/mixitup.js"></script>
-<script src="https://expert-themes.com/html/contra/js/script.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="http://192.168.241.47/mistrimama3.0/public/frontend/jquery.js"></script>
+<script src="http://192.168.241.47/mistrimama3.0/public/frontend/jquery.fancybox.js"></script>
+<script src="http://192.168.241.47/mistrimama3.0/public/frontend/popper.min.js"></script>
+<script src="http://192.168.241.47/mistrimama3.0/public/frontend/bootstrap.min.js"></script>
+<script src="http://192.168.241.47/mistrimama3.0/public/frontend/owl.js"></script>
+<script src="http://192.168.241.47/mistrimama3.0/public/frontend/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="http://192.168.241.47/mistrimama3.0/public/frontend/frontend/wow.js"></script>
+<script src="http://192.168.241.47/mistrimama3.0/public/frontend/appear.js"></script>
+<script src="http://192.168.241.47/mistrimama3.0/public/frontend/mixitup.js"></script>
+<script src="http://192.168.241.47/mistrimama3.0/public/frontend/script.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js"></script>
 
+<script>
+  function animateCSS(element, animationName, callback) {
+    const node = document.querySelector(element)
+    node.classList.add('animated', animationName)
+
+    function handleAnimationEnd() {
+      node.classList.remove('animated', animationName)
+      node.removeEventListener('animationend', handleAnimationEnd)
+
+      if (typeof callback === 'function') callback()
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd)
+  }
+
+  animateCSS('.test-animate', 'bounceInUp')
+  animateCSS('.header-lower ', 'bounceInDown')
+  animateCSS('.header-lower ', 'bounceInDown')
+</script>
 
 </html>
