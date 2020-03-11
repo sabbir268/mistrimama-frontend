@@ -7,8 +7,7 @@
         <h3 style="text-align:center" class="p-3">Service Order</h3>
         <div class="service-area" v-if="viewarea == 'service'">
           <v-layout v-if="categorys" row wrap text-xs-center>
-            <!-- <v-flex v-for="i in 6" :key="`2${i}`" xs2 class="text-center" > -->
-            <v-flex xs2 class="text-center" v-for="category in categorys" :key="category.id">
+            <!-- <v-flex xs2 class="text-center" v-for="category in categorys" :key="category.id">
               <v-card style="border-radius: 0px !important;" class="py-2">
                 <router-link style="text-decoration: none;" :to="category.slug">
                   <v-card-text class="px-0 pt-0 pb-0">
@@ -30,14 +29,43 @@
                   <span>{{category.name}}</span>
                 </router-link>
               </v-card>
-            </v-flex>
+            </v-flex>-->
           </v-layout>
 
           <v-card>
+            <v-flex class="pt-4">
+              <v-stepper alt-labels style="box-shadow:none">
+                <v-stepper-header>
+                  <v-stepper-step step="1">
+                    <span style="text-align:center">Order Placed</span>
+                  </v-stepper-step>
+                  <v-divider></v-divider>
+                  <v-stepper-step step="2">
+                    <span style="text-align:center">Technician Allowcated</span>
+                  </v-stepper-step>
+                  <v-divider></v-divider>
+                  <v-stepper-step step="3">
+                    <span style="text-align:center">Technician Start Working</span>
+                  </v-stepper-step>
+                  <v-divider></v-divider>
+                  <v-stepper-step step="4">
+                    <span
+                      style="text-align:center"
+                    >{{order.status >= 5 ? 'Payment Done' : 'Bill Payment'}}</span>
+                  </v-stepper-step>
+                  <v-divider></v-divider>
+                  <v-stepper-step step="5">
+                    <span style="text-align:center">Feedback</span>
+                  </v-stepper-step>
+                </v-stepper-header>
+              </v-stepper>
+            </v-flex>
             <v-card-title primary-title>
               <v-layout justify-center row>
                 <div class="headline">All {{category.name}} Services</div>
               </v-layout>
+              <v-btn @click.stop="navdr = !navdr">Navigation</v-btn>
+              <v-btn color="pink" dark @click.stop="navdr = !navdr">Toggle</v-btn>
             </v-card-title>
             <v-divider></v-divider>
             <v-layout xs12 justify-center row>
@@ -49,7 +77,7 @@
             </v-layout>
 
             <v-layout v-if="services.length != 0" xs12 md12 row>
-              <v-flex xs12 md6>
+              <!-- <v-flex xs12 md6>
                 <v-list v-if="services">
                   <v-list-tile
                     v-for="service in services"
@@ -65,21 +93,14 @@
                       <v-list-tile-title v-html="service.name"></v-list-tile-title>
                     </v-list-tile-content>
 
-                    <!-- <v-list-tile-action>
-                  <v-icon :color="item.active ? 'teal' : 'grey'">chat_bubble</v-icon>
-                    </v-list-tile-action>-->
+                  
                   </v-list-tile>
                 </v-list>
               </v-flex>
               <v-divider vertical></v-divider>
               <v-flex xs12 md6 v-if="serviceBits" v:bind="layoutAttr">
-                <!-- {{selectedServiceBit}} -->
+                
                 <v-list-tile v-for="serviceBit in serviceBits" :key="serviceBit.id">
-                  <!-- <v-checkbox
-                v-model="selectedServiceBit"
-                :label="serviceBit.name"
-                :value="serviceBit"
-                  >{{serviceBit.name}}</v-checkbox>-->
                   <v-checkbox v-model="selectedServiceBit" :value="serviceBit">
                     <template v-slot:label>
                       <v-list-tile-content>
@@ -102,7 +123,96 @@
                     </v-btn-toggle>
                   </v-felx>
                 </v-list-tile>
+              </v-flex>-->
+              <v-flex style="max-height: 250px;height: auto;overflow-x: auto;">
+                <v-list v-if="services">
+                  <v-list-tile
+                    v-for="service in services"
+                    :key="service.id"
+                    avatar
+                    @click="loadServiceBit(service.id)"
+                    three-line
+                  >
+                    <v-list-tile-avatar>
+                      <img :src="service.icon" />
+                    </v-list-tile-avatar>
+
+                    <v-list-tile-content>
+                      <v-list-tile-title v-html="service.name"></v-list-tile-title>
+                    </v-list-tile-content>
+                  </v-list-tile>
+                </v-list>
               </v-flex>
+
+              <v-navigation-drawer
+                v-show="navdr"
+                v-model="navdr"
+                absolute
+                temporary
+                right
+                height="auto"
+                hide-overlay="false"
+              >
+                <v-btn small fav @click.stop="navdr = !navdr">
+                  <v-icon>arrow_right_alt</v-icon>
+                </v-btn>
+
+                <v-flex xs12 v-if="serviceBits" v:bind="layoutAttr" style="padding-left: 18px;">
+                  <v-list-item
+                    v-for="serviceBit in serviceBits"
+                    :key="serviceBit.id"
+                    style="height: auto !important;"
+                  >
+                    <!-- <v-flex> -->
+                    <div class="row border mr-3 mb-1">
+                      <div class="col-md-8">
+                        <v-checkbox
+                          v-model="selectedServiceBit"
+                          :value="serviceBit"
+                          @click="breif = serviceBit.brief;breifActiveId = serviceBit.id"
+                        >
+                          <template v-slot:label>
+                            <v-list-tile-content>
+                              <!-- <v-list-tile-title class="pt-1"> -->
+                              <v-text>{{serviceBit.name}}</v-text>
+                              <v-text v-if="checkSelectedBit(serviceBit.id)">
+                                <small>Price: {{bitPriceTotal(serviceBit.id)}}</small>
+                                <small class="ml-2">Brief</small>
+                              </v-text>
+                              <!-- </v-list-tile-title> -->
+                              <!-- <v-list-tile-sub-title
+                              
+                              ></v-list-tile-sub-title>-->
+                            </v-list-tile-content>
+                          </template>
+                        </v-checkbox>
+                      </div>
+                      <div class="col-md-4 col-md-4 pt-3">
+                        <v-btn-toggle
+                          v-if="checkSelectedBit(serviceBit.id)"
+                          fab
+                          style="background-color:#ddd"
+                        >
+                          <v-btn flat small @click="qtyDecrease(serviceBit.id)">
+                            <v-icon dark>remove</v-icon>
+                          </v-btn>
+                          <input type="text" class="custom-form-control" :value="serviceBit.qty" />
+                          <v-btn flat small @click="qtyIncrease(serviceBit.id)">
+                            <v-icon dark>add</v-icon>
+                          </v-btn>
+                        </v-btn-toggle>
+                      </div>
+                      <div v-if="serviceBit.id == breifActiveId" class="pl-3">
+                        <p v-if="checkSelectedBit(serviceBit.id)" class="text-left">{{breif}}</p>
+                      </div>
+                    </div>
+                    <!-- </v-flex> -->
+                    <!-- <v-felx > -->
+
+                    <!-- </v-felx> -->
+                  </v-list-item>
+                </v-flex>
+              </v-navigation-drawer>
             </v-layout>
             <v-layout v-else>
               <v-flex v-show="!isProgressLoading" xs12 md12 row text-xs-center>
@@ -499,11 +609,6 @@
                 <h4 style="text-align:center">Order Placed!</h4>
               </div>
             </v-card-text>
-            <!-- <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green darken-1" flat @click="orderDone = false">Disagree</v-btn>
-            <v-btn color="green darken-1" flat @click="orderDone = false">Agree</v-btn>
-            </v-card-actions>-->
           </v-card>
         </v-dialog>
       </v-layout>
@@ -535,6 +640,9 @@ export default {
   },
   data() {
     return {
+      navdr: null,
+      breif: "",
+      breifActiveId: "",
       selectedServiceBit: [],
       categorys: [],
       category: [],
@@ -693,6 +801,7 @@ export default {
       this.serviceBits = this.services.find(
         arr => arr.id == serviceId
       ).serviceBits;
+      this.navdr = true;
     },
     categorysGet: function() {
       return (this.categorys = localStorageService.getItem("categorys"));
@@ -903,7 +1012,7 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
+<style >
 .v-progress-circular {
   margin: 1rem;
 }
@@ -919,5 +1028,33 @@ ul {
 .row {
   margin-right: 0px;
   margin-left: 0px;
+}
+
+.v-stepper__step {
+  padding: 0px !important;
+}
+
+.v-stepper--alt-labels .v-stepper__header .v-divider {
+  margin: 12px -68px 0 !important;
+}
+
+.v-stepper--alt-labels .v-stepper__step__step {
+  margin-right: 0;
+  margin-bottom: 5px !important;
+}
+
+.v-navigation-drawer--open {
+  margin-top: 20% !important;
+  width: 90% !important;
+  padding-bottom: 50px !important;
+  height: auto !important;
+  max-height: 340px;
+}
+
+.v-list__tile .theme--light {
+  height: auto !important;
+}
+.v-label {
+  margin-bottom: 0px !important;
 }
 </style>
