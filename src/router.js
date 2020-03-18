@@ -208,6 +208,11 @@ export default new Router({
       component: ServiceLanding,
     },
     {
+      path: "/order/:category/:service",
+      name: "Order",
+      component: ServiceLanding,
+    },
+    {
       path: "/:category",
       name: "CategoryDetails",
       component: CategoryDetails,

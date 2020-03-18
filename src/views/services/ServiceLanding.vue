@@ -2,72 +2,64 @@
   <div class="page-wrapper">
     <HeaderLanding></HeaderLanding>
     <v-layout row style="margin-top:100px">
-      <v-flex xs12 md8 offset-md2 class="mt-3">
+      <v-flex xs12 md8 offset-md2 class="mt-2">
         <!-- {{categorys}} -->
-        <h3 style="text-align:center" class="p-3">Service Order</h3>
-        <div class="service-area" v-if="viewarea == 'service'">
-          <v-layout v-if="categorys" row wrap text-xs-center>
-            <!-- <v-flex xs2 class="text-center" v-for="category in categorys" :key="category.id">
-              <v-card style="border-radius: 0px !important;" class="py-2">
-                <router-link style="text-decoration: none;" :to="category.slug">
-                  <v-card-text class="px-0 pt-0 pb-0">
-                    <img
-                      v-if="$route.params.category == category.slug"
-                      class="footer-icons"
-                      style="width:90%"
-                      :src="category.thumb"
-                      :alt="category.name"
-                    />
-                    <img
-                      v-else
-                      class="footer-icons"
-                      style="width:90%"
-                      :src="category.icon"
-                      :alt="category.name"
-                    />
-                  </v-card-text>
-                  <span>{{category.name}}</span>
-                </router-link>
-              </v-card>
-            </v-flex>-->
-          </v-layout>
-
-          <v-card>
-            <v-flex class="pt-4">
-              <v-stepper alt-labels style="box-shadow:none">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 class="text-center pt-3 pb-2" v-if="viewarea == 'service'">Select Services</h3>
+            <h3 class="text-center pt-3 pb-2" v-if="viewarea == 'schedule'">Set Date & Time</h3>
+            <h3 class="text-center pt-3 pb-2" v-if="viewarea == 'confirmation'">Confirm Order</h3>
+          </div>
+        </div>
+        <v-card>
+          <v-flex class="pt-4 pb-2">
+            <div class="col-md-8 offset-md-2">
+              <v-stepper
+                alt-labels
+                style="box-shadow:none"
+                :value="viewarea == 'service' ? 1 : viewarea == 'schedule' ? 2 : viewarea == 'confirmation' ? 3 : '' "
+              >
                 <v-stepper-header>
-                  <v-stepper-step step="1">
-                    <span style="text-align:center">Order Placed</span>
+                  <v-stepper-step
+                    step="1"
+                    :complete="viewarea == 'schedule' || viewarea == 'confirmation'"
+                  >
+                    <span style="text-align:center">Service Selection</span>
                   </v-stepper-step>
                   <v-divider></v-divider>
                   <v-stepper-step step="2">
-                    <span style="text-align:center">Technician Allowcated</span>
+                    <span
+                      style="text-align:center"
+                      :complete="viewarea == 'schedule' || viewarea == 'confirmation' "
+                    >Schedule Time</span>
                   </v-stepper-step>
                   <v-divider></v-divider>
                   <v-stepper-step step="3">
-                    <span style="text-align:center">Technician Start Working</span>
-                  </v-stepper-step>
-                  <v-divider></v-divider>
-                  <v-stepper-step step="4">
-                    <span
-                      style="text-align:center"
-                    >{{order.status >= 5 ? 'Payment Done' : 'Bill Payment'}}</span>
-                  </v-stepper-step>
-                  <v-divider></v-divider>
-                  <v-stepper-step step="5">
-                    <span style="text-align:center">Feedback</span>
+                    <span style="text-align:center" :complete="'as'">Confirmation</span>
                   </v-stepper-step>
                 </v-stepper-header>
               </v-stepper>
-            </v-flex>
-            <v-card-title primary-title>
-              <v-layout justify-center row>
-                <div class="headline">All {{category.name}} Services</div>
-              </v-layout>
-              <v-btn @click.stop="navdr = !navdr">Navigation</v-btn>
-              <v-btn color="pink" dark @click.stop="navdr = !navdr">Toggle</v-btn>
-            </v-card-title>
-            <v-divider></v-divider>
+            </div>
+          </v-flex>
+        </v-card>
+
+        <div class="service-area" v-if="viewarea == 'service'">
+          <v-card>
+            <v-layout v-if="categorys" row wrap text-xs-center class>
+              <v-flex xs2 class="text-center" v-for="category in categorys" :key="category.id">
+                <v-card
+                  :style="`border-radius: 0px !important; ${$route.params.category == category.slug ? 'background-color: #000000cc;border-color:#000000cc !important' : ''}`"
+                  class="py-2 elevation-2 border"
+                >
+                  <router-link style="text-decoration: none;" :to="category.slug">
+                    <span
+                      :style="`${$route.params.category == category.slug ? 'color: #fff' : 'color: #333'}`"
+                    >{{category.name}}</span>
+                  </router-link>
+                </v-card>
+              </v-flex>
+            </v-layout>
+
             <v-layout xs12 justify-center row>
               <v-progress-linear
                 v-if="!services.length"
@@ -77,54 +69,7 @@
             </v-layout>
 
             <v-layout v-if="services.length != 0" xs12 md12 row>
-              <!-- <v-flex xs12 md6>
-                <v-list v-if="services">
-                  <v-list-tile
-                    v-for="service in services"
-                    :key="service.id"
-                    avatar
-                    @click="loadServiceBit(service.id)"
-                  >
-                    <v-list-tile-avatar>
-                      <img :src="service.icon" />
-                    </v-list-tile-avatar>
-
-                    <v-list-tile-content>
-                      <v-list-tile-title v-html="service.name"></v-list-tile-title>
-                    </v-list-tile-content>
-
-                  
-                  </v-list-tile>
-                </v-list>
-              </v-flex>
-              <v-divider vertical></v-divider>
-              <v-flex xs12 md6 v-if="serviceBits" v:bind="layoutAttr">
-                
-                <v-list-tile v-for="serviceBit in serviceBits" :key="serviceBit.id">
-                  <v-checkbox v-model="selectedServiceBit" :value="serviceBit">
-                    <template v-slot:label>
-                      <v-list-tile-content>
-                        <v-list-tile-title class="pt-1">{{serviceBit.name}}</v-list-tile-title>
-                        <v-list-tile-sub-title
-                          v-if="checkSelectedBit(serviceBit.id)"
-                        >Price: {{bitPriceTotal(serviceBit.id)}}</v-list-tile-sub-title>
-                      </v-list-tile-content>
-                    </template>
-                  </v-checkbox>
-                  <v-felx v-if="checkSelectedBit(serviceBit.id)">
-                    <v-btn-toggle fab style="background-color:#ddd">
-                      <v-btn flat small @click="qtyDecrease(serviceBit.id)">
-                        <v-icon dark>remove</v-icon>
-                      </v-btn>
-                      <input type="text" class="custom-form-control" :value="serviceBit.qty" />
-                      <v-btn flat small @click="qtyIncrease(serviceBit.id)">
-                        <v-icon dark>add</v-icon>
-                      </v-btn>
-                    </v-btn-toggle>
-                  </v-felx>
-                </v-list-tile>
-              </v-flex>-->
-              <v-flex style="max-height: 250px;height: auto;overflow-x: auto;">
+              <v-flex style="min-height: 308px;max-height: 308px;height: auto;overflow-x: auto;">
                 <v-list v-if="services">
                   <v-list-tile
                     v-for="service in services"
@@ -132,13 +77,31 @@
                     avatar
                     @click="loadServiceBit(service.id)"
                     three-line
+                    class="list-mm"
+                    :style="`${getServiceBit(service.id).length > 0 ? 'background-color: #90909094 !important' : ''}`"
                   >
                     <v-list-tile-avatar>
-                      <img :src="service.icon" />
+                      <img src="../../assets/electrical.png" />
                     </v-list-tile-avatar>
 
                     <v-list-tile-content>
-                      <v-list-tile-title v-html="service.name"></v-list-tile-title>
+                      <div class="row w-100">
+                        <div class="col-md-10">
+                          <v-list-tile-title v-html="service.name"></v-list-tile-title>
+                          <ul class="pl-3">
+                            <li v-for="bit in getServiceBit(service.id)" :key="bit.id">
+                              <small>{{bit.name}}</small>
+                              <small>
+                                : &nbsp;
+                                <span
+                                  style="font-weight:bold;color:#000"
+                                >{{bit.qty}} {{bit.unit_type}}</span>
+                              </small>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-md-2 pt-2">Price: ৳{{totalPrice(getServiceBit(service.id))}}</div>
+                      </div>
                     </v-list-tile-content>
                   </v-list-tile>
                 </v-list>
@@ -153,11 +116,12 @@
                 height="auto"
                 hide-overlay="false"
               >
-                <v-btn small fav @click.stop="navdr = !navdr">
-                  <v-icon>arrow_right_alt</v-icon>
-                </v-btn>
-
-                <v-flex xs12 v-if="serviceBits" v:bind="layoutAttr" style="padding-left: 18px;">
+                <v-flex
+                  xs12
+                  v-if="serviceBits"
+                  v:bind="layoutAttr"
+                  style="padding-left: 18px;padding-top: 10px;max-height: 253px;overflow-x: auto;display: block;"
+                >
                   <v-list-item
                     v-for="serviceBit in serviceBits"
                     :key="serviceBit.id"
@@ -166,18 +130,13 @@
                     <!-- <v-flex> -->
                     <div class="row border mr-3 mb-1">
                       <div class="col-md-8">
-                        <v-checkbox
-                          v-model="selectedServiceBit"
-                          :value="serviceBit"
-                          @click="breif = serviceBit.brief;breifActiveId = serviceBit.id"
-                        >
+                        <v-checkbox v-model="selectedServiceBit" :value="serviceBit">
                           <template v-slot:label>
                             <v-list-tile-content>
                               <!-- <v-list-tile-title class="pt-1"> -->
                               <v-text>{{serviceBit.name}}</v-text>
                               <v-text v-if="checkSelectedBit(serviceBit.id)">
-                                <small>Price: {{bitPriceTotal(serviceBit.id)}}</small>
-                                <small class="ml-2">Brief</small>
+                                <small>Price: ৳{{bitPriceTotal(serviceBit.id)}}</small>
                               </v-text>
                               <!-- </v-list-tile-title> -->
                               <!-- <v-list-tile-sub-title
@@ -186,6 +145,20 @@
                             </v-list-tile-content>
                           </template>
                         </v-checkbox>
+                        <div v-if="breif ? breifActiveId == serviceBit.id ? true : false : false">
+                          <span>
+                            <strong>Price:</strong>
+                            {{serviceBit.price}}
+                          </span>
+                          <br />
+                          <span>
+                            <strong>Additional Price:</strong>
+                            {{serviceBit.additional_price}}
+                          </span>
+                          <br />
+                          {{serviceBit.brief}}
+                        </div>
+                        <!-- {{}} -->
                       </div>
                       <div class="col-md-4 col-md-4 pt-3">
                         <v-btn-toggle
@@ -201,17 +174,39 @@
                             <v-icon dark>add</v-icon>
                           </v-btn>
                         </v-btn-toggle>
-                      </div>
-                      <div v-if="serviceBit.id == breifActiveId" class="pl-3">
-                        <p v-if="checkSelectedBit(serviceBit.id)" class="text-left">{{breif}}</p>
+                        <!-- <button
+                          class="btn btn-sm btn-default"
+                          style="cursor: pointer;float: right;margin-top: 0px"
+                          @click="showBrief(serviceBit.id)"
+                        >
+                          <strong style="font-weight:bold">Brief</strong>
+                        </button>-->
+                        <v-btn
+                          small
+                          @click="showBrief(serviceBit.id)"
+                          style="float: right;margin-top: 0px"
+                        >
+                          <strong style="font-weight: bold;text-transform: capitalize;">Brief</strong>
+                          <v-icon>{{breif ? breifActiveId == serviceBit.id ? 'keyboard_arrow_up' : 'keyboard_arrow_down' : 'keyboard_arrow_down'}}</v-icon>
+                        </v-btn>
                       </div>
                     </div>
+                    <!-- <div v-if="serviceBit.id == breifActiveId" class="pl-3">
+                      <p v-if="checkSelectedBit(serviceBit.id)" class="text-left">{{breif}}</p>
+                    </div>-->
                     <!-- </v-flex> -->
                     <!-- <v-felx > -->
 
                     <!-- </v-felx> -->
                   </v-list-item>
                 </v-flex>
+                <div
+                  class="w-100 bg-white"
+                  style="bottom: 0px;left: 0px;position: sticky;display: block;background-color: #fff !important;"
+                >
+                  <v-btn small fav @click.stop="navdr = !navdr" class="float-right mr-3">Cancel</v-btn>
+                  <v-btn small fav @click.stop="navdr = !navdr" class="float-right">Ok</v-btn>
+                </div>
               </v-navigation-drawer>
             </v-layout>
             <v-layout v-else>
@@ -219,107 +214,115 @@
                 <v-title-text>No Service Found</v-title-text>
               </v-flex>
             </v-layout>
-            <v-divider></v-divider>
-            <v-card-actions text-xs-right v-if="selectedServiceBit.length != 0">
+            <!-- <v-divider></v-divider> -->
+            <v-card-actions text-xs-right>
+              <h4 class="text-left">Total Price: ৳ {{totalPrice(selectedServiceBit)}}</h4>
               <v-spacer></v-spacer>
-              <v-btn flat color="orange" @click="nextView">NEXT</v-btn>
+              <v-btn small to="/">Cancel</v-btn>
+              <v-btn v-if="selectedServiceBit.length != 0" small @click="nextView">Next</v-btn>
             </v-card-actions>
           </v-card>
         </div>
         <div class="date-area" v-if="viewarea == 'schedule'">
           <v-card>
-            <v-card-title primary-title>
+            <!-- <v-card-title primary-title>
               <v-layout justify-center row>
                 <div class="headline">Schedule Your Service</div>
               </v-layout>
             </v-card-title>
-            <v-divider></v-divider>
+            <v-divider></v-divider>-->
             <v-card-body>
-              <v-layout row text-xs-center>
-                <v-flex>
-                  <hooper style="height:auto" :settings="hooperSettings">
-                    <slide v-for="(date,i) in dates" :key="i">
-                      <v-btn
-                        dark
-                        large
-                        xs2
-                        md2
-                        class="xs12"
-                        :color="order.date == date ? 'primary' : 'error'"
-                        @click="addDate(date)"
-                      >
-                        {{date.split(',')[0]}}
-                        <br />
-                        {{date.split(',')[1]}}
-                      </v-btn>
-                    </slide>
-                    <hooper-navigation slot="hooper-addons"></hooper-navigation>
-                  </hooper>
-                </v-flex>
-              </v-layout>
-              <v-layout row text-xs-center>
-                <v-flex>
-                  <hooper style="height:auto" :settings="hooperSettingsTime">
-                    <slide v-for="(time,i) in times" :key="i">
-                      <v-btn
-                        :color="order.time == time ? 'primary' : 'error'"
-                        @click="addTime(time)"
-                      >{{time}}</v-btn>
-                    </slide>
-                    <hooper-navigation slot="hooper-addons"></hooper-navigation>
-                  </hooper>
-                </v-flex>
-              </v-layout>
+              <div style="min-height: 346px; height: auto; overflow-x: auto;padding-top: 11%;">
+                <v-layout row text-xs-center>
+                  <!-- <v-flex>
+                  <VueCtkDateTimePicker v-model="datetime" inline noButton></VueCtkDateTimePicker>
+                  </v-flex>-->
+
+                  <v-flex>
+                    <hooper style="height:auto" :settings="hooperSettings">
+                      <slide v-for="(date,i) in dates" :key="i">
+                        <v-btn
+                          dark
+                          large
+                          :color="order.date == date ? 'primary' : 'dark'"
+                          @click="addDate(date)"
+                          class="m-0"
+                        >
+                          {{date.split(',')[0]}}
+                          <br />
+                          <span style="display: contents;font-size: 12px;">{{date.split(',')[1]}}</span>
+                        </v-btn>
+                      </slide>
+                      <hooper-navigation slot="hooper-addons"></hooper-navigation>
+                    </hooper>
+                  </v-flex>
+                </v-layout>
+                <br />
+                <v-layout row text-xs-center>
+                  <v-flex>
+                    <hooper style="height:auto" :settings="hooperSettingsTime">
+                      <slide v-for="(time,i) in times" :key="i">
+                        <v-btn
+                          large
+                          :color="order.time == time ? 'primary' : 'dark'"
+                          @click="addTime(time)"
+                        >{{time}}</v-btn>
+                      </slide>
+                      <hooper-navigation slot="hooper-addons"></hooper-navigation>
+                    </hooper>
+                  </v-flex>
+                </v-layout>
+              </div>
             </v-card-body>
-            <v-divider></v-divider>
-            <v-card-actions text-xs-right>
+            <v-divider class="m-0"></v-divider>
+            <v-card-actions text-xs-right v-if="selectedServiceBit.length != 0" class="pt-2">
+              <h4 class="text-left">Total Price: ৳ {{totalPrice(selectedServiceBit)}}</h4>
               <v-spacer></v-spacer>
-              <v-btn flat color="orange" @click="prevView">PREV</v-btn>
-              <v-btn v-if="order.date && order.time" flat color="orange" @click="nextView">NEXT</v-btn>
+              <v-btn small @click="prevView">Back</v-btn>
+              <v-btn small v-if="order.date && order.time" @click="nextView">Next</v-btn>
             </v-card-actions>
           </v-card>
         </div>
 
         <div class="confirmation-area" v-if="viewarea == 'confirmation'">
           <v-card>
-            <v-card-title primary-title>
-              <v-layout justify-center row>
-                <div class="headline">Confirm Your Order</div>
-              </v-layout>
-            </v-card-title>
-            <v-divider></v-divider>
             <v-card-body>
-              <v-layout wrap align-center>
-                <v-flex md6 sm6 xs12 class="elevation-2" style="height: 450px;overflow: auto;">
-                  <v-card-title class="d-flex" cols="12">
-                    <v-text>
-                      <h3>Order Informations</h3>
-                    </v-text>
-                    <!-- <v-switch
-                      label="Order For Other"
-                      color="warning"
-                      v-model="order.orderFor"
-                      hide-details
-                      value="others"
-                      style="margin-top:0px"
-                    ></v-switch>-->
-                    <v-radio-group v-model="userType" row>
-                      <v-radio style="padding-top:5px" label="Login" value="login"></v-radio>
-                      <v-radio label="Sign Up" value="signup"></v-radio>
-                      <v-radio label="Guest" value="guest"></v-radio>
-                    </v-radio-group>
-                  </v-card-title>
-                  <!-- <v-btn small color="primary">Slef</v-btn>
-                  <v-btn>Others</v-btn>-->
-
-                  <v-divider></v-divider>
+              <v-layout
+                wrap
+                align-center
+                style="min-height: 346px;overflow: hidden;max-height: 346px;"
+              >
+                <v-flex md8 sm8 xs12 class="elevation-2" style="height: 450px;overflow: auto;">
+                  <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                      <v-card-title class="d-flex p-0 m-0">
+                        <v-radio-group class="m-0" v-model="userType" row>
+                          <v-radio class="p-0" style="padding-top:5px" label="Login" value="login"></v-radio>
+                          <v-radio class="p-0" label="Sign Up" value="signup"></v-radio>
+                          <v-radio class="p-0" label="Guest" value="guest"></v-radio>
+                        </v-radio-group>
+                        <br />
+                        <h5
+                          style="display: inline-table;"
+                          class="text-center p-0 m-0"
+                          v-if="userType == 'guest'"
+                        >Without resgitration you will miss many amazing things</h5>
+                        <h5
+                          style="display: inline-table;"
+                          class="text-center p-0 m-0"
+                          v-if="userType == 'signup'"
+                        >Signup now to track your order</h5>
+                        <h5
+                          class="text-center p-0 m-0"
+                          style="display: inline-table;"
+                          v-if="userType == 'login'"
+                        >Hello there!</h5>
+                      </v-card-title>
+                    </div>
+                  </div>
+                  <v-divider class="m-0"></v-divider>
                   <v-card-text v-if="userType == 'login'">
-                    <!-- {{$route.params.mood}} -->
-                    <v-form
-                      ref="form"
-                      @submit.prevent="login"
-                      style="padding-left: 60px; padding-right: 60px; padding-top: 0px; padding-bottom: 60px;"
-                    >
+                    <v-form ref="form" @submit.prevent="login" class="pt-0">
                       <v-text-field
                         color="accent"
                         v-model="phone"
@@ -366,7 +369,7 @@
                       v-model="valid"
                       lazy-validation
                       @submit.prevent="validate"
-                      style="padding-left: 60px; padding-right: 60px; padding-top: 0px; padding-bottom: 60px;"
+                      class="pt-0"
                     >
                       <v-text-field
                         color="accent"
@@ -459,10 +462,7 @@
                       <!-- <v-btn style="width: 100% !important;" type="submit" color="primary">REGISTER</v-btn>
                       <br />-->
                     </v-form>
-                    <div
-                      v-if="otp == true"
-                      style="padding-left: 60px; padding-right: 60px; padding-top: 0px; padding-bottom: 60px;"
-                    >
+                    <div v-if="otp == true" class="pt-0">
                       <a
                         class="custom-a"
                       >A code has been sent to your phone no. Please enter the code below.</a>
@@ -539,15 +539,15 @@
                   </v-card-body>
                 </v-flex>
 
-                <v-flex md6 sm6 xs12 class="elevation-2" style="height: 450px;">
-                  <v-card-title class="d-flex" cols="12">
-                    <v-text class="py-2">
-                      <h3>Order Summary</h3>
+                <v-flex md4 sm4 xs12 class="elevation-2" style="height: 450px;">
+                  <v-card-title class="d-flex p-0 px-2">
+                    <v-text class>
+                      <h3 class="py-1 p-0 text-center">Order Summary</h3>
                     </v-text>
                   </v-card-title>
-                  <v-divider></v-divider>
-                  <div class="mt-3" style="overflow:auto;height:100%">
-                    <ul>
+                  <v-divider class="m-0"></v-divider>
+                  <div class="mt-3">
+                    <ul style="max-height: 300px;overflow-y: scroll;" class="pb-3">
                       <li v-for="(service,i) in order.services" :key="i">
                         <v-text class="d-flex">
                           <b>{{service[0]}}</b>
@@ -574,23 +574,15 @@
                       </li>
                     </ul>
                   </div>
-                  <v-text
-                    class="elevation-2 px-3 py-3 d-flex"
-                    style="position: absolute;bottom: 53px;width: 50%;float:right;"
-                  >
-                    <h3>Total Price</h3>
-                    <span style="text-align: right;">
-                      <h3>{{ this.totalPrice(order.serviceBit)}}</h3>
-                    </span>
-                  </v-text>
                 </v-flex>
               </v-layout>
             </v-card-body>
-            <v-divider></v-divider>
-            <v-card-actions text-xs-right v-if="selectedServiceBit.length != 0">
+            <v-divider class="m-0"></v-divider>
+            <v-card-actions text-xs-right v-if="selectedServiceBit.length != 0" class="pt-2">
+              <h4 class="text-left">Total Price: ৳ {{totalPrice(selectedServiceBit)}}</h4>
               <v-spacer></v-spacer>
-              <v-btn flat color="orange" @click="prevView">PREV</v-btn>
-              <v-btn flat color="orange" @click="nextView">FINISH</v-btn>
+              <v-btn small @click="prevView">Back</v-btn>
+              <v-btn small v-if="order.date && order.time" @click="nextView">Confirm</v-btn>
             </v-card-actions>
           </v-card>
         </div>
@@ -621,6 +613,9 @@ import axios from "../../axios_instance.js";
 import { localStorageService, Helper, customDate } from "../../helper.js";
 import SweetalertIcon from "vue-sweetalert-icons";
 import HeaderLanding from "../../components/HeaderLanding.vue";
+import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
+import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
+
 import {
   Hooper,
   Slide,
@@ -636,17 +631,20 @@ export default {
     HooperProgress,
     HooperNavigation,
     SweetalertIcon,
-    HeaderLanding
+    HeaderLanding,
+    VueCtkDateTimePicker
   },
   data() {
     return {
+      datetime: "",
       navdr: null,
-      breif: "",
+      breif: null,
       breifActiveId: "",
       selectedServiceBit: [],
       categorys: [],
       category: [],
       services: [],
+      selectedServices: [],
       serviceBits: [],
       isProgressLoading: false,
       userType: "login",
@@ -701,7 +699,8 @@ export default {
       orderDone: false,
       orderPlacingStatus: false,
       hooperSettings: {
-        itemsToShow: 3,
+        itemsToShow: 4,
+        itemsToSlide: 4,
         centerMode: false,
         wheelControl: false,
         infiniteScroll: false,
@@ -710,7 +709,8 @@ export default {
         transition: 1000
       },
       hooperSettingsTime: {
-        itemsToShow: 7,
+        itemsToShow: 4,
+        itemsToSlide: 4,
         centerMode: false,
         wheelControl: false,
         infiniteScroll: false,
@@ -798,11 +798,40 @@ export default {
       // this.services.id == servicesId;
       this.serviceBits = "";
       var arr = this.services;
-      this.serviceBits = this.services.find(
-        arr => arr.id == serviceId
-      ).serviceBits;
+      var selectedService = this.services.find(arr => arr.id == serviceId);
+      this.serviceBits = selectedService.serviceBits;
+      this.selectedServices.push(selectedService);
       this.navdr = true;
+      // this.$router.replace(selectedService.slug);
     },
+    checkSelectedService: function(serviceId) {
+      var arr = this.selectedServices;
+      var selectedServic = this.selectedServices.find(
+        arr => arr.id == serviceId
+      );
+      return selectedServic;
+    },
+    getServiceBit: function(serviceId) {
+      var arr = this.selectedServices;
+      var selectedService = this.selectedServices.find(
+        arr => arr.id == serviceId
+      );
+
+      if (selectedService) {
+        var arr2 = this.selectedServiceBit;
+        var bits = this.selectedServiceBit.filter(
+          arr2 => arr2.service_id == selectedService.id
+        );
+        console.log(bits.length);
+        console.log("me");
+        return bits;
+      } else {
+        return [];
+      }
+
+      // return bits ? bits : "";
+    },
+
     categorysGet: function() {
       return (this.categorys = localStorageService.getItem("categorys"));
     },
@@ -819,6 +848,15 @@ export default {
         this.selectedServiceBit.find(
           selectedServiceBit => selectedServiceBit.id == serviceBitId
         ).qty--;
+      }
+    },
+    showBrief(servirceBitId) {
+      if (this.breifActiveId != servirceBitId) {
+        this.breifActiveId = servirceBitId;
+        this.breif = true;
+      } else {
+        this.breif = false;
+        this.breifActiveId = "";
       }
     },
     checkSelectedBit: function(serviceBitId) {
@@ -943,18 +981,22 @@ export default {
       this.$router.replace("/user");
     },
     totalPrice(servicesBits) {
-      function indvidualTotal(item) {
-        var total =
-          item.qty > 1
-            ? (item.qty - 1) * parseInt(item.additional_price) +
-              parseInt(item.price)
-            : parseInt(item.price);
-        return parseInt(total);
+      if (servicesBits) {
+        function indvidualTotal(item) {
+          var total =
+            item.qty > 1
+              ? (item.qty - 1) * parseInt(item.additional_price) +
+                parseInt(item.price)
+              : parseInt(item.price);
+          return parseInt(total);
+        }
+
+        var tp = servicesBits.map(indvidualTotal).reduce((f, n) => n + f, 0);
+
+        return tp;
+      } else {
+        return 0;
       }
-
-      var tp = servicesBits.map(indvidualTotal).reduce((f, n) => n + f, 0);
-
-      return tp;
     },
 
     /** Login  */
@@ -1044,11 +1086,11 @@ ul {
 }
 
 .v-navigation-drawer--open {
-  margin-top: 20% !important;
-  width: 90% !important;
-  padding-bottom: 50px !important;
-  height: auto !important;
-  max-height: 340px;
+  margin-top: 4.3% !important;
+  width: 100% !important;
+  padding-bottom: 5px !important;
+  /* height: auto !important;
+  max-height: 340px; */
 }
 
 .v-list__tile .theme--light {
@@ -1056,5 +1098,76 @@ ul {
 }
 .v-label {
   margin-bottom: 0px !important;
+}
+/* .theme--light.v-list {
+  background-color: #eff0f1 !important;
+} */
+
+.v-stepper__step__step {
+  font-size: 15px !important;
+  height: 26px !important;
+  width: 26px !important;
+}
+
+div::-webkit-scrollbar {
+  width: 1em !important;
+}
+
+div::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+div::-webkit-scrollbar-thumb {
+  background-color: darkgrey !important;
+  outline: 1px solid slategrey !important;
+}
+
+.list-mm {
+  background-color: #e4e4e4 !important;
+  /* border: 1px solid #bfbfbf; */
+  /* box-shadow: 0 0 0px 2px white; */
+  /* margin: 4px 0px; */
+  border-bottom: 1px solid #6f6f6f !important;
+}
+
+.v-list__tile--link {
+  height: auto !important;
+  min-height: 60px;
+}
+
+.v-list__tile--link:hover > .v-list__tile__title {
+  /* background-color: #000 !important; */
+  color: #fff !important;
+}
+
+.v-list__tile--link:hover {
+  background-color: #90909094 !important;
+  /* color: #fff !important; */
+}
+.v-avatar {
+  border-radius: 0px;
+}
+.v-avatar img {
+  border-radius: 0px;
+}
+.v-chip__content {
+  cursor: pointer !important;
+}
+/* .hooper-track {
+  padding: 0 5% !important;
+} */
+
+.application--wrap {
+  background-image: url("http://192.168.241.47/mistrimama3.0/public/frontend/image/order_background.png") !important;
+}
+.v-input__slot {
+  margin-bottom: 0px !important;
+}
+
+.v-message {
+  display: none !important;
+}
+.v-input--radio-group--row {
+  justify-content: center !important;
 }
 </style>

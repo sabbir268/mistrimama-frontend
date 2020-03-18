@@ -8,18 +8,30 @@
     <!--End Main Header -->
 
     <!-- Bnner Section -->
+
     <section class="banner-section">
       <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
+          <!-- <div
+            v-for="(slider , i) in sliders"
+            :key="i"
+            :class="`carousel-item ${i == 0 ? 'active' : ''}`"
+          >
+            <img
+              class="d-block w-100"
+              style="max-height:668px"
+              :src="slider.image"
+              :alt="slider.name"
+            />
+          </div>-->
           <div class="carousel-item active">
             <img
               class="d-block w-100"
               style="max-height:668px"
               src="http://192.168.241.47/mistrimama3.0/public/frontend/image/fac.jpg"
-              alt="First slide"
+              alt="Second slide"
             />
           </div>
-
           <div class="carousel-item">
             <img
               class="d-block w-100"
@@ -275,193 +287,270 @@
     <section class="projects-section">
       <div class="auto-container">
         <div class="sec-title text-right">
-          <span class="float-text">Project</span>
-          <h2>Our Project</h2>
+          <span class="float-text">Corporate</span>
+          <h2>B2B Packages</h2>
         </div>
       </div>
-
       <div class="inner-container">
-        <div class="projects-carousel owl-carousel owl-theme">
-          <!-- Project Block -->
-          <div class="project-block">
-            <div class="image-box">
-              <figure class="image">
-                <img src="../assets/images/gallery/1.jpg" alt />
-              </figure>
-              <div class="overlay-box">
-                <h4>
-                  <a href="project-detail.html">
-                    Laxury Home
-                    <br />Project
-                  </a>
-                </h4>
-                <div class="btn-box">
-                  <a
-                    href="../assets/images/gallery/1.jpg"
-                    class="lightbox-image"
-                    data-fancybox="gallery"
-                  >
-                    <i class="fa fa-search"></i>
-                  </a>
-                  <a href="project-detail.html">
+        <!-- <div class="projects-carousel"> -->
+        <!-- Project Block sabbir -->
+        <hooper :settings="hooperSettingsProject">
+          <Slide>
+            <div class="project-block">
+              <div class="image-box">
+                <figure class="image">
+                  <img src="http://192.168.241.47/mistrimama3.0/public/frontend/image/C1.jpg" alt />
+                </figure>
+                <div class="overlay-box">
+                  <h4>
+                    <a href="/">
+                      <stron>B2B Affiliation</stron>
+                    </a>
+                  </h4>
+                  <div class="btn-box">
+                    <!-- <a href="/">
+                      <i class="fa fa-external-link"></i>
+                    </a>-->
+                    <ul class="btn-box-ul">
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Real Time Dashboard</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Priority Service</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Technician Monitoring Facility</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Separate Service Team</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Product Purchase Support</li>
+                    </ul>
+                  </div>
+                  <router-link class="tag" style="color: #febe00;" to="/affliation">
+                    View More
                     <i class="fa fa-external-link"></i>
-                  </a>
+                  </router-link>
                 </div>
-                <span class="tag">Architecture</span>
               </div>
             </div>
-          </div>
+          </Slide>
+          <!-- Project Block -->
+          <Slide>
+            <div class="project-block">
+              <div class="image-box">
+                <figure class="image">
+                  <img src="http://192.168.241.47/mistrimama3.0/public/frontend/image/C3.jpg" alt />
+                </figure>
+                <div class="overlay-box">
+                  <h4>
+                    <a href="/">
+                      <stron>B2B Project</stron>
+                    </a>
+                  </h4>
+                  <div class="btn-box">
+                    <!-- <a href="/">
+                      <i class="fa fa-external-link"></i>
+                    </a>-->
+                    <ul class="btn-box-ul">
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Dynamic Dashboard</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Project Process Monitoring</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Project Inventory</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Corporate Discount</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Credit Facility</li>
+                    </ul>
+                  </div>
+                  <router-link class="tag" style="color: #febe00;" to="/affliation">
+                    View More
+                    <i class="fa fa-external-link"></i>
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </Slide>
 
           <!-- Project Block -->
-          <div class="project-block">
-            <div class="image-box">
-              <figure class="image">
-                <img src="../assets/images/gallery/2.jpg" alt />
-              </figure>
-              <div class="overlay-box">
-                <h4>
-                  <a href="project-detail.html">
-                    Laxury Home
-                    <br />Project
-                  </a>
-                </h4>
-                <div class="btn-box">
-                  <a
-                    href="../assets/images/gallery/2.jpg"
-                    class="lightbox-image"
-                    data-fancybox="gallery"
-                  >
-                    <i class="fa fa-search"></i>
-                  </a>
-                  <a href="project-detail.html">
+          <Slide>
+            <div class="project-block">
+              <div class="image-box">
+                <figure class="image">
+                  <img src="http://192.168.241.47/mistrimama3.0/public/frontend/image/C2.jpg" alt />
+                </figure>
+                <div class="overlay-box">
+                  <h4>
+                    <a href="/">
+                      <stron>B2B Maintenance</stron>
+                    </a>
+                  </h4>
+                  <div class="btn-box">
+                    <!-- <a href="/">
+                      <i class="fa fa-external-link"></i>
+                    </a>-->
+                    <ul class="btn-box-ul">
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Asset Inventory</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Regular Maintenance</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Safety Training</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Corporate Advising Session</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Separate Key Account Manager</li>
+                    </ul>
+                  </div>
+                  <router-link class="tag" style="color: #febe00;" to="/affliation">
+                    View More
                     <i class="fa fa-external-link"></i>
-                  </a>
+                  </router-link>
                 </div>
-                <span class="tag">Architecture</span>
               </div>
             </div>
-          </div>
-
+          </Slide>
           <!-- Project Block -->
-          <div class="project-block">
-            <div class="image-box">
-              <figure class="image">
-                <img src="../assets/images/gallery/3.jpg" alt />
-              </figure>
-              <div class="overlay-box">
-                <h4>
-                  <a href="project-detail.html">
-                    Laxury Home
-                    <br />Project
-                  </a>
-                </h4>
-                <div class="btn-box">
-                  <a
-                    href="../assets/images/gallery/3.jpg"
-                    class="lightbox-image"
-                    data-fancybox="gallery"
-                  >
-                    <i class="fa fa-search"></i>
-                  </a>
-                  <a href="project-detail.html">
+          <Slide>
+            <div class="project-block">
+              <div class="image-box">
+                <figure class="image">
+                  <img src="http://192.168.241.47/mistrimama3.0/public/frontend/image/C4.jpg" alt />
+                </figure>
+                <div class="overlay-box">
+                  <h4>
+                    <a href="/">
+                      <stron>B2B On Demand</stron>
+                    </a>
+                  </h4>
+                  <div class="btn-box">
+                    <!-- <a href="/">
+                      <i class="fa fa-external-link"></i>
+                    </a>-->
+                    <ul class="btn-box-ul">
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >On Time Service</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >7 Days Service Warranty</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Fast Service During Emergency</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Negotiation Free</li>
+                      <li
+                        class="btn-box-li"
+                        style="color: #fff;padding-bottom: 8px;"
+                      >Secured and Trust Worthy Service</li>
+                    </ul>
+                  </div>
+                  <router-link class="tag" style="color: #febe00;" to="/affliation">
+                    View More
                     <i class="fa fa-external-link"></i>
-                  </a>
+                  </router-link>
                 </div>
-                <span class="tag">Architecture</span>
               </div>
             </div>
-          </div>
-
+          </Slide>
           <!-- Project Block -->
-          <div class="project-block">
-            <div class="image-box">
-              <figure class="image">
-                <img src="../assets/images/gallery/4.jpg" alt />
-              </figure>
-              <div class="overlay-box">
-                <h4>
-                  <a href="project-detail.html">
-                    Laxury Home
-                    <br />Project
-                  </a>
-                </h4>
-                <div class="btn-box">
-                  <a
-                    href="../assets/images/gallery/4.jpg"
-                    class="lightbox-image"
-                    data-fancybox="gallery"
-                  >
-                    <i class="fa fa-search"></i>
-                  </a>
-                  <a href="project-detail.html">
-                    <i class="fa fa-external-link"></i>
-                  </a>
+          <!-- <Slide>
+            <div class="project-block">
+              <div class="image-box">
+                <figure class="image">
+                  <img src="../assets/images/gallery/5.jpg" alt />
+                </figure>
+                <div class="overlay-box">
+                  <h4>
+                    <a href="project-detail.html">
+                      Laxury Home
+                      <br />Project
+                    </a>
+                  </h4>
+                  <div class="btn-box">
+                    <a
+                      href="../assets/images/gallery/5.jpg"
+                      class="lightbox-image"
+                      data-fancybox="gallery"
+                    >
+                      <i class="fa fa-search"></i>
+                    </a>
+                    <a href="project-detail.html">
+                      <i class="fa fa-external-link"></i>
+                    </a>
+                  </div>
+                  <span class="tag">Architecture</span>
                 </div>
-                <span class="tag">Architecture</span>
               </div>
             </div>
-          </div>
-
-          <!-- Project Block -->
-          <div class="project-block">
-            <div class="image-box">
-              <figure class="image">
-                <img src="../assets/images/gallery/5.jpg" alt />
-              </figure>
-              <div class="overlay-box">
-                <h4>
-                  <a href="project-detail.html">
-                    Laxury Home
-                    <br />Project
-                  </a>
-                </h4>
-                <div class="btn-box">
-                  <a
-                    href="../assets/images/gallery/5.jpg"
-                    class="lightbox-image"
-                    data-fancybox="gallery"
-                  >
-                    <i class="fa fa-search"></i>
-                  </a>
-                  <a href="project-detail.html">
-                    <i class="fa fa-external-link"></i>
-                  </a>
+          </Slide>
+          
+          <Slide>
+            <div class="project-block">
+              <div class="image-box">
+                <figure class="image">
+                  <img src="../assets/images/gallery/3.jpg" alt />
+                </figure>
+                <div class="overlay-box">
+                  <h4>
+                    <a href="project-detail.html">
+                      Laxury Home
+                      <br />Project
+                    </a>
+                  </h4>
+                  <div class="btn-box">
+                    <a
+                      href="../assets/images/gallery/3.jpg"
+                      class="lightbox-image"
+                      data-fancybox="gallery"
+                    >
+                      <i class="fa fa-search"></i>
+                    </a>
+                    <a href="project-detail.html">
+                      <i class="fa fa-external-link"></i>
+                    </a>
+                  </div>
+                  <span class="tag">Architecture</span>
                 </div>
-                <span class="tag">Architecture</span>
               </div>
             </div>
-          </div>
-
-          <!-- Project Block -->
-          <div class="project-block">
-            <div class="image-box">
-              <figure class="image">
-                <img src="../assets/images/gallery/3.jpg" alt />
-              </figure>
-              <div class="overlay-box">
-                <h4>
-                  <a href="project-detail.html">
-                    Laxury Home
-                    <br />Project
-                  </a>
-                </h4>
-                <div class="btn-box">
-                  <a
-                    href="../assets/images/gallery/3.jpg"
-                    class="lightbox-image"
-                    data-fancybox="gallery"
-                  >
-                    <i class="fa fa-search"></i>
-                  </a>
-                  <a href="project-detail.html">
-                    <i class="fa fa-external-link"></i>
-                  </a>
-                </div>
-                <span class="tag">Architecture</span>
-              </div>
-            </div>
-          </div>
-        </div>
+          </Slide>-->
+        </hooper>
+        <!-- </div> -->
       </div>
     </section>
     <!--End Project Section -->
@@ -618,66 +707,118 @@
               <span class="float-text">testimonial</span>
               <h2>What Client Says</h2>
             </div>
-            <div
+            <!-- <div
               class="text"
-            >Looking at its layout. The point of using very profectly is that it has a more-or-less normal distribution of letters, as opposed</div>
+            >Looking at its layout. The point of using very profectly is that it has a more-or-less normal distribution of letters, as opposed</div>-->
           </div>
         </div>
 
         <!-- Testimonial Column -->
-        <div
-          class="testimonial-column clearfix"
-          style="background-image: url(../assets/images/background/4.jpg);"
-        >
+        <div class="testimonial-column clearfix">
           <div class="inner-column">
-            <div class="testimonial-carousel owl-carousel owl-theme">
+            <div class="testimonial">
               <!-- Testimonial Block -->
-              <div class="testimonial-block">
-                <div class="inner-box">
-                  <div class="image-box">
-                    <img src="../assets/images/resource/thumb-1.jpg" alt />
+              <hooper :settings="hooperSettingsTestimonial">
+                <Slide>
+                  <div class="testimonial-block">
+                    <div class="inner-box">
+                      <div class="image-box">
+                        <img
+                          src="http://192.168.241.47/mistrimama3.0/public/frontend/image/review/SadmanOrnab_.png"
+                          alt
+                        />
+                      </div>
+                      <div
+                        class="text"
+                      >One of the best service I got. Quick response and faster service delivery I got. Service person behavior is good and very efficient to give the service.</div>
+                      <div class="info-box">
+                        <h4 class="name">Sadman Ornab</h4>
+                        <span class="designation">Corporate Executive</span>
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    class="text"
-                  >A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot.</div>
-                  <div class="info-box">
-                    <h4 class="name">Jane Smith</h4>
-                    <span class="designation">CEO, InDesign</span>
+                </Slide>
+                <!-- Testimonial Block -->
+                <Slide>
+                  <div class="testimonial-block">
+                    <div class="inner-box">
+                      <div class="image-box">
+                        <img
+                          src="http://192.168.241.47/mistrimama3.0/public/frontend/image/review/HasiburRahmanRahib_.png"
+                          alt
+                        />
+                      </div>
+                      <div
+                        class="text"
+                      >Great Convenient and affordable service. Wish best of luck for future endeavors and keep it up this service quality.</div>
+                      <div class="info-box">
+                        <h4 class="name">Hasibur Rahman Rahib</h4>
+                        <span class="designation">Student</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-
-              <!-- Testimonial Block -->
-              <div class="testimonial-block">
-                <div class="inner-box">
-                  <div class="image-box">
-                    <img src="../assets/images/resource/thumb-1.jpg" alt />
+                </Slide>
+                <!-- Testimonial Block -->
+                <Slide>
+                  <div class="testimonial-block">
+                    <div class="inner-box">
+                      <div class="image-box">
+                        <img
+                          src="http://192.168.241.47/mistrimama3.0/public/frontend/image/review/DiabMahmudTushar.png"
+                          alt
+                        />
+                      </div>
+                      <div
+                        class="text"
+                      >Mistri mama is a great platform to have household service of electronic items. it's made our daily life easier than before.</div>
+                      <div class="info-box">
+                        <h4 class="name">Diab Mahmud Tushar</h4>
+                        <span class="designation">Corporate Executive</span>
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    class="text"
-                  >A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot.</div>
-                  <div class="info-box">
-                    <h4 class="name">Jane Smith</h4>
-                    <span class="designation">CEO, InDesign</span>
+                </Slide>
+                <!-- Testimonial Block -->
+                <Slide>
+                  <div class="testimonial-block">
+                    <div class="inner-box">
+                      <div class="image-box">
+                        <img
+                          src="http://192.168.241.47/mistrimama3.0/public/frontend/image/review/TausifAhmed_.png"
+                          alt
+                        />
+                      </div>
+                      <div
+                        class="text"
+                      >Took AC servicing from Mistri Mama and they did a stellar job. Highly recommended.</div>
+                      <div class="info-box">
+                        <h4 class="name">Tausif Ahmed</h4>
+                        <span class="designation">Corporate Manager</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-
-              <!-- Testimonial Block -->
-              <div class="testimonial-block">
-                <div class="inner-box">
-                  <div class="image-box">
-                    <img src="../assets/images/resource/thumb-1.jpg" alt />
+                </Slide>
+                <!-- Testimonial Block -->
+                <Slide>
+                  <div class="testimonial-block">
+                    <div class="inner-box">
+                      <div class="image-box">
+                        <img
+                          src="http://192.168.241.47/mistrimama3.0/public/frontend/image/review/MizanurRahman_.png"
+                          alt
+                        />
+                      </div>
+                      <div
+                        class="text"
+                      >Services quality is very good and behavior of mistri is just amazing. Thanks to Mistri Mama for excellent services.</div>
+                      <div class="info-box">
+                        <h4 class="name">Mizanur Rahman</h4>
+                        <span class="designation">Corporate Executive</span>
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    class="text"
-                  >A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot.</div>
-                  <div class="info-box">
-                    <h4 class="name">Jane Smith</h4>
-                    <span class="designation">CEO, InDesign</span>
-                  </div>
-                </div>
-              </div>
+                </Slide>
+              </hooper>
             </div>
           </div>
         </div>
@@ -1221,6 +1362,7 @@ export default {
     return {
       categorys: "",
       selectedCategory: "",
+      sliders: "",
       hooperSettings: {
         itemsToShow: 3,
         centerMode: true,
@@ -1229,12 +1371,31 @@ export default {
         autoPlay: true,
         playSpeed: 3000,
         transition: 1000
+      },
+      hooperSettingsProject: {
+        itemsToShow: 4,
+        centerMode: false,
+        wheelControl: false,
+        infiniteScroll: false,
+        autoPlay: false,
+        playSpeed: 100000,
+        transition: 1000
+      },
+      hooperSettingsTestimonial: {
+        itemsToShow: 1,
+        centerMode: true,
+        wheelControl: false,
+        infiniteScroll: true,
+        autoPlay: true,
+        playSpeed: 1000,
+        transition: 1000
       }
     };
   },
 
   created() {
     this.storeCategorys();
+    this.getSlider();
   },
 
   methods: {
@@ -1260,6 +1421,11 @@ export default {
       else {
         return input;
       }
+    },
+    async getSlider() {
+      var res = await axios.get("slider");
+      console.log(res.data);
+      this.sliders = res.data;
     }
   }
 };
@@ -1417,6 +1583,38 @@ option {
 
 .hooper {
   height: auto !important;
+}
+
+.about-section .content-column .content-box .title h2 {
+  padding-bottom: 10px !important;
+}
+
+.about-section .content-column .content-box .title {
+  margin-bottom: 10px !important;
+}
+.about-section {
+  padding: 0px 0 !important;
+}
+
+.btn-box-ul {
+  color: #fff !important;
+}
+
+.project-block .overlay-box .btn-box {
+  top: 38% !important;
+}
+
+.btn-box > .btn-box-ul > .btn-box-li {
+  padding-bottom: 10px;
+  color: #fff !important;
+}
+
+.btn-box > ul > li {
+  color: #fff !important;
+}
+
+.testimonial-section .testimonial-column .inner-column {
+  padding: 70px 118px 40px 60px !important;
 }
 
 @media only screen and (max-width: 600px) {
