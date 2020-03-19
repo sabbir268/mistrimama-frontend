@@ -17,6 +17,7 @@
                   label="সম্পূর্ণ নাম"
                   placeholder="Radif Chowdhury"
                 ></v-text-field>
+                <v-text style="color:red" v-if="errors.name">{{errors.name}}</v-text>
               </v-flex>
               <v-flex md6>
                 <v-text-field
@@ -27,6 +28,7 @@
                   label="ফোন"
                   placeholder="0XXXXXXXXXX"
                 ></v-text-field>
+                <v-text style="color:red" v-if="errors.phone">{{errors.phone}}</v-text>
               </v-flex>
             </v-layout>
             <v-layout>
@@ -38,6 +40,7 @@
                   label="ই-মেইল"
                   placeholder="youremail@gmail.com"
                 ></v-text-field>
+                <v-text style="color:red" v-if="errors.email">{{errors.email}}</v-text>
               </v-flex>
               <v-flex md6>
                 <v-text-field
@@ -71,6 +74,7 @@
                   v-model="nidNumber"
                   label="এন.আই.ডি নং #"
                   placeholder="123456789"
+                  type="number"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -131,7 +135,7 @@
                 @click="reset"
                 style="min-width: 100px !important; margin: 5px;"
               >
-                <v-icon class="button-icon-cancel">close</v-icon>
+                <v-icon class="button-icon-cancel" @click.stop="drawer = !drawer">close</v-icon>
               </v-btn>
             </div>
           </v-container>
@@ -177,7 +181,12 @@ export default {
       category: null,
       itemsService: localStorageService.getItem("categorys"),
       alertMessage: null,
-      snackbar: false
+      snackbar: false,
+      errors: {
+        name: null,
+        phone: null,
+        email: null
+      }
     };
   },
   watch: {
@@ -215,28 +224,36 @@ export default {
     },
     async addComrade() {
       this.process = true;
-
-      var res = await axios.post(`/comrade`, {
-        name: this.fullName,
-        phone: this.phoneNumber,
-        email: this.email,
-        address: "Nai",
-        nid_no: this.nidNumber,
-        photo: this.personalImage,
-        nid_front: this.nidImageFront,
-        nid_back: this.nidImageBack,
-        services: this.category
-      });
-      if (res.data.message == "Comrade added successfully") {
-        this.alertMessage = res.data.message;
-        this.drawer = false;
-        this.$router.push("/shohokari");
-      } else {
-        this.alertMessage = "Something went wrong";
+      try {
+        var res = await axios.post(`/comrade`, {
+          name: this.fullName,
+          phone: this.phoneNumber,
+          email: this.email,
+          address: "Nai",
+          nid_no: this.nidNumber,
+          photo: this.personalImage,
+          nid_front: this.nidImageFront,
+          nid_back: this.nidImageBack,
+          services: this.category
+        });
+        if (res.data.message == "Comrade added successfully") {
+          this.alertMessage = res.data.message;
+          this.drawer = false;
+          this.snackbar = true;
+          this.process = false;
+          this.$router.push("/shohokari");
+        }
+      } catch (err) {
+        this.process = false;
+        var errors = Object.values(err.response.data.errors).flat();
+        console.log(err.response.data.errors);
+        // this.alertMessage = err;
+        // this.snackbar = true;
+        console.log(errors[0]);
+        this.errors.phone = err.response.data.errors.phone[0];
+        this.errors.email = err.response.data.errors.email[0];
+        this.errors.name = err.response.data.errors.name[0];
       }
-
-      this.snackbar = true;
-      this.process = false;
     },
     reset() {
       this.$refs.form.reset();

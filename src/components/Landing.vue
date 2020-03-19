@@ -28,7 +28,7 @@
             <img
               class="d-block w-100"
               style="max-height:668px"
-              src="http://192.168.241.47/mistrimama3.0/public/frontend/image/fac.jpg"
+              src="https://staging.mistrimama.com/backend/public/frontend/image/fac.jpg"
               alt="Second slide"
             />
           </div>
@@ -36,7 +36,7 @@
             <img
               class="d-block w-100"
               style="max-height:668px"
-              src="http://192.168.241.47/mistrimama3.0/public/frontend/image/Kit.jpg"
+              src="https://staging.mistrimama.com/backend/public/frontend/image/Kit.jpg"
               alt="Second slide"
             />
           </div>
@@ -44,7 +44,7 @@
             <img
               class="d-block w-100"
               style="max-height:668px"
-              src="http://192.168.241.47/mistrimama3.0/public/frontend/image/liv.jpg"
+              src="https://staging.mistrimama.com/backend/public/frontend/image/liv.jpg"
               alt="Second slide"
             />
           </div>
@@ -52,7 +52,7 @@
             <img
               class="d-block w-100"
               style="max-height:668px"
-              src="http://192.168.241.47/mistrimama3.0/public/frontend/image/off.jpg"
+              src="https://staging.mistrimama.com/backend/public/frontend/image/off.jpg"
               alt="Second slide"
             />
           </div>
@@ -60,7 +60,7 @@
             <img
               class="d-block w-100"
               style="max-height:668px"
-              src="http://192.168.241.47/mistrimama3.0/public/frontend/image/toy.jpg"
+              src="https://staging.mistrimama.com/backend/public/frontend/image/toy.jpg"
               alt="Second slide"
             />
           </div>
@@ -299,7 +299,10 @@
             <div class="project-block">
               <div class="image-box">
                 <figure class="image">
-                  <img src="http://192.168.241.47/mistrimama3.0/public/frontend/image/C1.jpg" alt />
+                  <img
+                    src="https://staging.mistrimama.com/backend/public/frontend/image/C1.jpg"
+                    alt
+                  />
                 </figure>
                 <div class="overlay-box">
                   <h4>
@@ -347,7 +350,10 @@
             <div class="project-block">
               <div class="image-box">
                 <figure class="image">
-                  <img src="http://192.168.241.47/mistrimama3.0/public/frontend/image/C3.jpg" alt />
+                  <img
+                    src="https://staging.mistrimama.com/backend/public/frontend/image/C3.jpg"
+                    alt
+                  />
                 </figure>
                 <div class="overlay-box">
                   <h4>
@@ -396,7 +402,10 @@
             <div class="project-block">
               <div class="image-box">
                 <figure class="image">
-                  <img src="http://192.168.241.47/mistrimama3.0/public/frontend/image/C2.jpg" alt />
+                  <img
+                    src="https://staging.mistrimama.com/backend/public/frontend/image/C2.jpg"
+                    alt
+                  />
                 </figure>
                 <div class="overlay-box">
                   <h4>
@@ -444,7 +453,10 @@
             <div class="project-block">
               <div class="image-box">
                 <figure class="image">
-                  <img src="http://192.168.241.47/mistrimama3.0/public/frontend/image/C4.jpg" alt />
+                  <img
+                    src="https://staging.mistrimama.com/backend/public/frontend/image/C4.jpg"
+                    alt
+                  />
                 </figure>
                 <div class="overlay-box">
                   <h4>
@@ -724,7 +736,7 @@
                     <div class="inner-box">
                       <div class="image-box">
                         <img
-                          src="http://192.168.241.47/mistrimama3.0/public/frontend/image/review/SadmanOrnab_.png"
+                          src="https://staging.mistrimama.com/backend/public/frontend/image/review/SadmanOrnab_.png"
                           alt
                         />
                       </div>
@@ -744,7 +756,7 @@
                     <div class="inner-box">
                       <div class="image-box">
                         <img
-                          src="http://192.168.241.47/mistrimama3.0/public/frontend/image/review/HasiburRahmanRahib_.png"
+                          src="https://staging.mistrimama.com/backend/public/frontend/image/review/HasiburRahmanRahib_.png"
                           alt
                         />
                       </div>
@@ -764,7 +776,7 @@
                     <div class="inner-box">
                       <div class="image-box">
                         <img
-                          src="http://192.168.241.47/mistrimama3.0/public/frontend/image/review/DiabMahmudTushar.png"
+                          src="https://staging.mistrimama.com/backend/public/frontend/image/review/DiabMahmudTushar.png"
                           alt
                         />
                       </div>
@@ -784,7 +796,7 @@
                     <div class="inner-box">
                       <div class="image-box">
                         <img
-                          src="http://192.168.241.47/mistrimama3.0/public/frontend/image/review/TausifAhmed_.png"
+                          src="https://staging.mistrimama.com/backend/public/frontend/image/review/TausifAhmed_.png"
                           alt
                         />
                       </div>
@@ -804,7 +816,7 @@
                     <div class="inner-box">
                       <div class="image-box">
                         <img
-                          src="http://192.168.241.47/mistrimama3.0/public/frontend/image/review/MizanurRahman_.png"
+                          src="https://staging.mistrimama.com/backend/public/frontend/image/review/MizanurRahman_.png"
                           alt
                         />
                       </div>

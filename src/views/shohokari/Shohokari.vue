@@ -98,7 +98,7 @@
                           @click="openDrawer(props.item)"
                         >
                           <v-avatar>
-                            <img :src="props.item.photo" alt="Picture" />
+                            <img :src="`${baseUrl()}/${props.item.photo}`" alt="Picture" />
                           </v-avatar>
                           <!-- {{props.item.photo}} -->
                         </td>
@@ -122,6 +122,16 @@
                           style="cursor: pointer"
                           @click="openDrawer(props.item)"
                         >{{ props.item.nid_no }}</td>
+                        <td
+                          class="text-xs-left"
+                          style="cursor: pointer"
+                          @click="openDrawer(props.item)"
+                        >{{ props.item.approve == 1 ? 'Yes' : 'No' }}</td>
+                        <td
+                          class="text-xs-left"
+                          style="cursor: pointer"
+                          @click="openDrawer(props.item)"
+                        >{{ props.item.status == 1 ? 'Active' : 'Not Active' }}</td>
                         <td class="text-xs-center">
                           <v-tooltip v-model="show" bottom>
                             <template v-slot:activator="{ on }">
@@ -185,7 +195,7 @@ export default {
   data() {
     return {
       comrades: [],
-      dataLoaded: '',
+      dataLoaded: "",
       pageCount: 1,
       drawerNotunShohokari: false,
       drawerNotunShohokariEdit: false,
@@ -204,7 +214,9 @@ export default {
         { text: "নাম", value: "calories" },
         { text: "ফোন নম্বর", value: "fat" },
         { text: "ই-মেইল", value: "carbs" },
-        { text: "এন.আই.ডি নং #", value: "protein" },
+        { text: "এন.আই.ডি নং", value: "protein" },
+        { text: "অনুমদিত", value: "protein" },
+        { text: "স্টাটাস", value: "protein" },
         { text: "অ্যাকশন", value: "iron", align: "center" }
       ],
       drawer: null,
@@ -233,14 +245,20 @@ export default {
       let res = await axios.get(`/sp/comrades`);
       this.comrades = res.data;
       this.dataLoaded = true;
+    },
+    async storeCategorys() {
+      if (!localStorageService.getItem("categorys")) {
+        var allCategory = await axios.get("/category");
+        localStorageService.setItem("categorys", allCategory.data.data);
+        this.categorys = allCategory.data.data;
+      }
     }
   },
-  watch: {
-    
-  },
+  watch: {},
   computed: {},
   created() {
     this.getAllComrades();
+    this.storeCategorys();
   }
   // async mounted() {
   //   this.dataLoaded = true;

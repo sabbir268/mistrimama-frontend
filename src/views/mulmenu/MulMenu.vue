@@ -19,9 +19,11 @@
                         <h3>
                           ব্যালান্স
                           <br />
-                          <span class="a">৳ {{balance}}/-</span>
+                          <span class="a">৳ {{localGetItem('sp').balance}}/-</span>
                           <br />
-                          <span class="b">উত্তোলনযোগ্য ৳ {{balance > 500 ? balance - 500 : 0 }}/-</span>
+                          <span
+                            class="b"
+                          >উত্তোলনযোগ্য ৳ {{localGetItem('sp').balance > 500 ? localGetItem('sp').balance - 500 : 0 }}/-</span>
                         </h3>
                       </div>
                     </v-flex>
@@ -44,7 +46,7 @@
                     <v-flex md9 sm9 xs9>
                       <div class="empty-box">
                         <h3>
-                          মিস্ত্রি মামার কাজ
+                          কাজের সারাংশ
                           <br />
                           <!-- <span class="a">25</span>
                           <br>-->
@@ -52,16 +54,24 @@
                             <u>সি.এম</u>
                           </span>
                           <br>-->
-                          <span class="b">কাজের সংখ্যা (সি.এম): 18</span>
+                          <span
+                            class="b"
+                          >কাজের সংখ্যা (সি.এম): {{parseInt(localGetItem('sp').this_month_self_job) + parseInt(localGetItem('sp').this_month_mm_job)}}</span>
                           <br />
-                          <span class="b">আয় (সি.এম): ৳ 2400/-</span>
+                          <span
+                            class="b"
+                          >আয় (সি.এম): ৳ {{parseInt(localGetItem('sp').this_month_income)}}/-</span>
                           <!-- <span class="b" style="font-size: 13px; font-weight: bold">
                             <u>সকল</u>
                           </span>-->
                           <br />
-                          <span class="b">কাজের সংখ্যা (সকল): 25</span>
+                          <span
+                            class="b"
+                          >কাজের সংখ্যা (সকল): {{parseInt(localGetItem('sp').total_self_order) + parseInt(localGetItem('sp').total_mm_order)}}</span>
                           <br />
-                          <span class="b">আয় (সকল): ৳ 3470/-</span>
+                          <span
+                            class="b"
+                          >আয় (সকল): ৳ {{parseInt(localGetItem('sp').total_self_order_income) + parseInt(localGetItem('sp').total_mm_order_income)}}/-</span>
                           <br />
                         </h3>
                       </div>
@@ -87,11 +97,12 @@
                         <h3>
                           সহকারীর সংখ্যা
                           <br />
-                          <span class="a">13</span>
+                          <span class="a">{{localGetItem('sp').total_comrades}}</span>
                           <br />
                           <span class="b">
-                            একটিভ - 6
-                            <br />একটিভ নয় - 2
+                            একটিভ - {{localGetItem('sp').active_comrades}}
+                            <br />
+                            একটিভ নয় - {{localGetItem('sp').total_comrades - localGetItem('sp').active_comrades}}
                           </span>
                         </h3>
                       </div>
@@ -126,8 +137,8 @@
                         class="rating-image"
                         :src="require(`../../assets/${rating}star.png`)"
                         alt="rating"
-                      /> -->
-                      4.7
+                      />-->
+                      {{localGetItem('sp').rating}}
                       <v-icon style="font-size: 44px">star</v-icon>
                     </v-flex>
 
@@ -257,6 +268,7 @@ import Mulmenu_NotunKaaj from "../mulmenu/Mulmenu_NotunKaaj";
 import DrawerBalance from "../mulmenu/DrawerBalance";
 import Newjob from "../mulmenu/Newjob";
 import axios from "../../axios_instance";
+import { localStorageService } from "../../helper";
 
 export default {
   components: {
@@ -314,7 +326,7 @@ export default {
   computed: {},
   created() {
     this.getBalance();
-    this.getRating();
+    // this.getRating();
   }
 };
 </script>

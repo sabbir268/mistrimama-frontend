@@ -16,6 +16,21 @@ Vue.use(Toasted, {
   duration: 2500
 })
 
+Vue.mixin({
+  methods: {
+    localSetItem: function (key, data) {
+      localStorage.setItem(key, JSON.stringify(data));
+    },
+    localGetItem: function (key) {
+      let data = localStorage.getItem(key) || null;
+      return JSON.parse(data);
+    },
+    baseUrl: function () {
+      return 'https://staging.mistrimama.com/backend/';
+    },
+  }
+})
+
 window.Pusher = require('pusher-js');
 window.Echo = new Echo({
   broadcaster: 'pusher',

@@ -17,7 +17,7 @@
                     <v-flex md9 sm9 xs9>
                       <div class="empty-box">
                         <h3>
-                          <span class="a">1</span>
+                          <span class="a">{{localGetItem('sp').total_avail_service}}</span>
                         </h3>
                       </div>
                     </v-flex>
@@ -42,7 +42,7 @@
                     <v-flex md9 sm9 xs9>
                       <div class="empty-box">
                         <h3>
-                          <span class="a">26</span>
+                          <span class="a">{{localGetItem('sp').total_avail_sub_service}}</span>
                         </h3>
                       </div>
                     </v-flex>
@@ -70,7 +70,10 @@
                           <div
                             class="a"
                             style="font-size: 22px !important; padding-bottom: 7px; padding-top: 6px;"
-                          >Starter (20%)</div>
+                          >
+                            <span style="text-transform: capitalize">{{localGetItem('sp').category}}</span>
+                            ({{localGetItem('sp').commission}}%)
+                          </div>
                         </h3>
                       </div>
                     </v-flex>

@@ -671,7 +671,8 @@ export default {
         orderarAddress: "",
         orderarArea: "",
         comments: "",
-        orderFrom: ""
+        orderFrom: "",
+        status: 0
       },
       window: {
         width: 0,

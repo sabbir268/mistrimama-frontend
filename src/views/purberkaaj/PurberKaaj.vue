@@ -92,7 +92,7 @@
                           class="text-xs-left"
                           style="cursor: pointer"
                           @click="openDrawer(props.item.order_items)"
-                        >{{(props.item.total_price - ((parseInt(props.item.total_price) + parseInt(props.item.extra_charge)) * 20)/100)}}</td>
+                        >{{(props.item.total_price - ((parseInt(props.item.total_price) + parseInt(props.item.extra_charge)) * parseInt(props.item.commission))/100)}}</td>
                         <td
                           class="text-xs-left"
                           style="cursor: pointer"
@@ -117,7 +117,7 @@
                           class="text-xs-left"
                           style="cursor: pointer"
                           @click="openDrawer(props.item.order_items)"
-                        >{{ props.item.comrade_id }}</td>
+                        >{{ props.item.comrade_name }}</td>
                       </template>
                     </v-data-table>
                   </template>
@@ -128,7 +128,6 @@
         </v-flex>
         <!-- <v-flex lg1 md1 hidden-sm-and-down></v-flex> -->
       </v-layout>
-
 
       <v-navigation-drawer
         v-if="drawer"
@@ -176,7 +175,6 @@
           </div>
         </v-list>
       </v-navigation-drawer>
-
 
       <v-snackbar
         v-model="snackbar"
@@ -254,7 +252,7 @@ export default {
     },
     async getOrders() {
       var res = await axios.get("/sp/order-history");
-      this.orders = res.data;
+      this.orders = res.data.data;
     }
   },
   watch: {},

@@ -235,7 +235,7 @@
               <v-flex xs4 sm12>
                 <v-card dark tile flat color="white" style="color:#000;float:right">
                   <v-card-text>
-                    <b>Service Provider:</b>
+                    <b>Technician:</b>
                     <br />
                     {{waitngPayOrder.comrade_name}}
                     <br />
@@ -322,7 +322,7 @@ export default {
     payDialog: false,
     waitngPayOrder: [],
     isPayActive: false,
-    drawer: null, 
+    drawer: null,
     userInfo: [],
     menuItems: [
       { title: "DASHBOARD", link: "/user", avatar: "dashboard" },

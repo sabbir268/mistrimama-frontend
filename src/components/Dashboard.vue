@@ -253,13 +253,21 @@ export default {
       { title: "ব্যবহারবিধি", link: "baboharbidhi", avatar: "build" }
     ]
   }),
+  watch: {
+    $route(to, from) {
+      this.allSpData();
+    }
+  },
   methods: {
     logout() {
       localStorage.clear();
       this.$router.push("/");
     },
     async allSpData() {
-      var response = axios.get("/service-provider-all");
+      var response = await axios.get("/service-provider-details");
+      // console.log(response.data.data);
+
+      localStorageService.setItem("sp", response.data.data);
     }
   },
   created() {
@@ -267,6 +275,7 @@ export default {
     //   console.log(res.order);
     //   Newjob.order = res.order;
     // });
+    this.allSpData();
   },
   computed: {
     mobileNumberComputed: function() {
@@ -282,6 +291,10 @@ export default {
       d_token: localStorageService.getItem("d_token")
     });
     this.userInfo = this.$store.getters.getCurrentUserData;
+
+    var response = await axios.get("/service-provider-details");
+    // console.log(response.data);
+    localStorageService.setItem("sp", response.data.data);
   }
 };
 </script>

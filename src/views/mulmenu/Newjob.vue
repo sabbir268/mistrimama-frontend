@@ -7,7 +7,7 @@
       </h3>
 
       <v-layout mx-2 style="overflow: auto;height: 340px;">
-        <v-flex xs12 sm12>
+        <v-flex xs12 sm12 v-if="localGetItem('sp').balance > 500">
           <v-expansion-panel popout style="font-size:16px">
             <v-expansion-panel-content v-for="order in orders" :key="order.id">
               <template v-slot:header>
@@ -72,6 +72,13 @@
               </v-card>
             </v-expansion-panel-content>
           </v-expansion-panel>
+        </v-flex>
+        <v-flex v-else xs12 sm12>
+          <v-text
+            color="ref"
+            p-3
+            style="text-align:center"
+          >Please recharge your account to get orders!</v-text>
         </v-flex>
       </v-layout>
     </v-card>
@@ -150,10 +157,11 @@ export default {
   },
   created() {
     this.getNewAvaibaleOrder();
+    this.checkAvailableOrder();
     Echo.channel("orderChannel").listen("OrderEvent", res => {
-      this.orders.push(res.order);
+      // this.orders.push(res.order);
+      this.getNewAvaibaleOrder();
       console.log(this.orders);
-    //  this.getServices();
     });
   },
   methods: {
@@ -178,7 +186,6 @@ export default {
       var orders = await axios.get("/avaiable-order");
       // console.log(orders.data);
       this.orders = orders.data.data;
-
     },
 
     async getComrades(category) {
@@ -195,6 +202,15 @@ export default {
       this.drawerComrade = false;
       this.getNewAvaibaleOrder();
       alert(res.data.message);
+    },
+    checkAvailableOrder() {
+      // setInterval(function() {
+      //   // var orders = await axios.get("/avaiable-order");
+      //   // // console.log(orders.data);
+      //   // this.orders = orders.data.data;
+      //   this.getNewAvaibaleOrder;
+      //   console.log(this.orders);
+      // }, 5000);
     }
   },
   mounted() {}

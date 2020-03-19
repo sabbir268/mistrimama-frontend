@@ -8,6 +8,7 @@ const localStorageService = {
   }
 };
 
+
 const Helper = {
   findItemArr(array, key, search) {
     return this.array.find(
