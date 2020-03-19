@@ -43,6 +43,20 @@
                 <v-list-tile-title v-html="item.title"></v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+            <v-list-tile
+              avatar
+              @click.stop
+              style="background-color: var(--secondary);"
+              href="tel: +8809610222111"
+            >
+              <v-list-tile-avatar>
+                <v-icon color="secondary">phone</v-icon>
+              </v-list-tile-avatar>
+
+              <v-list-tile-content>
+                <v-list-tile-title>কাস্টমার কেয়ার</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
           </v-list>
         </div>
       </v-flex>
@@ -216,6 +230,7 @@
 <script>
 import { localStorageService } from "../helper.js";
 import Footer from "../components/Footer";
+import axios from "../axios_instance";
 
 export default {
   name: "Dashboard",
@@ -227,18 +242,24 @@ export default {
     userInfo: [],
     menuItems: [
       { title: "পূর্বের কাজ", link: "purberkaaj", avatar: "work" },
-      { title: "সার্ভিস অর্ডার", link: "sp-order/electrical", avatar: "room_service" },
+      {
+        title: "সার্ভিস অর্ডার",
+        link: "sp-order/electrical",
+        avatar: "room_service"
+      },
       { title: "অফার দেখুন", link: "offerdekhun", avatar: "local_offer" },
       { title: "রিচার্জ করুন", link: "rechargekorun", avatar: "flash_on" },
       { title: "জিজ্ঞাসা", link: "jiggasha", avatar: "question_answer" },
-      { title: "ব্যবহারবিধি", link: "baboharbidhi", avatar: "build" },
-      { title: "কাস্টমার কেয়ার", link: "tenants", avatar: "group" }
+      { title: "ব্যবহারবিধি", link: "baboharbidhi", avatar: "build" }
     ]
   }),
   methods: {
     logout() {
       localStorage.clear();
       this.$router.push("/");
+    },
+    async allSpData() {
+      var response = axios.get("/service-provider-all");
     }
   },
   created() {
