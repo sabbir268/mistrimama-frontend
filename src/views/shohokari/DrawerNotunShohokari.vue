@@ -229,7 +229,7 @@ export default {
           name: this.fullName,
           phone: this.phoneNumber,
           email: this.email,
-          address: "Nai",
+          address: "--",
           nid_no: this.nidNumber,
           photo: this.personalImage,
           nid_front: this.nidImageFront,
@@ -258,8 +258,21 @@ export default {
     reset() {
       this.$refs.form.reset();
       drawer = false;
+    },
+    async storeCategorys() {
+      if (!localStorageService.getItem("categorys")) {
+        var allCategory = await axios.get("/category");
+        localStorageService.setItem("categorys", allCategory.data.data);
+        this.itemsService = allCategory.data.data;
+      } else {
+        this.itemsService = localStorageService.getItem("categorys");
+      }
     }
   },
+  created() {
+    this.storeCategorys();
+  },
+
   mounted() {}
 };
 </script>

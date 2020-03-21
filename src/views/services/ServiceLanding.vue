@@ -672,7 +672,8 @@ export default {
         orderarArea: "",
         comments: "",
         orderFrom: "",
-        status: 0
+        status: 0,
+        refCode: ""
       },
       window: {
         width: 0,
@@ -1168,7 +1169,7 @@ div::-webkit-scrollbar-thumb {
 } */
 
 .my-custom-wrap {
-  background-image: url("http://192.168.241.47/mistrimama3.0/public/frontend/image/order_background.png") !important;
+  background-image: url("https://staging.mistrimama.com/backend/public/frontend/image/order_background.png") !important;
   height: 100%;
 }
 .v-input__slot {
