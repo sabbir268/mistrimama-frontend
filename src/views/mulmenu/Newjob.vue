@@ -7,7 +7,7 @@
       </h3>
 
       <v-layout mx-2 style="overflow: auto;height: 340px;">
-        <v-flex xs12 sm12 v-if="localGetItem('sp').balance > 500">
+        <v-flex xs12 sm12 v-if="localGetItem('sp').balance > 1000">
           <v-expansion-panel popout style="font-size:16px">
             <v-expansion-panel-content v-for="order in orders" :key="order.id">
               <template v-slot:header>

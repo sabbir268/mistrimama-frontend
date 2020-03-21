@@ -233,7 +233,7 @@
                         </span>
                       </div>
                       <br />
-                      <v-btn style="width: 100% !important;" type="submit" color="primary">REGISTER</v-btn>
+                      <v-btn style="width: 100% !important;" type="submit" color="primary">SIGN UP</v-btn>
                       <br />
                     </v-form>
                     <div
